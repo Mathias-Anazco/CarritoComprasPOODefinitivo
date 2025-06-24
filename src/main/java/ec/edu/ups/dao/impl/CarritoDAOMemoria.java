@@ -2,8 +2,6 @@ package ec.edu.ups.dao.impl;
 
 import ec.edu.ups.dao.CarritoDAO;
 import ec.edu.ups.modelo.Carrito;
-import ec.edu.ups.modelo.ItemCarrito;
-import ec.edu.ups.modelo.Producto;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,55 +9,50 @@ import java.util.List;
 
 public class CarritoDAOMemoria implements CarritoDAO {
 
-    private final List<ItemCarrito> items;
-    private final List<Carrito> carritos = new ArrayList<>();
+    private List<Carrito> carritos;
 
     public CarritoDAOMemoria() {
-        this.items = new ArrayList<>();
+        this.carritos = new ArrayList<Carrito>();
     }
 
     @Override
-    public void crear(Producto producto, int cantidad) {
-        items.add(new ItemCarrito(producto, cantidad));
+    public void crear(Carrito carrito) {
+        carritos.add(carrito);
     }
 
     @Override
-    public void eliminar(int codigoProducto) {
-        Iterator<ItemCarrito> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getProducto().getCodigo() == codigoProducto) {
-                iterator.remove();
+    public Carrito buscarPorCodigo(int codigo) {
+        for (Carrito carrito : carritos) {
+            if (carrito.getCodigo() == codigo) {
+                return carrito;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void actualizar(Carrito carrito) {
+        for (int i = 0; i < carritos.size(); i++) {
+            if (carritos.get(i).getCodigo() == carrito.getCodigo()) {
+                carritos.set(i, carrito);
                 break;
             }
         }
     }
 
     @Override
-    public void vaciarCarrito() {
-        items.clear();
-    }
-
-    @Override
-    public double calcularTotal() {
-        double total = 0;
-        for (ItemCarrito item : items) {
-            total += item.getProducto().getPrecio() * item.getCantidad();
+    public void eliminar(int codigo) {
+        Iterator<Carrito> iterator = carritos.iterator();
+        while (iterator.hasNext()) {
+            Carrito carrito = iterator.next();
+            if (carrito.getCodigo() == codigo) {
+                iterator.remove();
+            }
         }
-        return total;
     }
 
     @Override
-    public List<ItemCarrito> obtenerItems() {
-        return new ArrayList<>(items);
-    }
-
-    @Override
-    public boolean estaVacio() {
-        return items.isEmpty();
-    }
-
-    @Override
-    public void guardarCarrito(Carrito carrito) {
-        carritos.add(carrito);
+    public List<Carrito> listarTodos() {
+        return carritos;
     }
 }

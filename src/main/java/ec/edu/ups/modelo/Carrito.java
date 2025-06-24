@@ -1,5 +1,6 @@
 package ec.edu.ups.modelo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -11,11 +12,25 @@ public class Carrito {
 
     private GregorianCalendar fechaCreacion;
 
+    private static int contador = 1;
+
     private List<ItemCarrito> items;
 
+    private Usuario usuario;
+
+
     public Carrito() {
-        items = new ArrayList<>();
-        fechaCreacion = new GregorianCalendar();
+        this.codigo = contador++;
+        this.items = new ArrayList<>();
+        this.fechaCreacion = new GregorianCalendar();
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public int getCodigo() {
@@ -35,6 +50,12 @@ public class Carrito {
     }
 
     public void agregarProducto(Producto producto, int cantidad) {
+        for (ItemCarrito item : items) {
+            if (item.getProducto().getCodigo() == producto.getCodigo()) {
+                item.setCantidad(item.getCantidad() + cantidad);
+                return;
+            }
+        }
         items.add(new ItemCarrito(producto, cantidad));
     }
 
@@ -67,5 +88,19 @@ public class Carrito {
     public boolean estaVacio() {
         return items.isEmpty();
     }
+
+
+    public double calcularIVA() {
+        double total = calcularTotal();
+        return total * 0.12; // Asumiendo un IVA del 12%
+    }
+    public double calcularTotalConIVA() {
+        return calcularTotal() + calcularIVA();
+    }
+    public String getFechaFormateada() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return formato.format(fechaCreacion.getTime());
+    }
+
 }
 

@@ -14,6 +14,7 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemBuscarProducto;
 
     private JMenuItem menuItemCrearCarrito;
+    private JMenuItem menuItemBuscarCarrito;
 
     private JDesktopPane jDesktopPane;
 
@@ -30,6 +31,7 @@ public class MenuPrincipalView extends JFrame {
         menuItemBuscarProducto = new JMenuItem("Buscar Producto");
 
         menuItemCrearCarrito = new JMenuItem("Crear Carrito");
+        menuItemBuscarCarrito = new JMenuItem("Buscar Carrito");
 
         menuBar.add(menuProducto);
         menuBar.add(menuCarrito);
@@ -40,6 +42,7 @@ public class MenuPrincipalView extends JFrame {
         menuProducto.add(menuItemBuscarProducto);
 
         menuCarrito.add(menuItemCrearCarrito);
+        menuCarrito.add(menuItemBuscarCarrito);
 
         setJMenuBar(menuBar);
         setContentPane(jDesktopPane);
@@ -112,5 +115,24 @@ public class MenuPrincipalView extends JFrame {
 
     public void setjDesktopPane(JDesktopPane jDesktopPane) {
         this.jDesktopPane = jDesktopPane;
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    public JMenuItem getMenuItemBuscarCarrito() {
+        return menuItemBuscarCarrito;
+    }
+
+    public void setMenuItemBuscarCarrito(JMenuItem menuItemBuscarCarrito) {
+        this.menuItemBuscarCarrito = menuItemBuscarCarrito;
+    }
+
+    public void deshabilitarMenusAdministrador() {
+        getMenuItemCrearProducto().setEnabled(false);
+        getMenuItemBuscarProducto().setEnabled(false);
+        getMenuItemActualizarProducto().setEnabled(false);
+        getMenuItemEliminarProducto().setEnabled(false);
     }
 }

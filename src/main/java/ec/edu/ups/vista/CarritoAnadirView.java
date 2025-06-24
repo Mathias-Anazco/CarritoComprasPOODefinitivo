@@ -28,7 +28,7 @@ public class CarritoAnadirView extends JInternalFrame {
         cargarDatos();
 
         modelo = new DefaultTableModel();
-        Object[] columnas = {"Codigo", "Nombre", "Precio"};
+        Object[] columnas = {"Codigo", "Nombre", "Precio", "Cantidad", "Subtotal"};
         modelo.setColumnIdentifiers(columnas);
         tblProductos.setModel(modelo);
 
