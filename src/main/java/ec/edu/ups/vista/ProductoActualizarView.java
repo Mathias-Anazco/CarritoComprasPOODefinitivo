@@ -29,6 +29,8 @@ public class ProductoActualizarView extends JInternalFrame {
         Object[] columnas = {"Codigo", "Nombre", "Precio"};
         modelo.setColumnIdentifiers(columnas);
         table1.setModel(modelo);
+
+
     }
 
     public JPanel getPanelActualizar() {
