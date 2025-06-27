@@ -1,15 +1,14 @@
 package ec.edu.ups.controlador;
 import ec.edu.ups.dao.CarritoDAO;
 import ec.edu.ups.dao.ProductoDAO;
-import ec.edu.ups.modelo.Carrito;
-import ec.edu.ups.modelo.ItemCarrito;
-import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.modelo.*;
 import ec.edu.ups.vista.CarritoAnadirView;
 import ec.edu.ups.vista.CarritoListarView;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -17,16 +16,19 @@ public class CarritoController {
     private final CarritoDAO carritoDAO;
     private final CarritoAnadirView carritoAnadirView;
     private final Carrito carritoActual;
+    private final Usuario usuario;
     private final ProductoDAO productoDAO;
     private final CarritoListarView carritoListarView;
 
+
     private DefaultTableModel modelo;
 
-    public CarritoController(CarritoDAO carritoDAO, CarritoAnadirView carritoAnadirView, ProductoDAO productoDAO, CarritoListarView carritoListarView) {
+    public CarritoController(CarritoDAO carritoDAO, CarritoAnadirView carritoAnadirView, ProductoDAO productoDAO, CarritoListarView carritoListarView, Usuario usuario) {
         this.carritoDAO = carritoDAO;
         this.carritoAnadirView = carritoAnadirView;
         this.carritoActual = new Carrito();
         this.productoDAO = productoDAO;
+        this.usuario = new Usuario(); // Aquí deberías obtener el usuario actual de tu aplicación
         this.carritoListarView = carritoListarView;
         configurarEventos();
     }
@@ -53,35 +55,31 @@ public class CarritoController {
         carritoListarView.getBtnMostrar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarListaDeCarritos();
+                buscarCarritos();
+            }
+        });
+        carritoListarView.getBtnListar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarTodosLosCarritos();
             }
         });
 
     }
     private void guardarCarrito(){
-        if (carritoActual.estaVacio()) {
-            carritoAnadirView.mostrarMensaje("El carrito está vacío. Agrega productos antes de guardar.");
+        if(carritoActual.estaVacio()){
+            carritoAnadirView.mostrarMensaje("El carrito está vacío, no se puede guardar.");
             return;
         }
-
-        System.out.println(" Antes de guardar:");
-        System.out.println("Código: " + carritoActual.getCodigo());
-        System.out.println("Items: " + carritoActual.obtenerItems().size());
-        System.out.println("Total con IVA: " + carritoActual.calcularTotalConIVA());
-
+        carritoActual.setUsuario(usuario);
+        carritoActual.setFechaCreacion(new GregorianCalendar());
         carritoDAO.crear(carritoActual);
-
-        carritoAnadirView.mostrarMensaje("Carrito guardado exitosamente. Código: " + carritoActual.getCodigo());
-
-        System.out.println("Carrito guardado. Lista actual:");
-        for (Carrito c : carritoDAO.listarTodos()) {
-            System.out.println("→ Código: " + c.getCodigo() + " - Total: " + c.calcularTotalConIVA());
-        }
+        carritoAnadirView.mostrarMensaje("Carrito guardado exitosamente con código: " + carritoActual.getCodigo());
 
         carritoActual.vaciarCarrito();
+        agregarProductoAlCarrito();
         cargarProductos();
-        mostrarTotal();
-
+        carritoAnadirView.limpiarCampos();
     }
     private void agregarProductoAlCarrito(){
         int codigoProducto = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
@@ -119,7 +117,7 @@ public class CarritoController {
         cargarProductos();
         mostrarTotal();
     }
-    public void mostrarListaDeCarritos() {
+    public void buscarCarritos() {
         String codigo = carritoListarView.getTxtCarrito().getText();
         if( !codigo.isEmpty()){
             int codigoCarrito = Integer.parseInt(carritoListarView.getTxtCarrito().getText());
@@ -130,6 +128,15 @@ public class CarritoController {
                 carritoListarView.mostrarMensaje("No se encontró el carrito");
                 carritoListarView.limpiarCampos();
             }
+        }
+    }
+    public void mostrarTodosLosCarritos() {
+        List<Carrito> carritos = carritoDAO.listarTodos();
+        if (carritos.isEmpty()) {
+            carritoListarView.mostrarMensaje("No hay carritos registrados.");
+            carritoListarView.limpiarCampos();
+        } else {
+            carritoListarView.cargarDatos(carritos);
         }
     }
 }

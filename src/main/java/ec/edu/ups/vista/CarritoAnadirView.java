@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.modelo.Carrito;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +20,7 @@ public class CarritoAnadirView extends JInternalFrame {
     private JComboBox cbxCantidad;
     private JPanel panelPrincipal;
     private DefaultTableModel modelo;
+    private Carrito carrito;
 
     public CarritoAnadirView(){
 
@@ -93,7 +96,26 @@ public class CarritoAnadirView extends JInternalFrame {
         return panelPrincipal;
     }
 
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
+    }
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+    public void limpiarCampos() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        cbxCantidad.setSelectedIndex(0);
+        modelo.setRowCount(0);
+        txtSubtotal.setText("");
+        txtIva.setText("");
+        txtTotal.setText("");
     }
 }

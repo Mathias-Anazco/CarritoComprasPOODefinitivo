@@ -12,7 +12,7 @@ public class Carrito {
 
     private GregorianCalendar fechaCreacion;
 
-    private static int contador = 1;
+    //private int contador = 1;
 
     private List<ItemCarrito> items;
 
@@ -20,7 +20,7 @@ public class Carrito {
 
 
     public Carrito() {
-        this.codigo = contador++;
+        //this.codigo = contador++;
         this.items = new ArrayList<>();
         this.fechaCreacion = new GregorianCalendar();
     }
@@ -97,9 +97,23 @@ public class Carrito {
     public double calcularTotalConIVA() {
         return calcularTotal() + calcularIVA();
     }
+
     public String getFechaFormateada() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return formato.format(fechaCreacion.getTime());
+    }
+    public Carrito copiar(){
+        Carrito copia = new Carrito();
+        copia.setFechaCreacion(this.fechaCreacion);
+        copia.setCodigo(this.codigo);
+        copia.setUsuario(this.usuario);
+        for (ItemCarrito item : this.items) {
+            Producto producto = item.getProducto();
+            int cantidad = item.getCantidad();
+            copia.agregarProducto(producto, cantidad);
+
+        }
+        return copia;
     }
 
 }

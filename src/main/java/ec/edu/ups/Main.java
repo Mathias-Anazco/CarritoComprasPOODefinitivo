@@ -21,15 +21,22 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
+        UsuarioDAO usuarioDAO = new UsuarioDAOMemoria();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
                 //Iniciar sesión
-                UsuarioDAO usuarioDAO = new UsuarioDAOMemoria();
                 LoginView loginView = new LoginView();
                 loginView.setVisible(true);
+                ProductoDAO productoDAO = new ProductoDAOMemoria();
+                CarritoDAO carritoDAO = new CarritoDAOMemoria();
 
-                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView);
+                //instancio Vistas de Usuario
+                UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
+                UsuarioListarView usuarioListarView = new UsuarioListarView();
+                UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
+
+                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView);
 
                 loginView.addWindowListener(new WindowAdapter( ) {
                     @Override
@@ -38,8 +45,6 @@ public class Main {
                         Usuario usuarioAuntenticado = usuarioController.getUsuarioAutenticado();
                         if (usuarioAuntenticado != null) {
                             //instanciamos DAO (Singleton)
-                            ProductoDAO productoDAO = new ProductoDAOMemoria();
-                            CarritoDAO carritoDAO = new CarritoDAOMemoria();
 
                             //instancio Vistas
                             MenuPrincipalView principalView = new MenuPrincipalView();
@@ -53,9 +58,17 @@ public class Main {
                             CarritoListarView carritoListarView = new CarritoListarView();
 
 
+                            //instanciamos las vistas de Usuario
+                            UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
+                            UsuarioListarView usuarioListarView = new UsuarioListarView();
+                            UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
+
+
+
                             //instanciamos Controladores
                             ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView );
-                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView);
+                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado);
+                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView);
 
                             principalView.mostrarMensaje("Bienvenido: " + usuarioAuntenticado.getUsername());
                             if (usuarioAuntenticado.getRol().equals(Rol.USUARIO)) {
@@ -118,6 +131,40 @@ public class Main {
                                 }
                             });
 
+                            principalView.getMenuItemCerrarSesion().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    principalView.dispose();
+                                    usuarioController.cerrarSesion();
+                                }
+                            });
+                            principalView.getMenuItemCrearUsuario().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!usuarioCrearView.isVisible()) {
+                                        usuarioCrearView.setVisible(true);
+                                        principalView.getjDesktopPane().add(usuarioCrearView);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemListarUsuario().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!usuarioListarView.isVisible()) {
+                                        usuarioListarView.setVisible(true);
+                                        principalView.getjDesktopPane().add(usuarioListarView);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemEliminarUsuario().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!usuarioEliminarView.isVisible()) {
+                                        usuarioEliminarView.setVisible(true);
+                                        principalView.getjDesktopPane().add(usuarioEliminarView);
+                                    }
+                                }
+                            });
                         }
                     }
                 });

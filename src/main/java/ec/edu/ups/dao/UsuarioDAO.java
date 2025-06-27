@@ -19,6 +19,6 @@ public interface UsuarioDAO {
 
     List<Usuario> listarTodos();
 
-    List<Usuario> listarPorRol(Rol rol);
+    List<Usuario> listarPorUsername(String username);
 
 }

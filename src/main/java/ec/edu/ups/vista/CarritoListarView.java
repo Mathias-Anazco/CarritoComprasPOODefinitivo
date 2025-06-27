@@ -4,15 +4,15 @@ import ec.edu.ups.modelo.Carrito;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class CarritoListarView extends JInternalFrame {
     private JPanel panelPrincipal;
     private JTable tblProductos;
     private JTextField txtCarrito;
-    private JButton btnListar;
+    private JButton btnMostrarDetalle;
     private JButton btnMostrar;
+    private JButton btnListar;
     private DefaultTableModel modelo;
 
     public CarritoListarView(){
@@ -21,9 +21,12 @@ public class CarritoListarView extends JInternalFrame {
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
 
-        modelo = new DefaultTableModel();
-        Object[] columnas = {"Codigo", "Fecha", "Subtotal", "IVA", "Total"};
-        modelo.setColumnIdentifiers(columnas);
+        modelo = new DefaultTableModel(new Object[]{"Code", "Fecha", "SubTotal", "Iva", "Total"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tblProductos.setModel(modelo);
 
     }
@@ -40,28 +43,12 @@ public class CarritoListarView extends JInternalFrame {
         }
     }
 
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
+    public DefaultTableModel getModelo() {
+        return modelo;
     }
 
-    public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal = panelPrincipal;
-    }
-
-    public JTable getTblProductos() {
-        return tblProductos;
-    }
-
-    public void setTblProductos(JTable tblProductos) {
-        this.tblProductos = tblProductos;
-    }
-
-    public JTextField getTxtCarrito() {
-        return txtCarrito;
-    }
-
-    public void setTxtCarrito(JTextField txtCarrito) {
-        this.txtCarrito = txtCarrito;
+    public void setModelo(DefaultTableModel modelo) {
+        this.modelo = modelo;
     }
 
     public JButton getBtnListar() {
@@ -80,12 +67,36 @@ public class CarritoListarView extends JInternalFrame {
         this.btnMostrar = btnMostrar;
     }
 
-    public DefaultTableModel getModelo() {
-        return modelo;
+    public JButton getBtnMostrarDetalle() {
+        return btnMostrarDetalle;
     }
 
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
+    public void setBtnMostrarDetalle(JButton btnMostrarDetalle) {
+        this.btnMostrarDetalle = btnMostrarDetalle;
+    }
+
+    public JTextField getTxtCarrito() {
+        return txtCarrito;
+    }
+
+    public void setTxtCarrito(JTextField txtCarrito) {
+        this.txtCarrito = txtCarrito;
+    }
+
+    public JTable getTblProductos() {
+        return tblProductos;
+    }
+
+    public void setTblProductos(JTable tblProductos) {
+        this.tblProductos = tblProductos;
+    }
+
+    public JPanel getPanelPrincipal() {
+        return panelPrincipal;
+    }
+
+    public void setPanelPrincipal(JPanel panelPrincipal) {
+        this.panelPrincipal = panelPrincipal;
     }
 
     public void mostrarMensaje(String mensaje) {
