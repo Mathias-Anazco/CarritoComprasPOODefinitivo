@@ -31,6 +31,12 @@ public class ItemCarrito {
     public double getSubtotal() {
         return producto.getPrecio() * cantidad;
     }
+    public double getIVA() {
+        return getSubtotal() * 0.12; // Asumiendo un IVA del 12%
+    }
+    public double getTotal() {
+        return getSubtotal() + getIVA();
+    }
 
     @Override
     public String toString() {

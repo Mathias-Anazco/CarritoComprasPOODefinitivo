@@ -16,7 +16,7 @@ public class UsuarioCrearView extends JInternalFrame {
 
     public UsuarioCrearView (){
         setContentPane(panelPrincipal);
-        setTitle("Datos del Producto");
+        setTitle("Crear Usuario");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setClosable(true);
@@ -99,7 +99,7 @@ public class UsuarioCrearView extends JInternalFrame {
         } else if (rolSeleccionado.equals("USUARIO")) {
             return Rol.USUARIO;
         } else {
-            return null; // O manejar el caso de un rol no reconocido
+            return null;
         }
     }
 }

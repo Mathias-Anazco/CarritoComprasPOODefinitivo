@@ -1,7 +1,10 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.modelo.Usuario;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 public class UsuarioEliminarView extends JInternalFrame {
     private JPanel panelPrincipal;
@@ -78,5 +81,17 @@ public class UsuarioEliminarView extends JInternalFrame {
     }
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+    public void cargarUsuario(List<Usuario> usuarios) {
+        modelo.setRowCount(0);
+
+        for (Usuario usuario : usuarios) {
+            Object[] fila = {
+                    usuario.getUsername(),
+                    usuario.getContrasenia(),
+                    usuario.getRol()
+            };
+            modelo.addRow(fila);
+        }
     }
 }

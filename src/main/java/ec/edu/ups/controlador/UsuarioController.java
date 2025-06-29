@@ -3,10 +3,7 @@ package ec.edu.ups.controlador;
 import ec.edu.ups.dao.UsuarioDAO;
 import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
-import ec.edu.ups.vista.LoginView;
-import ec.edu.ups.vista.UsuarioCrearView;
-import ec.edu.ups.vista.UsuarioEliminarView;
-import ec.edu.ups.vista.UsuarioListarView;
+import ec.edu.ups.vista.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,13 +16,15 @@ public class UsuarioController {
     private final UsuarioCrearView usuarioCrearView;
     private final UsuarioListarView usuarioListarView;
     private final UsuarioEliminarView usuarioEliminarView;
+    private final UsuarioModificarView usuarioModificarView;
 
-    public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView, UsuarioCrearView usuarioCrearView, UsuarioListarView usuarioListarView, UsuarioEliminarView usuarioEliminarView) {
+    public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView, UsuarioCrearView usuarioCrearView, UsuarioListarView usuarioListarView, UsuarioEliminarView usuarioEliminarView, UsuarioModificarView usuarioModificarView) {
         this.usuarioDAO = usuarioDAO;
         this.loginView = loginView;
         this.usuarioCrearView = usuarioCrearView;
         this.usuarioListarView = usuarioListarView;
         this.usuarioEliminarView = usuarioEliminarView;
+        this.usuarioModificarView = usuarioModificarView;
         this.usuario = null;
         configurarEventosEnVistas();
         configurarEventosUsuarios();
@@ -84,27 +83,79 @@ public class UsuarioController {
                 eliminarUsuario();
             }
         });
+        usuarioModificarView.getBtnBuscar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarUsuarioParaModificar();
+            }
+        });
+        usuarioModificarView.getBtnEditar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modificarUsuario();
+            }
+        });
 
+    }
+
+    private void modificarUsuario() {
+        String username = usuarioModificarView.getTxtUsername().getText();
+        String contrasenia = usuarioModificarView.getTxtContrasenia().getText();
+        String nombre = usuarioModificarView.getTxtName().getText();
+
+        if (username.isEmpty() || contrasenia.isEmpty() || nombre.isEmpty()) {
+            usuarioModificarView.mostrarMensaje("Todos los campos son obligatorios.");
+            return;
+        }
+
+        Usuario usuario1 = usuarioDAO.buscarPorUsername(nombre);
+        if (usuario1 == null) {
+            usuarioModificarView.mostrarMensaje("Usuario no encontrado.");
+            return;
+        }
+
+        usuario1.setUsername(username);
+        usuario1.setContrasenia(contrasenia);
+        usuarioDAO.actualizar(usuario1);
+
+        usuarioModificarView.mostrarMensaje("Usuario modificado exitosamente: " + username);
+        usuarioModificarView.limpiarCampos();
+    }
+
+    private void buscarUsuarioParaModificar() {
+        String username = usuarioModificarView.getTxtName().getText();
+        Usuario usuario1 = usuarioDAO.buscarPorUsername(username);
+        if(usuario1 != null) {
+            usuarioModificarView.getTxtUsername().setText(usuario1.getUsername());
+            usuarioModificarView.getTxtContrasenia().setText(usuario1.getContrasenia());
+        } else  {
+            usuarioModificarView.mostrarMensaje("Usuario no encontrado.");
+            usuarioModificarView.getTxtName().setText("");
+        }
     }
 
     private void buscarUsuarioParaEliminar() {
         usuarioEliminarView.getModelo().setRowCount(0);
-        String username = usuarioEliminarView.getTxtUsuario().getText();
-        Usuario usuario = usuarioDAO.buscarPorUsername(username);
-        if (usuario == null) {
-            usuarioEliminarView.mostrarMensaje("Usuario no encontrado.");
-            return;
-        }else {
-            for (Usuario usuario1 : usuarioDAO.listarTodos()) {
-                Object[] fila = new Object[3];
-                fila[0] = usuario1.getUsername();
-                fila[1] = usuario1.getContrasenia();
-                fila[2] = usuario1.getRol().toString();
+        String usernameBuscado = usuarioEliminarView.getTxtUsuario().getText().trim();
+        boolean encontrado = false;
+
+        for (Usuario usuario : usuarioDAO.listarTodos()) {
+            if (usuario.getUsername().equals(usernameBuscado)) {
+                Object[] fila = {
+                        usuario.getUsername(),
+                        usuario.getContrasenia(),
+                        usuario.getRol().toString()
+                };
                 usuarioEliminarView.getModelo().addRow(fila);
+                encontrado = true;
+                break; // ya no necesitamos seguir buscando
             }
         }
 
-
+        if (!encontrado) {
+            usuarioEliminarView.mostrarMensaje("Usuario no encontrado.");
+            usuarioEliminarView.getTxtUsuario().setText("");
+        }
     }
 
     private void eliminarUsuario() {
@@ -114,7 +165,7 @@ public class UsuarioController {
             usuarioEliminarView.mostrarMensaje("Usuario no encontrado.");
             return;
         }
-        usuarioDAO.eliminar(String.valueOf(usuario));
+        usuarioDAO.eliminar(username);
         usuarioEliminarView.mostrarMensaje("Usuario eliminado exitosamente: " + username);
         usuarioEliminarView.getTxtUsuario().setText("");
     }
@@ -140,7 +191,7 @@ public class UsuarioController {
                 fila[1] = usuario1.getContrasenia();
                 fila[2] = usuario1.getRol().toString();
                 usuarioListarView.getModelo().addRow(fila);
-                return;
+
             }
         }
 
@@ -165,6 +216,7 @@ public class UsuarioController {
         usuarioDAO.crear(usuario);
 
         usuarioCrearView.mostrarMensaje("Usuario creado exitosamente: " + username);
+        usuarioCrearView.limpiarCampos();
     }
 
     private void autenticar() {

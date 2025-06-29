@@ -35,8 +35,9 @@ public class Main {
                 UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
                 UsuarioListarView usuarioListarView = new UsuarioListarView();
                 UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
+                UsuarioModificarView usuarioModificarView = new UsuarioModificarView();
 
-                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView);
+                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView);
 
                 loginView.addWindowListener(new WindowAdapter( ) {
                     @Override
@@ -56,19 +57,23 @@ public class Main {
                             //instancio Vistas de Carrito
                             CarritoAnadirView carritoAnadirView = new CarritoAnadirView();
                             CarritoListarView carritoListarView = new CarritoListarView();
+                            CarritoModificarView carritoModificarView = new CarritoModificarView();
+                            CarritoEliminarView carritoEliminarView = new CarritoEliminarView();
 
 
                             //instanciamos las vistas de Usuario
                             UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
                             UsuarioListarView usuarioListarView = new UsuarioListarView();
                             UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
+                            UsuarioModificarView usuarioModificarView = new UsuarioModificarView();
 
 
 
                             //instanciamos Controladores
                             ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView );
-                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado);
-                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView);
+                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView);
+                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView);
+
 
                             principalView.mostrarMensaje("Bienvenido: " + usuarioAuntenticado.getUsername());
                             if (usuarioAuntenticado.getRol().equals(Rol.USUARIO)) {
@@ -162,6 +167,43 @@ public class Main {
                                     if (!usuarioEliminarView.isVisible()) {
                                         usuarioEliminarView.setVisible(true);
                                         principalView.getjDesktopPane().add(usuarioEliminarView);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemModificarCarrito().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!carritoModificarView.isVisible()) {
+                                        carritoModificarView.setVisible(true);
+                                        principalView.getjDesktopPane().add(carritoModificarView);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemEliminarCarrito().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!carritoEliminarView.isVisible()) {
+                                        carritoEliminarView.setVisible(true);
+                                        principalView.getjDesktopPane().add(carritoEliminarView);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemSalir().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    boolean confirmado = principalView.mostrarMensajePregunta("¿Desea Salir?");
+                                    if(confirmado) {
+                                        principalView.dispose();
+                                        System.exit(0);
+                                    }
+                                }
+                            });
+                            principalView.getMenuItemActualizarUsuario().addActionListener( new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (!usuarioModificarView.isVisible()) {
+                                        usuarioModificarView.setVisible(true);
+                                        principalView.getjDesktopPane().add(usuarioModificarView);
                                     }
                                 }
                             });

@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
+import ec.edu.ups.modelo.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,13 +16,14 @@ public class CarritoListarView extends JInternalFrame {
     private JButton btnListar;
     private DefaultTableModel modelo;
 
+
     public CarritoListarView(){
         super("Listar los Carritos de Compras", true, true, false, true);
         setContentPane(panelPrincipal);
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
 
-        modelo = new DefaultTableModel(new Object[]{"Code", "Fecha", "SubTotal", "Iva", "Total"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Codigo", "Fecha", "Subtotal", "IVA", "Total"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

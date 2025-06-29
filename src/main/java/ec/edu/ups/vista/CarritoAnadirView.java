@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Carrito;
+import ec.edu.ups.modelo.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +23,7 @@ public class CarritoAnadirView extends JInternalFrame {
     private DefaultTableModel modelo;
     private Carrito carrito;
 
-    public CarritoAnadirView(){
+    public CarritoAnadirView() {
 
         super("Carrito de Compras", true, true, false, true);
         setContentPane(panelPrincipal);
@@ -104,7 +105,6 @@ public class CarritoAnadirView extends JInternalFrame {
     public void setCarrito(Carrito carrito) {
         this.carrito = carrito;
     }
-
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }

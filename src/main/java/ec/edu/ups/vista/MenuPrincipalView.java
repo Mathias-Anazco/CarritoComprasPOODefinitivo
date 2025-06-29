@@ -17,8 +17,9 @@ public class MenuPrincipalView extends JFrame {
 
     private JMenuItem menuItemCrearCarrito;
     private JMenuItem menuItemBuscarCarrito;
-    private JMenuItem menuItemActualizarCarrito;
+    private JMenuItem menuItemModificarCarrito;
     private JMenuItem menuItemEliminarCarrito;
+
 
     private JMenuItem menuItemCrearUsuario;
     private JMenuItem menuItemListarUsuario;
@@ -26,6 +27,7 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemEliminarUsuario;
 
     private JMenuItem menuItemCerrarSesion;
+    private JMenuItem menuItemSalir;
 
 
     private JDesktopPane jDesktopPane;
@@ -46,7 +48,7 @@ public class MenuPrincipalView extends JFrame {
 
         menuItemCrearCarrito = new JMenuItem("Crear Carrito");
         menuItemBuscarCarrito = new JMenuItem("Buscar Carrito");
-        menuItemActualizarCarrito = new JMenuItem("Actualizar Carrito");
+        menuItemModificarCarrito = new JMenuItem("Actualizar Carrito");
         menuItemEliminarCarrito = new JMenuItem("Eliminar Carrito");
 
         menuItemCrearUsuario = new JMenuItem("Crear Usuario");
@@ -55,6 +57,7 @@ public class MenuPrincipalView extends JFrame {
         menuItemEliminarUsuario = new JMenuItem("Eliminar Usuario");
 
         menuItemCerrarSesion = new JMenuItem("Cerrar Sesión");
+        menuItemSalir = new JMenuItem("Salir");
 
 
         menuBar.add(menuProducto);
@@ -69,7 +72,7 @@ public class MenuPrincipalView extends JFrame {
 
         menuCarrito.add(menuItemCrearCarrito);
         menuCarrito.add(menuItemBuscarCarrito);
-        menuCarrito.add(menuItemActualizarCarrito);
+        menuCarrito.add(menuItemModificarCarrito);
         menuCarrito.add(menuItemEliminarCarrito);
 
         menuUsuario.add(menuItemCrearUsuario);
@@ -78,6 +81,7 @@ public class MenuPrincipalView extends JFrame {
         menuUsuario.add(menuItemEliminarUsuario);
 
         menuSalir.add(menuItemCerrarSesion);
+        menuSalir.add(menuItemSalir);
 
         setJMenuBar(menuBar);
         setContentPane(jDesktopPane);
@@ -220,12 +224,12 @@ public class MenuPrincipalView extends JFrame {
         this.menuItemCerrarSesion = menuItemCerrarSesion;
     }
 
-    public JMenuItem getMenuItemActualizarCarrito() {
-        return menuItemActualizarCarrito;
+    public JMenuItem getMenuItemModificarCarrito() {
+        return menuItemModificarCarrito;
     }
 
-    public void setMenuItemActualizarCarrito(JMenuItem menuItemActualizarCarrito) {
-        this.menuItemActualizarCarrito = menuItemActualizarCarrito;
+    public void setMenuItemModificarCarrito(JMenuItem menuItemModificarCarrito) {
+        this.menuItemModificarCarrito = menuItemModificarCarrito;
     }
 
     public JMenuItem getMenuItemEliminarCarrito() {
@@ -234,6 +238,19 @@ public class MenuPrincipalView extends JFrame {
 
     public void setMenuItemEliminarCarrito(JMenuItem menuItemEliminarCarrito) {
         this.menuItemEliminarCarrito = menuItemEliminarCarrito;
+    }
+
+    public JMenuItem getMenuItemSalir() {
+        return menuItemSalir;
+    }
+
+    public void setMenuItemSalir(JMenuItem menuItemSalir) {
+        this.menuItemSalir = menuItemSalir;
+    }
+    public boolean mostrarMensajePregunta(String mensaje) {
+        int respuesta = JOptionPane.showConfirmDialog(this, mensaje, "Confirmación",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return respuesta == JOptionPane.YES_OPTION;
     }
 
     public void deshabilitarMenusAdministrador() {

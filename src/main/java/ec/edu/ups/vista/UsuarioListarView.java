@@ -14,7 +14,7 @@ public class UsuarioListarView extends JInternalFrame {
 
     public UsuarioListarView(){
         setContentPane(panelPrincipal);
-        setTitle("Datos del Producto");
+        setTitle("Listar Usuarios");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setClosable(true);
