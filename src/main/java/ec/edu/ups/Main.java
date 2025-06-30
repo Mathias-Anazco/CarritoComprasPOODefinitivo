@@ -4,13 +4,16 @@ import ec.edu.ups.controlador.CarritoController;
 import ec.edu.ups.controlador.ProductoController;
 import ec.edu.ups.controlador.UsuarioController;
 import ec.edu.ups.dao.CarritoDAO;
+import ec.edu.ups.dao.CuestionarioDAO;
 import ec.edu.ups.dao.ProductoDAO;
 import ec.edu.ups.dao.UsuarioDAO;
 import ec.edu.ups.dao.impl.CarritoDAOMemoria;
+import ec.edu.ups.dao.impl.CuestionarioDAOMemoria;
 import ec.edu.ups.dao.impl.ProductoDAOMemoria;
 import ec.edu.ups.dao.impl.UsuarioDAOMemoria;
 import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.*;
 
 import java.awt.event.ActionEvent;
@@ -21,23 +24,23 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        UsuarioDAO usuarioDAO = new UsuarioDAOMemoria();
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
 
                 //Iniciar sesión
-                LoginView loginView = new LoginView();
-                loginView.setVisible(true);
+                MensajeInternacionalizacionHandler mi = new MensajeInternacionalizacionHandler("es", "EC");
+
                 ProductoDAO productoDAO = new ProductoDAOMemoria();
                 CarritoDAO carritoDAO = new CarritoDAOMemoria();
 
-                //instancio Vistas de Usuario
-                UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
-                UsuarioListarView usuarioListarView = new UsuarioListarView();
-                UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
-                UsuarioModificarView usuarioModificarView = new UsuarioModificarView();
+                CuestionarioDAO cuestionarioDAO = new CuestionarioDAOMemoria();
+                UsuarioDAO usuarioDAO = new UsuarioDAOMemoria(cuestionarioDAO);
 
-                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView);
+                LoginView loginView = new LoginView(mi);
+                loginView.setVisible(true);
+
+                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView,  cuestionarioDAO, mi);
 
                 loginView.addWindowListener(new WindowAdapter( ) {
                     @Override
@@ -72,7 +75,7 @@ public class Main {
                             //instanciamos Controladores
                             ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView );
                             CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView);
-                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView);
+                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView, mi);
 
 
                             principalView.mostrarMensaje("Bienvenido: " + usuarioAuntenticado.getUsername());
@@ -139,8 +142,12 @@ public class Main {
                             principalView.getMenuItemCerrarSesion().addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    principalView.dispose();
-                                    usuarioController.cerrarSesion();
+                                    boolean confirmado = principalView.mostrarMensajePregunta("¿Desea Cerrar Sesión?");
+                                    if (confirmado) {
+                                        principalView.dispose();
+                                        loginView.setVisible(true);
+                                        loginView.limpiarCampos();
+                                    }
                                 }
                             });
                             principalView.getMenuItemCrearUsuario().addActionListener(new ActionListener() {

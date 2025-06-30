@@ -9,6 +9,7 @@ import java.util.List;
 public class Cuestionario {
     private String username;
     private List<Respuesta> respuestas;
+    private Usuario usuario;
 
     public Cuestionario(String username) {
         this.username = username;
@@ -34,6 +35,15 @@ public class Cuestionario {
     public void limpiarRespuestas() {
         respuestas.clear();
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 
     public Respuesta buscarRespuestaPorId(int idPregunta) {
         for (Respuesta r : respuestas) {

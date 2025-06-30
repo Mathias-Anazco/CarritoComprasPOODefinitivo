@@ -14,7 +14,7 @@ public class UsuarioModificarView extends JInternalFrame {
         setContentPane(panelPrincipal);
         setTitle("Modificar Usuario");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 500);
+        setSize(600, 350);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);

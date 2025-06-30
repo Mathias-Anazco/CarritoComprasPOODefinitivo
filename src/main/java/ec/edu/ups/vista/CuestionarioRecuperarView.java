@@ -1,48 +1,47 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
-public class CuestionarioRecuperarView extends JInternalFrame {
-    private JComboBox cbxPreguntas;
-    private JTextField txtRespuesta;
-    private JButton btnGuardar;
+public class CuestionarioRecuperarView extends JFrame {
+    private JTextField txtRespuesta3;
+    private JButton btnEnviar;
     private JPanel panelPrincipal;
     private JButton terminarButton;
-    private JLabel lblPregunta;
+    private JLabel lblPregunta3;
     private JLabel lblTitulo;
+    private JTextField txtNueva;
+    private JLabel lblNueva;
+    private JTextField txtRespuesta1;
+    private JTextField txtRespuesta2;
+    private JLabel lblPregunta2;
+    private JLabel lblPregunta1;
+    private final MensajeInternacionalizacionHandler mi;
 
-    public CuestionarioRecuperarView() {
+    public CuestionarioRecuperarView(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Recuperar Contraseña");
-        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
-        setClosable(true);
-        setIconifiable(true);
-        setResizable(true);
+        setLocationRelativeTo(null);
     }
 
-    public JComboBox getCbxPreguntas() {
-        return cbxPreguntas;
+    public JTextField getTxtRespuesta3() {
+        return txtRespuesta3;
     }
 
-    public void setCbxPreguntas(JComboBox cbxPreguntas) {
-        this.cbxPreguntas = cbxPreguntas;
+    public void setTxtRespuesta3(JTextField txtRespuesta3) {
+        this.txtRespuesta3 = txtRespuesta3;
     }
 
-    public JTextField getTxtRespuesta() {
-        return txtRespuesta;
+    public JButton getBtnEnviar() {
+        return btnEnviar;
     }
 
-    public void setTxtRespuesta(JTextField txtRespuesta) {
-        this.txtRespuesta = txtRespuesta;
-    }
-
-    public JButton getBtnGuardar() {
-        return btnGuardar;
-    }
-
-    public void setBtnGuardar(JButton btnGuardar) {
-        this.btnGuardar = btnGuardar;
+    public void setBtnEnviar(JButton btnEnviar) {
+        this.btnEnviar = btnEnviar;
     }
 
     public JPanel getPanelPrincipal() {
@@ -61,16 +60,68 @@ public class CuestionarioRecuperarView extends JInternalFrame {
         this.terminarButton = terminarButton;
     }
 
-    public JLabel getLblPregunta() {
-        return lblPregunta;
+    public JLabel getLblPregunta3() {
+        return lblPregunta3;
     }
 
-    public void setLblPregunta(JLabel lblPregunta) {
-        this.lblPregunta = lblPregunta;
+    public void setLblPregunta3(JLabel lblPregunta3) {
+        this.lblPregunta3 = lblPregunta3;
     }
 
     public JLabel getLblTitulo() {
         return lblTitulo;
+    }
+
+    public JTextField getTxtNueva() {
+        return txtNueva;
+    }
+
+    public void setTxtNueva(JTextField txtNueva) {
+        this.txtNueva = txtNueva;
+    }
+
+    public JLabel getLblNueva() {
+        return lblNueva;
+    }
+
+    public void setLblNueva(JLabel lblNueva) {
+        this.lblNueva = lblNueva;
+    }
+
+    public JTextField getTxtRespuesta1() {
+        return txtRespuesta1;
+    }
+
+    public void setTxtRespuesta1(JTextField txtRespuesta1) {
+        this.txtRespuesta1 = txtRespuesta1;
+    }
+
+    public JTextField getTxtRespuesta2() {
+        return txtRespuesta2;
+    }
+
+    public void setTxtRespuesta2(JTextField txtRespuesta2) {
+        this.txtRespuesta2 = txtRespuesta2;
+    }
+
+    public JLabel getLblPregunta2() {
+        return lblPregunta2;
+    }
+
+    public void setLblPregunta2(JLabel lblPregunta2) {
+        this.lblPregunta2 = lblPregunta2;
+    }
+
+    public JLabel getLblPregunta1() {
+        return lblPregunta1;
+    }
+
+    public void setLblPregunta1(JLabel lblPregunta1) {
+        this.lblPregunta1 = lblPregunta1;
+    }
+
+    public MensajeInternacionalizacionHandler getMi() {
+        return mi;
     }
 
     public void setLblTitulo(JLabel lblTitulo) {

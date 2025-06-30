@@ -2,7 +2,7 @@ package ec.edu.ups.vista;
 
 import javax.swing.*;
 
-public class CuestionarioView extends JInternalFrame {
+public class CuestionarioView extends JFrame {
     private JComboBox cbxPreguntas;
     private JTextField txtRespuesta;
     private JButton btnGuardar;
@@ -15,11 +15,9 @@ public class CuestionarioView extends JInternalFrame {
     public CuestionarioView() {
         setContentPane(panelPrincipal);
         setTitle("Cuestionario");
-        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 500);
-        setClosable(true);
-        setIconifiable(true);
-        setResizable(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(550, 350);
+        setLocationRelativeTo(null);
     }
 
     public JComboBox getCbxPreguntas() {

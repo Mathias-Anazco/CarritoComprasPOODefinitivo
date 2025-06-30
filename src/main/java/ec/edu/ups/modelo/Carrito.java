@@ -99,7 +99,7 @@ public class Carrito {
     }
 
     public String getFechaFormateada() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         return formato.format(fechaCreacion.getTime());
     }
     public Carrito copiar(){
