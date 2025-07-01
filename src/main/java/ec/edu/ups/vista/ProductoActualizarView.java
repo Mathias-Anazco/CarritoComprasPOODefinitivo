@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,9 +15,15 @@ public class ProductoActualizarView extends JInternalFrame {
     private JButton actualizarButton;
     private JTextField textField2;
     private JTextField textField3;
+    private JLabel lblCodigo;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
+    private JLabel lblActualizar;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler mi;
 
-    public ProductoActualizarView() {
+    public ProductoActualizarView( MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelActualizar);
         setTitle("Actualizar Producto");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -72,15 +79,19 @@ public class ProductoActualizarView extends JInternalFrame {
     public void setActualizarButton(JButton actualizarButton) {
         this.actualizarButton = actualizarButton;
     }
+
     public JTextField getTextField2() {
         return textField2;
     }
+
     public void setTextField2(JTextField textField2) {
         this.textField2 = textField2;
     }
+
     public JTextField getTextField3() {
         return textField3;
     }
+
     public void setTextField3(JTextField textField3) {
         this.textField3 = textField3;
     }
@@ -92,6 +103,40 @@ public class ProductoActualizarView extends JInternalFrame {
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
     }
+
+    public JLabel getLblCodigo() {
+        return lblCodigo;
+    }
+
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
+    }
+
+    public JLabel getLblNombre() {
+        return lblNombre;
+    }
+
+    public void setLblNombre(JLabel lblNombre) {
+        this.lblNombre = lblNombre;
+    }
+
+    public JLabel getLblPrecio() {
+        return lblPrecio;
+    }
+
+    public void setLblPrecio(JLabel lblPrecio) {
+        this.lblPrecio = lblPrecio;
+    }
+
+    public JLabel getLblActualizar() {
+        return lblActualizar;
+    }
+
+    public void setLblActualizar(JLabel lblActualizar) {
+        this.lblActualizar = lblActualizar;
+    }
+
+
     public void cargarDatos(List<Producto> listaProductos) {
         modelo.setNumRows(0);
 

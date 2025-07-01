@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Rol;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,8 +14,14 @@ public class UsuarioCrearView extends JInternalFrame {
     private JComboBox CbxRol;
     private JButton BtnRegistrar;
     private JButton BtnLimpiar;
+    private JLabel lblNuevoUsuario;
+    private JLabel lblUsuario;
+    private JLabel lblContraseña;
+    private JLabel lblRol;
+    private MensajeInternacionalizacionHandler mi;
 
-    public UsuarioCrearView (){
+    public UsuarioCrearView ( MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Crear Usuario");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -79,6 +86,39 @@ public class UsuarioCrearView extends JInternalFrame {
     public void setBtnLimpiar(JButton btnLimpiar) {
         BtnLimpiar = btnLimpiar;
     }
+
+    public JLabel getLblNuevoUsuario() {
+        return lblNuevoUsuario;
+    }
+
+    public void setLblNuevoUsuario(JLabel lblNuevoUsuario) {
+        this.lblNuevoUsuario = lblNuevoUsuario;
+    }
+
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
+    public JLabel getLblContraseña() {
+        return lblContraseña;
+    }
+
+    public void setLblContraseña(JLabel lblContraseña) {
+        this.lblContraseña = lblContraseña;
+    }
+
+    public JLabel getLblRol() {
+        return lblRol;
+    }
+
+    public void setLblRol(JLabel lblRol) {
+        this.lblRol = lblRol;
+    }
+
     public void limpiarCampos() {
         TxtUsername.setText("");
         TxtPassword.setText("");

@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,9 +12,12 @@ public class UsuarioListarView extends JInternalFrame {
     private JButton BtnBuscar;
     private JButton BtnListar;
     private JTable tblUsuario;
+    private JLabel lblListar;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler mi;
 
-    public UsuarioListarView(){
+    public UsuarioListarView( MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Listar Usuarios");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -76,6 +81,14 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
+    }
+
+    public JLabel getLblListar() {
+        return lblListar;
+    }
+
+    public void setLblListar(JLabel lblListar) {
+        this.lblListar = lblListar;
     }
 
     public void mostrarMensaje(String mensaje) {

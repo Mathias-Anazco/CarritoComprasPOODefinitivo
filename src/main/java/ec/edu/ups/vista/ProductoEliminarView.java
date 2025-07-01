@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,9 +13,13 @@ public class ProductoEliminarView extends JInternalFrame {
     private JTextField textField1;
     private JButton buscarButton;
     private JButton eliminarButton;
+    private JLabel lblCodigo;
+    private JLabel lblEliminar;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler mi;
 
-    public ProductoEliminarView (){
+    public ProductoEliminarView ( MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelEliminar);
         setTitle("Eliminar Producto");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -76,6 +81,22 @@ public class ProductoEliminarView extends JInternalFrame {
 
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
+    }
+
+    public JLabel getLblCodigo() {
+        return lblCodigo;
+    }
+
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
+    }
+
+    public JLabel getLblEliminar() {
+        return lblEliminar;
+    }
+
+    public void setLblEliminar(JLabel lblEliminar) {
+        this.lblEliminar = lblEliminar;
     }
 
     public void cargarDatos(List<Producto> listaProductos) {

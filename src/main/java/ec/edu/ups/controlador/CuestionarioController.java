@@ -21,7 +21,7 @@ public class CuestionarioController {
     private final MensajeInternacionalizacionHandler mi;
     private String contraseniaUsuario;
 
-    // Constructor para crear preguntas (registro)
+
     public CuestionarioController(CuestionarioView vista, CuestionarioDAO dao, String username,
                                   MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
@@ -54,7 +54,7 @@ public class CuestionarioController {
         configurarEventosCuestionario();
     }
 
-    // Constructor para recuperar contraseña (sin combo)
+
     public CuestionarioController(CuestionarioRecuperarView recuperarView, CuestionarioDAO dao,
                                   String username, String contrasenia, MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
@@ -78,7 +78,7 @@ public class CuestionarioController {
             return;
         }
 
-        // Setear las preguntas directamente en los labels de la vista
+
         recuperarView.getLblPregunta1().setText(preguntasAleatorias.get(0).getEnunciado());
         recuperarView.getLblPregunta2().setText(preguntasAleatorias.get(1).getEnunciado());
         recuperarView.getLblPregunta3().setText(preguntasAleatorias.get(2).getEnunciado());
@@ -93,7 +93,6 @@ public class CuestionarioController {
     }
 
     private void configurarEventosRecuperar() {
-        // Quitamos acción en combo porque ya no hay
         recuperarView.getBtnEnviar().addActionListener(e -> comprobarTodasRespuestas());
         recuperarView.getTerminarButton().addActionListener(e -> finalizarRecuperar());
     }
@@ -150,14 +149,12 @@ public class CuestionarioController {
 
         Respuesta seleccionada = preguntasAleatorias.get(index);
 
-        // Verificar si ya fue respondida
         Respuesta yaRespondida = cuestionario.buscarRespuestaPorId(seleccionada.getId());
         if (yaRespondida != null) {
             cuestionarioView.mostrarMensaje(mi.get("cuestionario.guardar.yaRespondida")); // Debes tener esta clave en tu archivo de mensajes
             return;
         }
 
-        // Guardar respuesta nueva
         seleccionada.setRespuesta(texto);
         cuestionario.agregarRespuesta(seleccionada);
         cuestionarioView.mostrarMensaje(mi.get("cuestionario.guardar.ok"));

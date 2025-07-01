@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class UsuarioModificarView extends JInternalFrame {
@@ -9,8 +11,12 @@ public class UsuarioModificarView extends JInternalFrame {
     private JTextField txtContrasenia;
     private JTextField txtName;
     private JButton btnBuscar;
+    private JLabel lblActualizar;
+    private MensajeInternacionalizacionHandler mi;
 
-    public UsuarioModificarView() {
+    public UsuarioModificarView( MensajeInternacionalizacionHandler mi) {
+
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Modificar Usuario");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -67,6 +73,15 @@ public class UsuarioModificarView extends JInternalFrame {
     public void setBtnBuscar(JButton btnBuscar) {
         this.btnBuscar = btnBuscar;
     }
+
+    public JLabel getLblActualizar() {
+        return lblActualizar;
+    }
+
+    public void setLblActualizar(JLabel lblActualizar) {
+        this.lblActualizar = lblActualizar;
+    }
+
     public void limpiarCampos() {
         txtName.setText("");
         txtUsername.setText("");

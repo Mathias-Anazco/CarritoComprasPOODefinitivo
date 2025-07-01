@@ -51,30 +51,30 @@ public class Main {
                             //instanciamos DAO (Singleton)
 
                             //instancio Vistas
-                            MenuPrincipalView principalView = new MenuPrincipalView();
-                            ProductoAnadirView productoAnadirView = new ProductoAnadirView();
-                            ProductoListaView productoListaView = new ProductoListaView();
-                            ProductoActualizarView productoActualizarView = new ProductoActualizarView();
-                            ProductoEliminarView productoEliminarView = new ProductoEliminarView();
+                            MenuPrincipalView principalView = new MenuPrincipalView(mi);
+                            ProductoAnadirView productoAnadirView = new ProductoAnadirView(mi);
+                            ProductoListaView productoListaView = new ProductoListaView(mi);
+                            ProductoActualizarView productoActualizarView = new ProductoActualizarView(mi);
+                            ProductoEliminarView productoEliminarView = new ProductoEliminarView(mi);
 
                             //instancio Vistas de Carrito
-                            CarritoAnadirView carritoAnadirView = new CarritoAnadirView();
-                            CarritoListarView carritoListarView = new CarritoListarView();
-                            CarritoModificarView carritoModificarView = new CarritoModificarView();
-                            CarritoEliminarView carritoEliminarView = new CarritoEliminarView();
+                            CarritoAnadirView carritoAnadirView = new CarritoAnadirView(mi);
+                            CarritoListarView carritoListarView = new CarritoListarView(mi);
+                            CarritoModificarView carritoModificarView = new CarritoModificarView(mi);
+                            CarritoEliminarView carritoEliminarView = new CarritoEliminarView(mi);
 
 
                             //instanciamos las vistas de Usuario
-                            UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
-                            UsuarioListarView usuarioListarView = new UsuarioListarView();
-                            UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView();
-                            UsuarioModificarView usuarioModificarView = new UsuarioModificarView();
+                            UsuarioCrearView usuarioCrearView = new UsuarioCrearView(mi);
+                            UsuarioListarView usuarioListarView = new UsuarioListarView(mi);
+                            UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView(mi);
+                            UsuarioModificarView usuarioModificarView = new UsuarioModificarView(mi);
 
 
 
                             //instanciamos Controladores
-                            ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView );
-                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView);
+                            ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView, mi );
+                            CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView, mi);
                             UsuarioController usuarioController = new UsuarioController(usuarioDAO, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView, mi);
 
 
@@ -212,6 +212,40 @@ public class Main {
                                         usuarioModificarView.setVisible(true);
                                         principalView.getjDesktopPane().add(usuarioModificarView);
                                     }
+                                }
+                            });
+                            principalView.getMenuItemEspanol().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    mi.setLenguaje( "es", "EC");
+                                    principalView.cambiarIdioma();
+                                    carritoAnadirView.cambiarIdioma();
+                                    carritoEliminarView.cambiarIdioma();
+                                    carritoListarView.cambiarIdioma();
+                                    carritoModificarView.cambiarIdioma();
+
+                                }
+                            });
+                            principalView.getMenuItemIngles().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    mi.setLenguaje("en", "US");
+                                    principalView.cambiarIdioma();
+                                    carritoAnadirView.cambiarIdioma();
+                                    carritoEliminarView.cambiarIdioma();
+                                    carritoListarView.cambiarIdioma();
+                                    carritoModificarView.cambiarIdioma();
+                                }
+                            });
+                            principalView.getMenuItemFrances().addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    mi.setLenguaje("fr", "FR");
+                                    principalView.cambiarIdioma();
+                                    carritoAnadirView.cambiarIdioma();
+                                    carritoEliminarView.cambiarIdioma();
+                                    carritoListarView.cambiarIdioma();
+                                    carritoModificarView.cambiarIdioma();
                                 }
                             });
                         }

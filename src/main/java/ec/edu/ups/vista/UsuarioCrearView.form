@@ -19,14 +19,14 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="386d4" class="javax.swing.JLabel">
+          <component id="386d4" class="javax.swing.JLabel" binding="lblNuevoUsuario">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font size="26"/>
               <foreground color="-394241"/>
-              <text value="NEW USUARIO"/>
+              <text value="Usuario Nuevo"/>
             </properties>
           </component>
         </children>
@@ -71,22 +71,22 @@
               </component>
             </children>
           </grid>
-          <component id="3fe87" class="javax.swing.JLabel">
+          <component id="3fe87" class="javax.swing.JLabel" binding="lblContraseña">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Password"/>
+              <text value="Contraseña"/>
             </properties>
           </component>
-          <component id="75f3c" class="javax.swing.JLabel">
+          <component id="75f3c" class="javax.swing.JLabel" binding="lblUsuario">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Username"/>
+              <text value="Usuario"/>
             </properties>
           </component>
           <component id="c5c5a" class="javax.swing.JTextField" binding="TxtUsername">
@@ -97,7 +97,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="c649c" class="javax.swing.JLabel">
+          <component id="c649c" class="javax.swing.JLabel" binding="lblRol">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

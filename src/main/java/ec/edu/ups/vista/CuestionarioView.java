@@ -1,5 +1,7 @@
 package ec.edu.ups.vista;
 
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class CuestionarioView extends JFrame {
@@ -10,9 +12,11 @@ public class CuestionarioView extends JFrame {
     private JButton btnTerminar;
     private JLabel lblTitulo;
     private JLabel lblPregunta;
+    private MensajeInternacionalizacionHandler mi;
 
 
-    public CuestionarioView() {
+    public CuestionarioView( MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Cuestionario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

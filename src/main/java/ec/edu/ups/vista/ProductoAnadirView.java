@@ -1,6 +1,7 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,9 +16,15 @@ public class ProductoAnadirView extends JInternalFrame {
     private JTextField txtCodigo;
     private JButton btnAceptar;
     private JButton btnLimpiar;
+    private JLabel lblCodigo;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
+    private JLabel lblNuevoP;
+    private MensajeInternacionalizacionHandler mi;
 
-    public ProductoAnadirView() {
+    public ProductoAnadirView( MensajeInternacionalizacionHandler mi) {
 
+        this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Datos del Producto");
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -83,6 +90,38 @@ public class ProductoAnadirView extends JInternalFrame {
 
     public void setBtnLimpiar(JButton btnLimpiar) {
         this.btnLimpiar = btnLimpiar;
+    }
+
+    public JLabel getLblCodigo() {
+        return lblCodigo;
+    }
+
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
+    }
+
+    public JLabel getLblNombre() {
+        return lblNombre;
+    }
+
+    public void setLblNombre(JLabel lblNombre) {
+        this.lblNombre = lblNombre;
+    }
+
+    public JLabel getLblPrecio() {
+        return lblPrecio;
+    }
+
+    public void setLblPrecio(JLabel lblPrecio) {
+        this.lblPrecio = lblPrecio;
+    }
+
+    public JLabel getLblNuevoP() {
+        return lblNuevoP;
+    }
+
+    public void setLblNuevoP(JLabel lblNuevoP) {
+        this.lblNuevoP = lblNuevoP;
     }
 
     public void mostrarMensaje(String mensaje) {
