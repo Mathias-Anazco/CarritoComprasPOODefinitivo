@@ -132,11 +132,25 @@ public class ProductoController {
     }
 
     private void eliminarProducto() {
-        String cod = productoEliminarView.getTextField1().getText();
-        int codigo = Integer.parseInt(cod);
+        String cod = productoEliminarView.getTextField1().getText().trim();
+
+        if (cod.isEmpty()) {
+            productoEliminarView.mostrarMensaje(mi.get("producto.error.codigo_vacio"));
+            return;
+        }
+
+        int codigo;
+        try {
+            codigo = Integer.parseInt(cod);
+        } catch (NumberFormatException e) {
+            productoEliminarView.mostrarMensaje(mi.get("producto.error.codigo_invalido"));
+            return;
+        }
+
         productoDAO.eliminar(codigo);
         productoEliminarView.mostrarMensaje(mi.get("producto.eliminado"));
     }
+
 
     private void buscarProductoPorCodigoEliminar() {
         String code = productoEliminarView.getTextField1().getText();

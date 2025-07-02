@@ -26,7 +26,18 @@ public class CuestionarioRecuperarView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
+        cambiarIdioma();
     }
+    public void cambiarIdioma() {
+        setTitle(mi.get("cuestionario.recuperar.titulo"));
+        lblTitulo.setText(mi.get("cuestionario.recuperar.titulo"));
+        lblPregunta1.setText(mi.get("cuestionario.recuperar.pregunta1"));
+        lblPregunta2.setText(mi.get("cuestionario.recuperar.pregunta2"));
+        lblPregunta3.setText(mi.get("cuestionario.recuperar.pregunta3"));
+        btnEnviar.setText(mi.get("cuestionario.recuperar.boton.enviar"));
+        terminarButton.setText(mi.get("cuestionario.recuperar.boton.terminar"));
+    }
+
 
     public JTextField getTxtRespuesta3() {
         return txtRespuesta3;

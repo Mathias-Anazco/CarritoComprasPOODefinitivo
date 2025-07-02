@@ -70,12 +70,14 @@ public class Main {
                             UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView(mi);
                             UsuarioModificarView usuarioModificarView = new UsuarioModificarView(mi);
 
+                            RegistrarView registrarView = new RegistrarView();
+
 
 
                             //instanciamos Controladores
                             ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView, mi );
                             CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView, mi);
-                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView, mi);
+                            UsuarioController usuarioController = new UsuarioController(usuarioDAO, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView, mi, registrarView);
 
 
                             principalView.mostrarMensaje("Bienvenido: " + usuarioAuntenticado.getUsername());
@@ -223,6 +225,10 @@ public class Main {
                                     carritoEliminarView.cambiarIdioma();
                                     carritoListarView.cambiarIdioma();
                                     carritoModificarView.cambiarIdioma();
+                                    productoActualizarView.cambiarIdioma();
+                                    productoAnadirView.cambiarIdioma();
+                                    productoEliminarView.cambiarIdioma();
+                                    productoListaView.cambiarIdioma();
 
                                 }
                             });
@@ -235,6 +241,10 @@ public class Main {
                                     carritoEliminarView.cambiarIdioma();
                                     carritoListarView.cambiarIdioma();
                                     carritoModificarView.cambiarIdioma();
+                                    productoActualizarView.cambiarIdioma();
+                                    productoAnadirView.cambiarIdioma();
+                                    productoEliminarView.cambiarIdioma();
+                                    productoListaView.cambiarIdioma();
                                 }
                             });
                             principalView.getMenuItemFrances().addActionListener(new ActionListener() {
@@ -246,6 +256,10 @@ public class Main {
                                     carritoEliminarView.cambiarIdioma();
                                     carritoListarView.cambiarIdioma();
                                     carritoModificarView.cambiarIdioma();
+                                    productoActualizarView.cambiarIdioma();
+                                    productoAnadirView.cambiarIdioma();
+                                    productoEliminarView.cambiarIdioma();
+                                    productoListaView.cambiarIdioma();
                                 }
                             });
                         }

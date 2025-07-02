@@ -18,10 +18,10 @@ public class ProductoEliminarView extends JInternalFrame {
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
-    public ProductoEliminarView ( MensajeInternacionalizacionHandler mi) {
+    public ProductoEliminarView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelEliminar);
-        setTitle("Eliminar Producto");
+        setTitle(mi.get("producto.eliminar.titulo"));
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setClosable(true);
@@ -29,10 +29,32 @@ public class ProductoEliminarView extends JInternalFrame {
         setResizable(true);
 
         modelo = new DefaultTableModel();
-        Object[] columnas = {"Codigo", "Nombre", "Precio"};
+        Object[] columnas = {
+                mi.get("producto.eliminar.columna.codigo"),
+                mi.get("producto.eliminar.columna.nombre"),
+                mi.get("producto.eliminar.columna.precio")
+        };
         modelo.setColumnIdentifiers(columnas);
         table1.setModel(modelo);
 
+        cambiarIdioma();
+    }
+
+    public void cambiarIdioma() {
+        setTitle(mi.get("producto.eliminar.titulo"));
+
+        lblCodigo.setText(mi.get("producto.eliminar.etiqueta.codigo"));
+        lblEliminar.setText(mi.get("producto.eliminar.etiqueta.eliminar"));
+
+        buscarButton.setText(mi.get("producto.eliminar.boton.buscar"));
+        eliminarButton.setText(mi.get("producto.eliminar.boton.eliminar"));
+
+        // Actualizar encabezados de tabla
+        modelo.setColumnIdentifiers(new Object[]{
+                mi.get("producto.eliminar.columna.codigo"),
+                mi.get("producto.eliminar.columna.nombre"),
+                mi.get("producto.eliminar.columna.precio")
+        });
     }
 
     public JTable getTable1() {
@@ -111,9 +133,11 @@ public class ProductoEliminarView extends JInternalFrame {
             modelo.addRow(fila);
         }
     }
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
+
     public void limpiarCampos() {
         textField1.setText("");
         modelo.setNumRows(0);

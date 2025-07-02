@@ -36,19 +36,10 @@ public class CuestionarioController {
         List<Respuesta> todasLasPreguntas = cuestionario.preguntasPorDefecto();
         preguntasAleatorias = new ArrayList<>();
 
-        boolean[] usadas = new boolean[todasLasPreguntas.size()];
-        int cantidadDeseada = 6;
-        int cantidadActual = 0;
-        Random random = new Random();
-
-        while (cantidadActual < cantidadDeseada) {
-            int indice = random.nextInt(todasLasPreguntas.size());
-            if (!usadas[indice]) {
-                preguntasAleatorias.add(todasLasPreguntas.get(indice));
-                usadas[indice] = true;
-                cantidadActual++;
-            }
+        for (int i = 0; i < 3 && i < todasLasPreguntas.size(); i++) {
+            preguntasAleatorias.add(todasLasPreguntas.get(i));
         }
+
 
         cargarComboPreguntas();
         configurarEventosCuestionario();
@@ -172,12 +163,14 @@ public class CuestionarioController {
     }
 
     private void cargarComboPreguntas() {
-        for (int i = 0; i < preguntasAleatorias.size(); i++) {
-            String etiqueta = mi.get("cuestionario.pregunta");
-            cuestionarioView.getCbxPreguntas().addItem(etiqueta + " " + (i + 1));
+        int cantidadPreguntas = preguntasAleatorias.size();
+
+        for (int i = 0; i < cantidadPreguntas; i++) {
+            String enunciado = preguntasAleatorias.get(i).getEnunciado();
+            cuestionarioView.getCbxPreguntas().addItem(enunciado);
         }
 
-        if (!preguntasAleatorias.isEmpty()) {
+        if (cantidadPreguntas > 0) {
             cuestionarioView.getLblPregunta().setText(preguntasAleatorias.get(0).getEnunciado());
         }
     }

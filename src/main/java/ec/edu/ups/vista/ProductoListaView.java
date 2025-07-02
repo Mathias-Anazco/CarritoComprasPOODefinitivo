@@ -14,16 +14,16 @@ public class ProductoListaView extends JInternalFrame {
     private JTable tblProductos;
     private JPanel panelPrincipal;
     private JButton btnListar;
-    private JPanel lblNombre;
+    private JPanel JPanel;   // Ignoramos este para la internacionalización
     private JLabel lblLista;
+    private JLabel lblNombre;
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
-    public ProductoListaView( MensajeInternacionalizacionHandler mi) {
-
+    public ProductoListaView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelPrincipal);
-        setTitle("Listado de Productos");
+        setTitle(mi.get("producto.lista.titulo"));
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setClosable(true);
@@ -31,10 +31,34 @@ public class ProductoListaView extends JInternalFrame {
         setResizable(true);
 
         modelo = new DefaultTableModel();
-        Object[] columnas = {"Codigo", "Nombre", "Precio"};
+        Object[] columnas = {
+                mi.get("producto.lista.columna.codigo"),
+                mi.get("producto.lista.columna.nombre"),
+                mi.get("producto.lista.columna.precio")
+        };
         modelo.setColumnIdentifiers(columnas);
         tblProductos.setModel(modelo);
+
+        cambiarIdioma();
     }
+
+    public void cambiarIdioma() {
+        setTitle(mi.get("producto.lista.titulo"));
+
+        lblLista.setText(mi.get("producto.lista.etiqueta.lista"));
+        lblNombre.setText(mi.get("producto.lista.etiqueta.nombre"));
+
+        btnBuscar.setText(mi.get("producto.lista.boton.buscar"));
+        btnListar.setText(mi.get("producto.lista.boton.listar"));
+
+        modelo.setColumnIdentifiers(new Object[]{
+                mi.get("producto.lista.columna.codigo"),
+                mi.get("producto.lista.columna.nombre"),
+                mi.get("producto.lista.columna.precio")
+        });
+    }
+
+    // Getters y setters
 
     public JTextField getTxtBuscar() {
         return txtBuscar;
@@ -84,20 +108,20 @@ public class ProductoListaView extends JInternalFrame {
         this.modelo = modelo;
     }
 
-    public JPanel getLblNombre() {
-        return lblNombre;
-    }
-
-    public void setLblNombre(JPanel lblNombre) {
-        this.lblNombre = lblNombre;
-    }
-
     public JLabel getLblLista() {
         return lblLista;
     }
 
     public void setLblLista(JLabel lblLista) {
         this.lblLista = lblLista;
+    }
+
+    public JLabel getLblNombre() {
+        return lblNombre;
+    }
+
+    public void setLblNombre(JLabel lblNombre) {
+        this.lblNombre = lblNombre;
     }
 
     public void cargarDatos(List<Producto> listaProductos) {
@@ -111,7 +135,5 @@ public class ProductoListaView extends JInternalFrame {
             };
             modelo.addRow(fila);
         }
-
-
     }
 }

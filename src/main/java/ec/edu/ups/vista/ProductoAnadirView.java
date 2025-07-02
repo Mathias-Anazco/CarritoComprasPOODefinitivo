@@ -22,8 +22,7 @@ public class ProductoAnadirView extends JInternalFrame {
     private JLabel lblNuevoP;
     private MensajeInternacionalizacionHandler mi;
 
-    public ProductoAnadirView( MensajeInternacionalizacionHandler mi) {
-
+    public ProductoAnadirView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelPrincipal);
         setTitle("Datos del Producto");
@@ -32,9 +31,8 @@ public class ProductoAnadirView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
-        //setLocationRelativeTo(null);
-        //setVisible(true);
-        //pack();
+
+        cambiarIdioma(); // Cargar textos internacionalizados
 
         btnLimpiar.addActionListener(new ActionListener() {
             @Override
@@ -44,84 +42,54 @@ public class ProductoAnadirView extends JInternalFrame {
         });
     }
 
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
+    public void cambiarIdioma() {
+        setTitle(mi.get("producto.anadir.titulo"));
+        lblNuevoP.setText(mi.get("producto.anadir.encabezado"));
+        lblCodigo.setText(mi.get("producto.anadir.etiqueta.codigo"));
+        lblNombre.setText(mi.get("producto.anadir.etiqueta.nombre"));
+        lblPrecio.setText(mi.get("producto.anadir.etiqueta.precio"));
+        btnAceptar.setText(mi.get("producto.anadir.boton.aceptar"));
+        btnLimpiar.setText(mi.get("producto.anadir.boton.limpiar"));
     }
 
-    public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal = panelPrincipal;
+    public JPanel getPanelPrincipal() {
+        return panelPrincipal;
     }
 
     public JTextField getTxtPrecio() {
         return txtPrecio;
     }
 
-    public void setTxtPrecio(JTextField txtPrecio) {
-        this.txtPrecio = txtPrecio;
-    }
-
     public JTextField getTxtNombre() {
         return txtNombre;
-    }
-
-    public void setTxtNombre(JTextField txtNombre) {
-        this.txtNombre = txtNombre;
     }
 
     public JTextField getTxtCodigo() {
         return txtCodigo;
     }
 
-    public void setTxtCodigo(JTextField txtCodigo) {
-        this.txtCodigo = txtCodigo;
-    }
-
     public JButton getBtnAceptar() {
         return btnAceptar;
-    }
-
-    public void setBtnAceptar(JButton btnAceptar) {
-        this.btnAceptar = btnAceptar;
     }
 
     public JButton getBtnLimpiar() {
         return btnLimpiar;
     }
 
-    public void setBtnLimpiar(JButton btnLimpiar) {
-        this.btnLimpiar = btnLimpiar;
-    }
-
     public JLabel getLblCodigo() {
         return lblCodigo;
-    }
-
-    public void setLblCodigo(JLabel lblCodigo) {
-        this.lblCodigo = lblCodigo;
     }
 
     public JLabel getLblNombre() {
         return lblNombre;
     }
 
-    public void setLblNombre(JLabel lblNombre) {
-        this.lblNombre = lblNombre;
-    }
-
     public JLabel getLblPrecio() {
         return lblPrecio;
     }
 
-    public void setLblPrecio(JLabel lblPrecio) {
-        this.lblPrecio = lblPrecio;
-    }
-
     public JLabel getLblNuevoP() {
         return lblNuevoP;
-    }
-
-    public void setLblNuevoP(JLabel lblNuevoP) {
-        this.lblNuevoP = lblNuevoP;
     }
 
     public void mostrarMensaje(String mensaje) {

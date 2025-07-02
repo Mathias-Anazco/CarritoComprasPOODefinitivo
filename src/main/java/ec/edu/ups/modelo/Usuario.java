@@ -4,16 +4,32 @@ public class Usuario {
     private String username;
     private String contrasenia;
     private Rol rol;
+    private String nombreCompleto;
+    private String fechaNacimiento; // Formato sugerido: dd/mm/yyyy
+    private String celular;
+    private String correo;
 
     public Usuario() {
-
     }
 
-    public Usuario(String nombreDeUsuario, String contrasenia, Rol rol) {
-        this.username = nombreDeUsuario;
+    public Usuario(String username, String contrasenia, Rol rol) {
+        this.username = username;
         this.contrasenia = contrasenia;
         this.rol = rol;
     }
+
+    public Usuario(String username, String contrasenia, Rol rol, String nombreCompleto,
+                   String fechaNacimiento, String celular, String correo) {
+        this.username = username;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.celular = celular;
+        this.correo = correo;
+    }
+
+    // Getters y Setters
 
     public String getUsername() {
         return username;
@@ -39,12 +55,48 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "nombreDeUsuario='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", contrasenia='" + contrasenia + '\'' +
                 ", rol=" + rol +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", fechaNacimiento='" + fechaNacimiento + '\'' +
+                ", celular='" + celular + '\'' +
+                ", correo='" + correo + '\'' +
                 '}';
     }
 }

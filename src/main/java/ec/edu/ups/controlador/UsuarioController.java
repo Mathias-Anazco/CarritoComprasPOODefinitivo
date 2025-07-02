@@ -24,6 +24,7 @@ public class UsuarioController {
     private UsuarioEliminarView usuarioEliminarView;
     private UsuarioModificarView usuarioModificarView;
     private CuestionarioDAO cuestionarioDAO;
+    private RegistrarView registrarView;
     private final MensajeInternacionalizacionHandler mi;
 
     public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView, CuestionarioDAO cuestionarioDAO, MensajeInternacionalizacionHandler mi) {
@@ -32,18 +33,20 @@ public class UsuarioController {
         this.cuestionarioDAO = cuestionarioDAO;
         this.mi = mi;
         this.usuario = null;
+        this.registrarView = new RegistrarView(); // Inicializar registrarView aquí
         configurarEventosEnVistas();
     }
 
     public UsuarioController(UsuarioDAO usuarioDAO, UsuarioCrearView usuarioCrearView,
                              UsuarioListarView usuarioListarView, UsuarioEliminarView usuarioEliminarView,
-                             UsuarioModificarView usuarioModificarView, MensajeInternacionalizacionHandler mi) {
+                             UsuarioModificarView usuarioModificarView, MensajeInternacionalizacionHandler mi, RegistrarView registrarView) {
         this.usuarioDAO = usuarioDAO;
         this.usuarioCrearView = usuarioCrearView;
         this.usuarioListarView = usuarioListarView;
         this.usuarioEliminarView = usuarioEliminarView;
         this.usuarioModificarView = usuarioModificarView;
         this.mi = mi;
+        this.registrarView = registrarView;
         configurarEventosUsuarios();
     }
 
@@ -57,6 +60,7 @@ public class UsuarioController {
         loginView.getBtnSalir().addActionListener(e -> salir());
 
         loginView.getCbxIdiomas().addActionListener(e -> cambiarIdioma());
+
     }
 
     private void configurarEventosUsuarios(){
@@ -98,6 +102,54 @@ public class UsuarioController {
         loginView.dispose();
         System.exit(0);
     }
+    private void registrarUsuario() {
+        String nombreCompleto = registrarView.getTxtNombreCompleto().getText().trim();
+        String username = registrarView.getTxtUsuario().getText().trim();
+        String contrasenia = registrarView.getTxtContraseña().getText().trim();
+        String celular = registrarView.getTxtCelular().getText().trim();
+        String correo = registrarView.getTxtCorreo().getText().trim();
+
+        Object diaObj = registrarView.getCbxDia().getSelectedItem();
+        Object mesObj = registrarView.getCbxMes().getSelectedItem();
+        Object anioObj = registrarView.getCbxAño().getSelectedItem();
+
+        // Validación de campos obligatorios
+        if (nombreCompleto.isEmpty() || username.isEmpty() || contrasenia.isEmpty()
+                || celular.isEmpty() || correo.isEmpty() || diaObj == null || mesObj == null || anioObj == null) {
+            registrarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
+            return;
+        }
+
+        // Validación de número de celular
+        if (!celular.matches("\\d+")) {
+            registrarView.mostrarMensaje(mi.get("mensaje.error.celular_numerico")); // asegúrate de tener este mensaje en el archivo properties
+            return;
+        }
+
+        // Verificar si el nombre de usuario ya está en uso
+        if (usuarioDAO.buscarPorUsername(username) != null) {
+            registrarView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
+            return;
+        }
+
+        // Combinar fecha de nacimiento
+        String fechaNacimiento = diaObj + "/" + mesObj + "/" + anioObj;
+
+        // Crear nuevo usuario
+        Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
+        nuevoUsuario.setNombreCompleto(nombreCompleto);
+        nuevoUsuario.setCelular(celular);
+        nuevoUsuario.setCorreo(correo);
+        nuevoUsuario.setFechaNacimiento(fechaNacimiento);
+
+        usuarioDAO.crear(nuevoUsuario);
+
+        registrarView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
+        registrarView.limpiarCampos();
+        registrarView.dispose();
+        loginView.setVisible(true);
+    }
+
 
     private void recuperar() {
         boolean confirmado = loginView.mostrarMensajePregunta(mi.get("login.mensaje.pregunta_recuperar"));
@@ -239,27 +291,50 @@ public class UsuarioController {
         }
     }
 
-    private void registrarUsuario() {
-        String username = usuarioCrearView.getTxtUsername().getText();
-        String contrasenia = usuarioCrearView.getTxtPassword().getText();
-        Rol rol = usuarioCrearView.getRolSeleccionado();
+    private void registrarNuevoUsuario() {
+        String nombreCompleto = registrarView.getTxtNombreCompleto().getText().trim();
+        String username = registrarView.getTxtUsuario().getText().trim();
+        String contrasenia = registrarView.getTxtContraseña().getText().trim();
+        String celular = registrarView.getTxtCelular().getText().trim();
+        String correo = registrarView.getTxtCorreo().getText().trim();
 
-        if (username.isEmpty() || contrasenia.isEmpty() || rol == null) {
-            usuarioCrearView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
+        Object dia = registrarView.getCbxDia().getSelectedItem();
+        Object mes = registrarView.getCbxMes().getSelectedItem();
+        Object año = registrarView.getCbxAño().getSelectedItem();
+
+        // Validación de campos vacíos
+        if (nombreCompleto.isEmpty() || username.isEmpty() || contrasenia.isEmpty()
+                || celular.isEmpty() || correo.isEmpty() || dia == null || mes == null || año == null) {
+            registrarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
 
+        // Validación de celular (solo números)
+        if (!celular.matches("\\d+")) {
+            registrarView.mostrarMensaje(mi.get("usuario.celular.invalido")); // Asegúrate de tener este mensaje en tus archivos .properties
+            return;
+        }
+
+        // Validar si ya existe usuario
         if (usuarioDAO.buscarPorUsername(username) != null) {
-            usuarioCrearView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
+            registrarView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
             return;
         }
 
-        Usuario usuario = new Usuario(username, contrasenia, rol);
-        usuarioDAO.crear(usuario);
+        // Aquí podrías guardar la fecha como texto o usar LocalDate si amplías el modelo
+        String fechaNacimiento = dia + "/" + mes + "/" + año;
 
-        usuarioCrearView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
-        usuarioCrearView.limpiarCampos();
+        Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
+        usuarioDAO.crear(nuevoUsuario);
+
+        registrarView.mostrarMensaje(mi.get("usuario.creado"));
+        registrarView.limpiarCampos();
+        registrarView.dispose();
+        loginView.setVisible(true);
     }
+
+
+
 
     private void autenticar() {
         String username = loginView.getTxtUsername().getText().trim();
@@ -294,31 +369,22 @@ public class UsuarioController {
         }
     }
 
-    public void crearUsuario() {
+    private void crearUsuario() {
         boolean confirmado = loginView.mostrarMensajePregunta(mi.get("usuario.crear.confirmacion"));
         if (confirmado) {
-            String username = loginView.getTxtUsername().getText().trim();
-            String contrasenia = loginView.getTxtContraseña().getText().trim();
+            this.registrarView = new RegistrarView();
 
-            if (usuarioDAO.buscarPorUsername(username) != null) {
-                loginView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
-                return;
-            }
-            Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
-            usuarioDAO.crear(nuevoUsuario);
-            loginView.mostrarMensaje(mi.get("usuario.creado"));
+            // ⚠️ Configura aquí los eventos de los botones
+            registrarView.getBtnRegistrar().addActionListener(e -> registrarNuevoUsuario());
+            registrarView.getBtnLimpiar().addActionListener(e -> registrarView.limpiarCampos());
 
-            CuestionarioView cuestionarioView = new CuestionarioView(mi);
-            CuestionarioController cuestionarioController = new CuestionarioController(cuestionarioView,
-                    cuestionarioDAO, username, mi);
-            cuestionarioView.setVisible(true);
-
+            registrarView.setVisible(true);
             loginView.setVisible(false);
 
-            cuestionarioView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            cuestionarioView.addWindowListener(new WindowAdapter() {
+            registrarView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            registrarView.addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowClosed(WindowEvent e){
+                public void windowClosed(WindowEvent e) {
                     loginView.setVisible(true);
                 }
             });
@@ -326,6 +392,9 @@ public class UsuarioController {
             loginView.mostrarMensaje(mi.get("usuario.crear.cancelado"));
         }
     }
+
+
+
 
     public Usuario getUsuarioAutenticado(){
         return usuario;
