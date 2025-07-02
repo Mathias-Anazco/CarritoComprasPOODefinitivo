@@ -13,6 +13,7 @@ public class UsuarioListarView extends JInternalFrame {
     private JButton BtnListar;
     private JTable tblUsuario;
     private JLabel lblListar;
+    private JLabel lblUser;
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
@@ -26,7 +27,7 @@ public class UsuarioListarView extends JInternalFrame {
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Username", "Password", "Rol"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Nombre", "Usuario", "Contraseña", "Correo", "Celular", "Fcha de Nacimiento", "Rol"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -89,6 +90,14 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void setLblListar(JLabel lblListar) {
         this.lblListar = lblListar;
+    }
+
+    public JLabel getLblUser() {
+        return lblUser;
+    }
+
+    public void setLblUser(JLabel lblUser) {
+        this.lblUser = lblUser;
     }
 
     public void mostrarMensaje(String mensaje) {

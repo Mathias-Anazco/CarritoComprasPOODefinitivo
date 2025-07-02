@@ -37,13 +37,13 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemSalir;
 
 
-    private JDesktopPane jDesktopPane;
+    private MiJdesktopPane jDesktopPane;
     private MensajeInternacionalizacionHandler mi;
 
     public MenuPrincipalView( MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
 
-        jDesktopPane = new JDesktopPane();
+        jDesktopPane = new MiJdesktopPane();
         menuBar = new JMenuBar();
 
         menuProducto = new JMenu("Producto");
@@ -174,9 +174,7 @@ public class MenuPrincipalView extends JFrame {
         return jDesktopPane;
     }
 
-    public void setjDesktopPane(JDesktopPane jDesktopPane) {
-        this.jDesktopPane = jDesktopPane;
-    }
+
 
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);

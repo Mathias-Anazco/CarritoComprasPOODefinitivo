@@ -18,6 +18,16 @@ public class UsuarioCrearView extends JInternalFrame {
     private JLabel lblUsuario;
     private JLabel lblContraseña;
     private JLabel lblRol;
+    private JTextField TxtCorreo;
+    private JTextField TxtCelular;
+    private JTextField TxtNombreCompleto;
+    private JLabel lblNombreC;
+    private JLabel lblCorreo;
+    private JLabel lblCelular;
+    private JLabel lblFechaN;
+    private JComboBox cbxDia;
+    private JComboBox cbxMes;
+    private JComboBox cbxAño;
     private MensajeInternacionalizacionHandler mi;
 
     public UsuarioCrearView ( MensajeInternacionalizacionHandler mi) {
@@ -37,6 +47,16 @@ public class UsuarioCrearView extends JInternalFrame {
                 limpiarCampos();
             }
         });
+        for (int i = 1; i <= 31; i++) cbxDia.addItem(i);
+        for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
+        String[] meses = {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+
+        for (String mes : meses) {
+            cbxMes.addItem(mes);
+        }
     }
 
     public JPanel getPanelPrincipal() {
@@ -119,9 +139,104 @@ public class UsuarioCrearView extends JInternalFrame {
         this.lblRol = lblRol;
     }
 
+    public JTextField getTxtCorreo() {
+        return TxtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        TxtCorreo = txtCorreo;
+    }
+
+    public JTextField getTxtCelular() {
+        return TxtCelular;
+    }
+
+    public void setTxtCelular(JTextField txtCelular) {
+        TxtCelular = txtCelular;
+    }
+
+    public JTextField getTxtNombreCompleto() {
+        return TxtNombreCompleto;
+    }
+
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        TxtNombreCompleto = txtNombreCompleto;
+    }
+
+    public JLabel getLblNombreC() {
+        return lblNombreC;
+    }
+
+    public void setLblNombreC(JLabel lblNombreC) {
+        this.lblNombreC = lblNombreC;
+    }
+
+    public JLabel getLblCorreo() {
+        return lblCorreo;
+    }
+
+    public void setLblCorreo(JLabel lblCorreo) {
+        this.lblCorreo = lblCorreo;
+    }
+
+    public JLabel getLblCelular() {
+        return lblCelular;
+    }
+
+    public void setLblCelular(JLabel lblCelular) {
+        this.lblCelular = lblCelular;
+    }
+
+    public JLabel getLblFechaN() {
+        return lblFechaN;
+    }
+
+    public void setLblFechaN(JLabel lblFechaN) {
+        this.lblFechaN = lblFechaN;
+    }
+
+    public JComboBox getCbxDia() {
+        return cbxDia;
+    }
+
+    public void setCbxDia(JComboBox cbxDia) {
+        this.cbxDia = cbxDia;
+    }
+
+    public JComboBox getCbxMes() {
+        return cbxMes;
+    }
+
+    public void setCbxMes(JComboBox cbxMes) {
+        this.cbxMes = cbxMes;
+    }
+
+    public JComboBox getCbxAño() {
+        return cbxAño;
+    }
+
+    public void setCbxAño(JComboBox cbxAño) {
+        this.cbxAño = cbxAño;
+    }
+
+    public MensajeInternacionalizacionHandler getMi() {
+        return mi;
+    }
+
+    public void setMi(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
+    }
+
     public void limpiarCampos() {
         TxtUsername.setText("");
         TxtPassword.setText("");
+        TxtCorreo.setText("");
+        TxtCelular.setText("");
+        TxtNombreCompleto.setText("");
+        CbxRol.setSelectedIndex(0);
+        cbxDia.setSelectedIndex(0);
+        cbxMes.setSelectedIndex(0);
+        cbxAño.setSelectedIndex(0);
     }
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);

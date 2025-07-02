@@ -12,6 +12,19 @@ public class UsuarioModificarView extends JInternalFrame {
     private JTextField txtName;
     private JButton btnBuscar;
     private JLabel lblActualizar;
+    private JTextField txtNombreCompleto;
+    private JTextField txtCorreo;
+    private JTextField txtCelular;
+    private JComboBox cbxDia;
+    private JComboBox cbxMes;
+    private JComboBox cbxAño;
+    private JLabel lblFechaN;
+    private JLabel lblCelular;
+    private JLabel lblCorreo;
+    private JLabel lblNombreC;
+    private JLabel lblUsuario;
+    private JLabel lblContraseña;
+    private JLabel lblUser;
     private MensajeInternacionalizacionHandler mi;
 
     public UsuarioModificarView( MensajeInternacionalizacionHandler mi) {
@@ -24,7 +37,33 @@ public class UsuarioModificarView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        for (int i = 1; i <= 31; i++) cbxDia.addItem(i);
+        for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
+
+        cambiarIdioma();
     }
+    public void cambiarIdioma() {
+        setTitle(mi.get("usuario.modificar.titulo"));
+        lblUser.setText(mi.get("usuario.modificar.usuario_buscar"));
+        lblActualizar.setText(mi.get("usuario.modificar.actualizar"));
+        lblUsuario.setText(mi.get("usuario.modificar.usuario"));
+        lblContraseña.setText(mi.get("usuario.modificar.contrasena"));
+        lblNombreC.setText(mi.get("usuario.modificar.nombre_completo"));
+        lblCorreo.setText(mi.get("usuario.modificar.correo"));
+        lblCelular.setText(mi.get("usuario.modificar.celular"));
+        lblFechaN.setText(mi.get("usuario.modificar.fecha_nacimiento"));
+        btnBuscar.setText(mi.get("boton.usuario.modificar.buscar"));
+        btnEditar.setText(mi.get("boton.usuario.modificar.editar"));
+
+        // Actualizar ComboBox de meses
+        cbxMes.removeAllItems(); // Limpiar meses actuales
+
+        for (int i = 1; i <= 12; i++) {
+            cbxMes.addItem(mi.get("mes." + i));
+        }
+    }
+
 
     public JPanel getPanelPrincipal() {
         return panelPrincipal;
@@ -80,6 +119,118 @@ public class UsuarioModificarView extends JInternalFrame {
 
     public void setLblActualizar(JLabel lblActualizar) {
         this.lblActualizar = lblActualizar;
+    }
+
+    public JTextField getTxtNombreCompleto() {
+        return txtNombreCompleto;
+    }
+
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        this.txtNombreCompleto = txtNombreCompleto;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
+    }
+
+    public JTextField getTxtCelular() {
+        return txtCelular;
+    }
+
+    public void setTxtCelular(JTextField txtCelular) {
+        this.txtCelular = txtCelular;
+    }
+
+    public JComboBox getCbxDia() {
+        return cbxDia;
+    }
+
+    public void setCbxDia(JComboBox cbxDia) {
+        this.cbxDia = cbxDia;
+    }
+
+    public JComboBox getCbxMes() {
+        return cbxMes;
+    }
+
+    public void setCbxMes(JComboBox cbxMes) {
+        this.cbxMes = cbxMes;
+    }
+
+    public JComboBox getCbxAño() {
+        return cbxAño;
+    }
+
+    public void setCbxAño(JComboBox cbxAño) {
+        this.cbxAño = cbxAño;
+    }
+
+    public JLabel getLblFechaN() {
+        return lblFechaN;
+    }
+
+    public void setLblFechaN(JLabel lblFechaN) {
+        this.lblFechaN = lblFechaN;
+    }
+
+    public JLabel getLblCelular() {
+        return lblCelular;
+    }
+
+    public void setLblCelular(JLabel lblCelular) {
+        this.lblCelular = lblCelular;
+    }
+
+    public JLabel getLblCorreo() {
+        return lblCorreo;
+    }
+
+    public void setLblCorreo(JLabel lblCorreo) {
+        this.lblCorreo = lblCorreo;
+    }
+
+    public JLabel getLblNombreC() {
+        return lblNombreC;
+    }
+
+    public void setLblNombreC(JLabel lblNombreC) {
+        this.lblNombreC = lblNombreC;
+    }
+
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
+    public JLabel getLblContraseña() {
+        return lblContraseña;
+    }
+
+    public void setLblContraseña(JLabel lblContraseña) {
+        this.lblContraseña = lblContraseña;
+    }
+
+    public MensajeInternacionalizacionHandler getMi() {
+        return mi;
+    }
+
+    public void setMi(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
+    }
+
+    public JLabel getLblUser() {
+        return lblUser;
+    }
+
+    public void setLblUser(JLabel lblUser) {
+        this.lblUser = lblUser;
     }
 
     public void limpiarCampos() {

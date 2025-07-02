@@ -30,8 +30,15 @@ public class RegistrarView extends JFrame {
         setLocationRelativeTo(null);
 
         for (int i = 1; i <= 31; i++) cbxDia.addItem(i);
-        for (int i = 1; i <= 12; i++) cbxMes.addItem(i);
-        for (int i = 1950; i <= 2025; i++) cbxAño.addItem(i);
+        for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
+        String[] meses = {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+
+        for (String mes : meses) {
+            cbxMes.addItem(mes);
+        }
 
 
     }

@@ -229,6 +229,7 @@ public class Main {
                                     productoAnadirView.cambiarIdioma();
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
+                                    usuarioModificarView.cambiarIdioma();
 
                                 }
                             });
@@ -245,6 +246,7 @@ public class Main {
                                     productoAnadirView.cambiarIdioma();
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
+                                    usuarioModificarView.cambiarIdioma();
                                 }
                             });
                             principalView.getMenuItemFrances().addActionListener(new ActionListener() {
@@ -260,6 +262,7 @@ public class Main {
                                     productoAnadirView.cambiarIdioma();
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
+                                    usuarioModificarView.cambiarIdioma();
                                 }
                             });
                         }

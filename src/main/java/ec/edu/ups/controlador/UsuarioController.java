@@ -103,40 +103,41 @@ public class UsuarioController {
         System.exit(0);
     }
     private void registrarUsuario() {
-        String nombreCompleto = registrarView.getTxtNombreCompleto().getText().trim();
-        String username = registrarView.getTxtUsuario().getText().trim();
-        String contrasenia = registrarView.getTxtContraseña().getText().trim();
-        String celular = registrarView.getTxtCelular().getText().trim();
-        String correo = registrarView.getTxtCorreo().getText().trim();
+        String nombreCompleto = usuarioCrearView.getTxtNombreCompleto().getText().trim();
+        String username = usuarioCrearView.getTxtUsername().getText().trim();
+        String contrasenia = usuarioCrearView.getTxtPassword().getText().trim();
+        String celular = usuarioCrearView.getTxtCelular().getText().trim();
+        String correo = usuarioCrearView.getTxtCorreo().getText().trim();
 
-        Object diaObj = registrarView.getCbxDia().getSelectedItem();
-        Object mesObj = registrarView.getCbxMes().getSelectedItem();
-        Object anioObj = registrarView.getCbxAño().getSelectedItem();
+        Object diaObj = usuarioCrearView.getCbxDia().getSelectedItem();
+        Object mesObj = usuarioCrearView.getCbxMes().getSelectedItem();
+        Object anioObj = usuarioCrearView.getCbxAño().getSelectedItem();
 
-        // Validación de campos obligatorios
         if (nombreCompleto.isEmpty() || username.isEmpty() || contrasenia.isEmpty()
                 || celular.isEmpty() || correo.isEmpty() || diaObj == null || mesObj == null || anioObj == null) {
-            registrarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
+            usuarioCrearView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
 
-        // Validación de número de celular
         if (!celular.matches("\\d+")) {
-            registrarView.mostrarMensaje(mi.get("mensaje.error.celular_numerico")); // asegúrate de tener este mensaje en el archivo properties
+            usuarioCrearView.mostrarMensaje(mi.get("mensaje.error.celular_numerico"));
+            return;
+        }
+        // Validación de formato de correo electrónico
+        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
+            registrarView.mostrarMensaje("mensaje.correo.invalido");
             return;
         }
 
-        // Verificar si el nombre de usuario ya está en uso
         if (usuarioDAO.buscarPorUsername(username) != null) {
-            registrarView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
+            usuarioCrearView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
             return;
         }
 
-        // Combinar fecha de nacimiento
         String fechaNacimiento = diaObj + "/" + mesObj + "/" + anioObj;
+        Rol rol = usuarioCrearView.getRolSeleccionado();
 
-        // Crear nuevo usuario
-        Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
+        Usuario nuevoUsuario = new Usuario(username, contrasenia, rol);
         nuevoUsuario.setNombreCompleto(nombreCompleto);
         nuevoUsuario.setCelular(celular);
         nuevoUsuario.setCorreo(correo);
@@ -144,10 +145,8 @@ public class UsuarioController {
 
         usuarioDAO.crear(nuevoUsuario);
 
-        registrarView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
-        registrarView.limpiarCampos();
-        registrarView.dispose();
-        loginView.setVisible(true);
+        usuarioCrearView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
+        usuarioCrearView.limpiarCampos();
     }
 
 
@@ -195,40 +194,84 @@ public class UsuarioController {
     }
 
     private void modificarUsuario() {
-        String username = usuarioModificarView.getTxtUsername().getText();
-        String contrasenia = usuarioModificarView.getTxtContrasenia().getText();
-        String nombre = usuarioModificarView.getTxtName().getText();
+        String nombreBusqueda = usuarioModificarView.getTxtName().getText().trim();
 
-        if (username.isEmpty() || contrasenia.isEmpty() || nombre.isEmpty()) {
-            usuarioModificarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
-            return;
-        }
-
-        Usuario usuario1 = usuarioDAO.buscarPorUsername(nombre);
+        Usuario usuario1 = usuarioDAO.buscarPorUsername(nombreBusqueda);
         if (usuario1 == null) {
             usuarioModificarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
             return;
         }
 
+        String username = usuarioModificarView.getTxtUsername().getText().trim();
+        String contrasenia = usuarioModificarView.getTxtContrasenia().getText().trim();
+        String nombreCompleto = usuarioModificarView.getTxtNombreCompleto().getText().trim();
+        String correo = usuarioModificarView.getTxtCorreo().getText().trim();
+        String celular = usuarioModificarView.getTxtCelular().getText().trim();
+
+        Object diaObj = usuarioModificarView.getCbxDia().getSelectedItem();
+        Object mesObj = usuarioModificarView.getCbxMes().getSelectedItem();
+        Object anioObj = usuarioModificarView.getCbxAño().getSelectedItem();
+
+        // Validación básica
+        if (username.isEmpty() || contrasenia.isEmpty() || nombreCompleto.isEmpty()
+                || correo.isEmpty() || celular.isEmpty() || diaObj == null || mesObj == null || anioObj == null) {
+            usuarioModificarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
+            return;
+        }
+        // Validación de formato de correo electrónico
+        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
+            registrarView.mostrarMensaje("mensaje.correo.invalido");
+            return;
+        }
+
+        if (!celular.matches("\\d{10}")) {
+            usuarioModificarView.mostrarMensaje(mi.get("usuario.celular.invalido"));
+            return;
+        }
+
+        // Formatear fecha
+        String fechaNacimiento = diaObj + "/" + mesObj + "/" + anioObj;
+
+        // Actualizar datos
         usuario1.setUsername(username);
         usuario1.setContrasenia(contrasenia);
+        usuario1.setNombreCompleto(nombreCompleto);
+        usuario1.setCorreo(correo);
+        usuario1.setCelular(celular);
+        usuario1.setFechaNacimiento(fechaNacimiento);
+
         usuarioDAO.actualizar(usuario1);
 
         usuarioModificarView.mostrarMensaje(mi.get("usuario.modificado") + ": " + username);
         usuarioModificarView.limpiarCampos();
     }
 
+
     private void buscarUsuarioParaModificar() {
-        String username = usuarioModificarView.getTxtName().getText();
-        Usuario usuario1 = usuarioDAO.buscarPorUsername(username);
-        if (usuario1 != null) {
-            usuarioModificarView.getTxtUsername().setText(usuario1.getUsername());
-            usuarioModificarView.getTxtContrasenia().setText(usuario1.getContrasenia());
-        } else {
+        String usernameBusqueda = usuarioModificarView.getTxtName().getText().trim();
+
+        Usuario usuario = usuarioDAO.buscarPorUsername(usernameBusqueda);
+        if (usuario == null) {
             usuarioModificarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
             usuarioModificarView.getTxtName().setText("");
+            return;
+        }
+
+        usuarioModificarView.getTxtUsername().setText(usuario.getUsername());
+        usuarioModificarView.getTxtContrasenia().setText(usuario.getContrasenia());
+        usuarioModificarView.getTxtNombreCompleto().setText(usuario.getNombreCompleto());
+        usuarioModificarView.getTxtCorreo().setText(usuario.getCorreo());
+        usuarioModificarView.getTxtCelular().setText(usuario.getCelular());
+
+        // Separar fecha (formato esperado: "dia/mes/año")
+        String[] fecha = usuario.getFechaNacimiento().split("/");
+        if (fecha.length == 3) {
+            usuarioModificarView.getCbxDia().setSelectedItem(Integer.parseInt(fecha[0]));
+            usuarioModificarView.getCbxMes().setSelectedItem(fecha[1]);
+            usuarioModificarView.getCbxAño().setSelectedItem(Integer.parseInt(fecha[2]));
         }
     }
+
 
     private void buscarUsuarioParaEliminar() {
         usuarioEliminarView.getModelo().setRowCount(0);
@@ -238,8 +281,12 @@ public class UsuarioController {
         for (Usuario usuario : usuarioDAO.listarTodos()) {
             if (usuario.getUsername().equals(usernameBuscado)) {
                 Object[] fila = {
+                        usuario.getNombreCompleto(),
                         usuario.getUsername(),
                         usuario.getContrasenia(),
+                        usuario.getCorreo(),
+                        usuario.getCelular(),
+                        usuario.getFechaNacimiento(),
                         usuario.getRol().toString()
                 };
                 usuarioEliminarView.getModelo().addRow(fila);
@@ -252,6 +299,7 @@ public class UsuarioController {
             usuarioEliminarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
             usuarioEliminarView.getTxtUsuario().setText("");
         }
+
     }
 
     private void eliminarUsuario() {
@@ -269,10 +317,15 @@ public class UsuarioController {
     private void listarUsuarios() {
         usuarioListarView.getModelo().setRowCount(0);
         for (Usuario usuario : usuarioDAO.listarTodos()) {
-            Object[] fila = new Object[3];
-            fila[0] = usuario.getUsername();
-            fila[1] = usuario.getContrasenia();
-            fila[2] = usuario.getRol().toString();
+            Object[] fila = {
+                    usuario.getNombreCompleto(),
+                    usuario.getUsername(),
+                    usuario.getContrasenia(),
+                    usuario.getCorreo(),
+                    usuario.getCelular(),
+                    usuario.getFechaNacimiento(),
+                    usuario.getRol().toString()
+            };
             usuarioListarView.getModelo().addRow(fila);
         }
         usuarioListarView.mostrarMensaje(mi.get("usuario.listado.exito"));
@@ -280,13 +333,21 @@ public class UsuarioController {
 
     private void buscarUsuario() {
         usuarioListarView.getModelo().setRowCount(0);
-        for (Usuario usuario1 : usuarioDAO.listarTodos()) {
-            if (usuario1.getUsername().equals(usuarioListarView.getTxtUsuario().getText())) {
-                Object[] fila = new Object[3];
-                fila[0] = usuario1.getUsername();
-                fila[1] = usuario1.getContrasenia();
-                fila[2] = usuario1.getRol().toString();
+        String nombreUsuario = usuarioListarView.getTxtUsuario().getText().trim();
+
+        for (Usuario usuario : usuarioDAO.listarTodos()) {
+            if (usuario.getUsername().equalsIgnoreCase(nombreUsuario)) {
+                Object[] fila = {
+                        usuario.getNombreCompleto(),
+                        usuario.getUsername(),
+                        usuario.getContrasenia(),
+                        usuario.getCorreo(),
+                        usuario.getCelular(),
+                        usuario.getFechaNacimiento(),
+                        usuario.getRol().toString()
+                };
                 usuarioListarView.getModelo().addRow(fila);
+                break; // asumimos que username es único
             }
         }
     }
@@ -312,6 +373,11 @@ public class UsuarioController {
         // Validación de celular (solo números)
         if (!celular.matches("\\d+")) {
             registrarView.mostrarMensaje(mi.get("usuario.celular.invalido")); // Asegúrate de tener este mensaje en tus archivos .properties
+            return;
+        }
+        // Validación de correo electrónico
+        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
+            registrarView.mostrarMensaje("mensaje.correo.invalido");
             return;
         }
 
@@ -374,7 +440,6 @@ public class UsuarioController {
         if (confirmado) {
             this.registrarView = new RegistrarView();
 
-            // ⚠️ Configura aquí los eventos de los botones
             registrarView.getBtnRegistrar().addActionListener(e -> registrarNuevoUsuario());
             registrarView.getBtnLimpiar().addActionListener(e -> registrarView.limpiarCampos());
 

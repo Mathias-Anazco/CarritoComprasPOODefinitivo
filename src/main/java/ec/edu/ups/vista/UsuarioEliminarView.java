@@ -27,7 +27,7 @@ public class UsuarioEliminarView extends JInternalFrame {
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Username", "Password", "Rol"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Nombre", "Usuario", "Contraseña", "Correo", "Celular", "Fcha de Nacimiento", "Rol"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
