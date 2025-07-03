@@ -24,11 +24,15 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         this.cuestionarioDAO = cuestionarioDAO;
 
         crear(new Usuario("", "", Rol.ADMINISTRADOR));
-        crear(new Usuario("admin", "12345", Rol.ADMINISTRADOR));
-        crear(new Usuario("user", "12345", Rol.USUARIO));
+        Usuario admin = new Usuario("admin", "12345", Rol.ADMINISTRADOR);
+        admin.setNombreCompleto("Administrador Principal");
+        admin.setCorreo("admin@gmail.com");
+        admin.setCelular("0999999999");
+        admin.setFechaNacimiento("1/Enero/1990");
+        crear(admin);
 
 
-        Cuestionario cuestionarioAdmin = new Cuestionario("admin");
+        Cuestionario cuestionarioAdmin = new Cuestionario("");
         List<Respuesta> preguntas = cuestionarioAdmin.preguntasPorDefecto();
 
         preguntas.get(0).setRespuesta("Negro");

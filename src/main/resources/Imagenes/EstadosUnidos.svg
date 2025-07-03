@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="15px" height="15px" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0)">
+        <rect width="28" height="20" rx="2" fill="white"/>
+        <mask id="mask0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="28" height="20">
+            <rect width="28" height="20" rx="2" fill="white"/>
+        </mask>
+        <g mask="url(#mask0)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M28 0H0V1.333H28V0ZM28 2.667H0V4H28V2.667ZM0 5.333H28V6.667H0V5.333ZM28 8H0V9.333H28V8ZM0 10.667H28V12H0V10.667ZM28 13.333H0V14.667H28V13.333ZM0 16H28V17.333H0V16ZM28 18.667H0V20H28V18.667Z" fill="#D02F44"/>
+            <rect width="12" height="9.333" fill="#46467F"/>
+            <!-- Aquí iría el contenido omitido -->
+        </g>
+    </g>
+    <defs>
+        <clipPath id="clip0">
+            <rect width="28" height="20" rx="2" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>

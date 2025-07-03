@@ -384,7 +384,7 @@ public class UsuarioController {
 
         String fechaNacimiento = dia + "/" + mes + "/" + año;
 
-        Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
+        Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO, nombreCompleto, fechaNacimiento, celular, correo);
         usuarioDAO.crear(nuevoUsuario);
 
         registrarView.mostrarMensaje(mi.get("usuario.creado"));

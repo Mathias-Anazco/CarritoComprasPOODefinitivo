@@ -1,8 +1,10 @@
 package ec.edu.ups.vista;
 
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class MenuPrincipalView extends JFrame {
     private JMenuBar menuBar;
@@ -356,6 +358,147 @@ public class MenuPrincipalView extends JFrame {
 
         // Título
         setTitle(mi.get("titulo.ventana"));
+
+        URL EcuadorURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Ecuador.svg.png");
+        if (EcuadorURL != null) {
+            ImageIcon iconoMenuItemEspañol = new ImageIcon(EcuadorURL);
+            menuItemEspanol.setIcon(iconoMenuItemEspañol);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Login");
+        }
+        URL USAURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/EstadosUnidos.svg.png");
+        if (USAURL != null) {
+            ImageIcon iconoMenuItemIngles = new ImageIcon(USAURL);
+            menuItemIngles.setIcon(iconoMenuItemIngles);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Login");
+        }
+        URL FranceURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Francia.svg.png");
+        if (FranceURL != null) {
+            ImageIcon iconoMenuItemFrances = new ImageIcon(FranceURL);
+            menuItemFrances.setIcon(iconoMenuItemFrances);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Login");
+        }
+        URL iconoMenuCarritoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Carrito.svg.png");
+        if (iconoMenuCarritoURL != null) {
+            ImageIcon iconoMenuCarrito = new ImageIcon(iconoMenuCarritoURL);
+            menuCarrito.setIcon(iconoMenuCarrito);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Carrito");
+        }
+        URL iconoMenuProductoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Producto.svg.png");
+        if (iconoMenuProductoURL != null) {
+            ImageIcon iconoMenuProducto = new ImageIcon(iconoMenuProductoURL);
+            menuProducto.setIcon(iconoMenuProducto);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Producto");
+        }
+        URL iconoMenuUsuarioURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Usuario.svg.png");
+        if (iconoMenuUsuarioURL != null) {
+            ImageIcon iconoMenuUsuario = new ImageIcon(iconoMenuUsuarioURL);
+            menuUsuario.setIcon(iconoMenuUsuario);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Usuario");
+        }
+        URL iconoMenuSalirURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Salir.svg.png");
+        if (iconoMenuSalirURL != null) {
+            ImageIcon iconoMenuSalir = new ImageIcon(iconoMenuSalirURL);
+            menuSalir.setIcon(iconoMenuSalir);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Salir");
+        }
+        URL iconoMenuIdiomaURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Idioma.svg.png");
+        if (iconoMenuIdiomaURL != null) {
+            ImageIcon iconoMenuIdioma = new ImageIcon(iconoMenuIdiomaURL);
+            menuIdioma.setIcon(iconoMenuIdioma);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Idioma");
+        }
+        URL iconoMenuCrearCarritoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Crear.svg.png");
+        if (iconoMenuCrearCarritoURL != null) {
+            ImageIcon iconoMenuCrearCarrito = new ImageIcon(iconoMenuCrearCarritoURL);
+            menuItemCrearCarrito.setIcon(iconoMenuCrearCarrito);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Crear Carrito");
+        }
+        URL iconoMenuCrearProductoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Crear.svg.png");
+        if (iconoMenuCrearProductoURL != null) {
+            ImageIcon iconoMenuCrearProducto = new ImageIcon(iconoMenuCrearProductoURL);
+            menuItemCrearProducto.setIcon(iconoMenuCrearProducto);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Crear Producto");
+        }
+        URL iconoMenuCrearUsuarioURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Crear.svg.png");
+        if (iconoMenuCrearUsuarioURL != null) {
+            ImageIcon iconoMenuCrearUsuario = new ImageIcon(iconoMenuCrearUsuarioURL);
+            menuItemCrearUsuario.setIcon(iconoMenuCrearUsuario);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Crear Usuario");
+        }
+        URL iconoMenuBuscarCarritoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Buscar.svg.png");
+        if (iconoMenuBuscarCarritoURL != null) {
+            ImageIcon iconoMenuBuscarCarrito = new ImageIcon(iconoMenuBuscarCarritoURL);
+            menuItemBuscarCarrito.setIcon(iconoMenuBuscarCarrito);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Buscar Carrito");
+        }
+        URL iconoMenuBuscarProductoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Buscar.svg.png");
+        if (iconoMenuBuscarProductoURL != null) {
+            ImageIcon iconoMenuBuscarProducto = new ImageIcon(iconoMenuBuscarProductoURL);
+            menuItemBuscarProducto.setIcon(iconoMenuBuscarProducto);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Buscar Producto");
+        }
+        URL iconoMenuBuscarUsuarioURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Buscar.svg.png");
+        if (iconoMenuBuscarUsuarioURL != null) {
+            ImageIcon iconoMenuBuscarUsuario = new ImageIcon(iconoMenuBuscarUsuarioURL);
+            menuItemListarUsuario.setIcon(iconoMenuBuscarUsuario);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Buscar Usuario");
+        }
+        URL iconoMenuEliminarCarritoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Eliminar.svg.png");
+        if (iconoMenuEliminarCarritoURL != null) {
+            ImageIcon iconoMenuEliminarCarrito = new ImageIcon(iconoMenuEliminarCarritoURL);
+            menuItemEliminarCarrito.setIcon(iconoMenuEliminarCarrito);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Eliminar Carrito");
+        }
+        URL iconoMenuEliminarProductoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Eliminar.svg.png");
+        if (iconoMenuEliminarProductoURL != null) {
+            ImageIcon iconoMenuEliminarProducto = new ImageIcon(iconoMenuEliminarProductoURL);
+            menuItemEliminarProducto.setIcon(iconoMenuEliminarProducto);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Eliminar Producto");
+        }
+        URL iconoMenuEliminarUsuarioURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Eliminar.svg.png");
+        if (iconoMenuEliminarUsuarioURL != null) {
+            ImageIcon iconoMenuEliminarUsuario = new ImageIcon(iconoMenuEliminarUsuarioURL);
+            menuItemEliminarUsuario.setIcon(iconoMenuEliminarUsuario);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Eliminar Usuario");
+        }
+        URL iconoMenuActualizarCarritoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (iconoMenuActualizarCarritoURL != null) {
+            ImageIcon iconoMenuActualizarCarrito = new ImageIcon(iconoMenuActualizarCarritoURL);
+            menuItemModificarCarrito.setIcon(iconoMenuActualizarCarrito);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Actualizar Carrito");
+        }
+        URL iconoMenuActualizarProductoURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (iconoMenuActualizarProductoURL != null) {
+            ImageIcon iconoMenuActualizarProducto = new ImageIcon(iconoMenuActualizarProductoURL);
+            menuItemActualizarProducto.setIcon(iconoMenuActualizarProducto);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Actualizar Producto");
+        }
+        URL iconoMenuActualizarUsuarioURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (iconoMenuActualizarUsuarioURL != null) {
+            ImageIcon iconoMenuActualizarUsuario = new ImageIcon(iconoMenuActualizarUsuarioURL);
+            menuItemActualizarUsuario.setIcon(iconoMenuActualizarUsuario);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Actualizar Usuario");
+        }
     }
 
 }
