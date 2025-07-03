@@ -6,11 +6,16 @@ import ec.edu.ups.modelo.Cuestionario;
 import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.vista.*;
+import ec.edu.ups.vista.AdministracionView.CuestionarioRecuperarView;
+import ec.edu.ups.vista.AdministracionView.CuestionarioView;
+import ec.edu.ups.vista.AdministracionView.LoginView;
+import ec.edu.ups.vista.AdministracionView.RegistrarView;
+import ec.edu.ups.vista.UsuarioView.UsuarioCrearView;
+import ec.edu.ups.vista.UsuarioView.UsuarioEliminarView;
+import ec.edu.ups.vista.UsuarioView.UsuarioListarView;
+import ec.edu.ups.vista.UsuarioView.UsuarioModificarView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -33,7 +38,7 @@ public class UsuarioController {
         this.cuestionarioDAO = cuestionarioDAO;
         this.mi = mi;
         this.usuario = null;
-        this.registrarView = new RegistrarView(); // Inicializar registrarView aquí
+        this.registrarView = new RegistrarView(mi); // Inicializar registrarView aquí
         configurarEventosEnVistas();
     }
 
@@ -123,7 +128,6 @@ public class UsuarioController {
             usuarioCrearView.mostrarMensaje(mi.get("mensaje.error.celular_numerico"));
             return;
         }
-        // Validación de formato de correo electrónico
         if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
             registrarView.mostrarMensaje("mensaje.correo.invalido");
             return;
@@ -174,7 +178,7 @@ public class UsuarioController {
 
             CuestionarioRecuperarView recuperarView = new CuestionarioRecuperarView(mi);
             CuestionarioController controller = new CuestionarioController(
-                    recuperarView, cuestionarioDAO, username, usuario.getContrasenia(), mi
+                    recuperarView, cuestionarioDAO, usuarioDAO,usuario,  username, usuario.getContrasenia(), mi
             );
 
             recuperarView.setVisible(true);
@@ -212,13 +216,11 @@ public class UsuarioController {
         Object mesObj = usuarioModificarView.getCbxMes().getSelectedItem();
         Object anioObj = usuarioModificarView.getCbxAño().getSelectedItem();
 
-        // Validación básica
         if (username.isEmpty() || contrasenia.isEmpty() || nombreCompleto.isEmpty()
                 || correo.isEmpty() || celular.isEmpty() || diaObj == null || mesObj == null || anioObj == null) {
             usuarioModificarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
-        // Validación de formato de correo electrónico
         if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
             registrarView.mostrarMensaje("mensaje.correo.invalido");
             return;
@@ -229,10 +231,8 @@ public class UsuarioController {
             return;
         }
 
-        // Formatear fecha
         String fechaNacimiento = diaObj + "/" + mesObj + "/" + anioObj;
 
-        // Actualizar datos
         usuario1.setUsername(username);
         usuario1.setContrasenia(contrasenia);
         usuario1.setNombreCompleto(nombreCompleto);
@@ -263,7 +263,6 @@ public class UsuarioController {
         usuarioModificarView.getTxtCorreo().setText(usuario.getCorreo());
         usuarioModificarView.getTxtCelular().setText(usuario.getCelular());
 
-        // Separar fecha (formato esperado: "dia/mes/año")
         String[] fecha = usuario.getFechaNacimiento().split("/");
         if (fecha.length == 3) {
             usuarioModificarView.getCbxDia().setSelectedItem(Integer.parseInt(fecha[0]));
@@ -347,7 +346,7 @@ public class UsuarioController {
                         usuario.getRol().toString()
                 };
                 usuarioListarView.getModelo().addRow(fila);
-                break; // asumimos que username es único
+                break;
             }
         }
     }
@@ -363,31 +362,26 @@ public class UsuarioController {
         Object mes = registrarView.getCbxMes().getSelectedItem();
         Object año = registrarView.getCbxAño().getSelectedItem();
 
-        // Validación de campos vacíos
         if (nombreCompleto.isEmpty() || username.isEmpty() || contrasenia.isEmpty()
                 || celular.isEmpty() || correo.isEmpty() || dia == null || mes == null || año == null) {
             registrarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
 
-        // Validación de celular (solo números)
         if (!celular.matches("\\d+")) {
             registrarView.mostrarMensaje(mi.get("usuario.celular.invalido")); // Asegúrate de tener este mensaje en tus archivos .properties
             return;
         }
-        // Validación de correo electrónico
         if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
             registrarView.mostrarMensaje("mensaje.correo.invalido");
             return;
         }
 
-        // Validar si ya existe usuario
         if (usuarioDAO.buscarPorUsername(username) != null) {
             registrarView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
             return;
         }
 
-        // Aquí podrías guardar la fecha como texto o usar LocalDate si amplías el modelo
         String fechaNacimiento = dia + "/" + mes + "/" + año;
 
         Usuario nuevoUsuario = new Usuario(username, contrasenia, Rol.USUARIO);
@@ -416,7 +410,7 @@ public class UsuarioController {
 
                 CuestionarioView cuestionarioView = new CuestionarioView(mi);
                 CuestionarioController controller = new CuestionarioController(
-                        cuestionarioView, cuestionarioDAO, username, mi
+                        cuestionarioView, cuestionarioDAO, username, mi, usuarioDAO
                 );
                 cuestionarioView.setVisible(true);
                 loginView.setVisible(false);
@@ -438,7 +432,7 @@ public class UsuarioController {
     private void crearUsuario() {
         boolean confirmado = loginView.mostrarMensajePregunta(mi.get("usuario.crear.confirmacion"));
         if (confirmado) {
-            this.registrarView = new RegistrarView();
+            this.registrarView = new RegistrarView(mi);
 
             registrarView.getBtnRegistrar().addActionListener(e -> registrarNuevoUsuario());
             registrarView.getBtnLimpiar().addActionListener(e -> registrarView.limpiarCampos());

@@ -15,12 +15,25 @@ import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.*;
+import ec.edu.ups.vista.AdministracionView.LoginView;
+import ec.edu.ups.vista.AdministracionView.RegistrarView;
+import ec.edu.ups.vista.CarritoView.CarritoAnadirView;
+import ec.edu.ups.vista.CarritoView.CarritoEliminarView;
+import ec.edu.ups.vista.CarritoView.CarritoListarView;
+import ec.edu.ups.vista.CarritoView.CarritoModificarView;
+import ec.edu.ups.vista.ProductoView.ProductoActualizarView;
+import ec.edu.ups.vista.ProductoView.ProductoAnadirView;
+import ec.edu.ups.vista.ProductoView.ProductoEliminarView;
+import ec.edu.ups.vista.ProductoView.ProductoListaView;
+import ec.edu.ups.vista.UsuarioView.UsuarioCrearView;
+import ec.edu.ups.vista.UsuarioView.UsuarioEliminarView;
+import ec.edu.ups.vista.UsuarioView.UsuarioListarView;
+import ec.edu.ups.vista.UsuarioView.UsuarioModificarView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
@@ -70,7 +83,7 @@ public class Main {
                             UsuarioEliminarView usuarioEliminarView = new UsuarioEliminarView(mi);
                             UsuarioModificarView usuarioModificarView = new UsuarioModificarView(mi);
 
-                            RegistrarView registrarView = new RegistrarView();
+                            RegistrarView registrarView = new RegistrarView(mi);
 
 
 
@@ -200,7 +213,7 @@ public class Main {
                             principalView.getMenuItemSalir().addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    boolean confirmado = principalView.mostrarMensajePregunta("¿Desea Salir?");
+                                    boolean confirmado = principalView.mostrarMensajePregunta(mi.get("login.main_salir"));
                                     if(confirmado) {
                                         principalView.dispose();
                                         System.exit(0);
@@ -230,6 +243,9 @@ public class Main {
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
                                     usuarioModificarView.cambiarIdioma();
+                                    usuarioEliminarView.cambiarIdioma();
+                                    usuarioCrearView.cambiarIdioma();
+                                    usuarioListarView.cambiarIdioma();
 
                                 }
                             });
@@ -247,6 +263,9 @@ public class Main {
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
                                     usuarioModificarView.cambiarIdioma();
+                                    usuarioEliminarView.cambiarIdioma();
+                                    usuarioCrearView.cambiarIdioma();
+                                    usuarioListarView.cambiarIdioma();
                                 }
                             });
                             principalView.getMenuItemFrances().addActionListener(new ActionListener() {
@@ -263,6 +282,9 @@ public class Main {
                                     productoEliminarView.cambiarIdioma();
                                     productoListaView.cambiarIdioma();
                                     usuarioModificarView.cambiarIdioma();
+                                    usuarioEliminarView.cambiarIdioma();
+                                    usuarioCrearView.cambiarIdioma();
+                                    usuarioListarView.cambiarIdioma();
                                 }
                             });
                         }

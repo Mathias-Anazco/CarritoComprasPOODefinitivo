@@ -28,14 +28,6 @@ public class Cuestionario {
         respuestas.add(respuesta);
     }
 
-    public boolean eliminarRespuestaPorId(int idPregunta) {
-        return respuestas.removeIf(r -> r.getId() == idPregunta);
-    }
-
-    public void limpiarRespuestas() {
-        respuestas.clear();
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }

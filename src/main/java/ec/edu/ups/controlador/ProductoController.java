@@ -2,12 +2,18 @@ package ec.edu.ups.controlador;
 
 import ec.edu.ups.dao.ProductoDAO;
 import ec.edu.ups.modelo.Producto;
+import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.vista.*;
+import ec.edu.ups.vista.CarritoView.CarritoAnadirView;
+import ec.edu.ups.vista.ProductoView.ProductoActualizarView;
+import ec.edu.ups.vista.ProductoView.ProductoAnadirView;
+import ec.edu.ups.vista.ProductoView.ProductoEliminarView;
+import ec.edu.ups.vista.ProductoView.ProductoListaView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductoController {
 
@@ -119,6 +125,7 @@ public class ProductoController {
     }
 
     private void buscarProductoPorCodigo() {
+        Locale locale = mi.getLocale();
         int codigo = Integer.parseInt(carritoAnadirView.getTxtCodigo().getText());
         Producto producto = productoDAO.buscarPorCodigo(codigo);
         if (producto == null) {
@@ -127,7 +134,7 @@ public class ProductoController {
             carritoAnadirView.getTxtPrecio().setText("");
         } else {
             carritoAnadirView.getTxtNombre().setText(producto.getNombre());
-            carritoAnadirView.getTxtPrecio().setText(String.valueOf(producto.getPrecio()));
+            carritoAnadirView.getTxtPrecio().setText(FormateadorUtils.formatearMoneda(producto.getPrecio(), locale));
         }
     }
 

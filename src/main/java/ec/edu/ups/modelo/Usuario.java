@@ -29,7 +29,6 @@ public class Usuario {
         this.correo = correo;
     }
 
-    // Getters y Setters
 
     public String getUsername() {
         return username;

@@ -1,15 +1,17 @@
 package ec.edu.ups.controlador;
 
 import ec.edu.ups.dao.CuestionarioDAO;
+import ec.edu.ups.dao.UsuarioDAO;
 import ec.edu.ups.modelo.Cuestionario;
 import ec.edu.ups.modelo.Respuesta;
+import ec.edu.ups.modelo.Usuario;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.vista.CuestionarioRecuperarView;
-import ec.edu.ups.vista.CuestionarioView;
+import ec.edu.ups.vista.AdministracionView.CuestionarioRecuperarView;
+import ec.edu.ups.vista.AdministracionView.CuestionarioView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CuestionarioController {
 
@@ -20,14 +22,16 @@ public class CuestionarioController {
     private List<Respuesta> preguntasAleatorias;
     private final MensajeInternacionalizacionHandler mi;
     private String contraseniaUsuario;
-
+    private Usuario usuario;
+    private final UsuarioDAO usuarioDAO;
 
     public CuestionarioController(CuestionarioView vista, CuestionarioDAO dao, String username,
-                                  MensajeInternacionalizacionHandler mi) {
+                                  MensajeInternacionalizacionHandler mi, UsuarioDAO usuarioDAO) {
         this.mi = mi;
         this.cuestionarioView = vista;
         this.cuestionarioDAO = dao;
         this.cuestionario = new Cuestionario(username);
+        this.usuarioDAO = usuarioDAO;
         this.recuperarView = null;
         this.contraseniaUsuario = null;
 
@@ -46,13 +50,16 @@ public class CuestionarioController {
     }
 
 
-    public CuestionarioController(CuestionarioRecuperarView recuperarView, CuestionarioDAO dao,
+    public CuestionarioController(CuestionarioRecuperarView recuperarView, CuestionarioDAO dao, UsuarioDAO usuarioDAO, Usuario usuario,
                                   String username, String contrasenia, MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         this.cuestionarioDAO = dao;
+        this.usuarioDAO = usuarioDAO;
         this.cuestionarioView = null;
         this.recuperarView = recuperarView;
         this.contraseniaUsuario = contrasenia;
+
+        this.usuario = usuarioDAO.buscarPorUsername(username);
 
         this.cuestionario = cuestionarioDAO.buscarPorUsername(username);
         if (cuestionario == null) {
@@ -103,11 +110,40 @@ public class CuestionarioController {
         boolean r3Correcta = respuesta3.equalsIgnoreCase(preguntasAleatorias.get(2).getRespuesta());
 
         if (r1Correcta && r2Correcta && r3Correcta) {
-            recuperarView.mostrarMensaje(mi.get("cuestionario.recuperar.recuperada") + contraseniaUsuario);
+            int opcion = JOptionPane.showConfirmDialog(
+                    recuperarView,
+                    mi.get("cuestionario.recuperar.confirmarCambio"),
+                    mi.get("cuestionario.recuperar.tituloCambio"),
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                JPasswordField nuevaContrasena = new JPasswordField();
+                int resultado = JOptionPane.showConfirmDialog(
+                        recuperarView,
+                        nuevaContrasena,
+                        mi.get("cuestionario.recuperar.ingreseNueva"),
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+
+                if (resultado == JOptionPane.OK_OPTION) {
+                    String nueva = new String(nuevaContrasena.getPassword()).trim();
+                    if (nueva.isEmpty()) {
+                        recuperarView.mostrarMensaje(mi.get("cuestionario.recuperar.campoVacio"));
+                    } else {
+                        // Simulación de actualización de contraseña
+                        recuperarView.mostrarMensaje(mi.get("cuestionario.recuperar.exito"));
+                        usuario.setContrasenia(nueva);
+                        usuarioDAO.actualizar(usuario);
+                    }
+                }
+            }
+
         } else {
             recuperarView.mostrarMensaje(mi.get("cuestionario.recuperar.incorrecta"));
         }
     }
+
 
     private void finalizarRecuperar() {
         recuperarView.dispose();
@@ -142,7 +178,7 @@ public class CuestionarioController {
 
         Respuesta yaRespondida = cuestionario.buscarRespuestaPorId(seleccionada.getId());
         if (yaRespondida != null) {
-            cuestionarioView.mostrarMensaje(mi.get("cuestionario.guardar.yaRespondida")); // Debes tener esta clave en tu archivo de mensajes
+            cuestionarioView.mostrarMensaje(mi.get("cuestionario.guardar.yaRespondida"));
             return;
         }
 

@@ -98,10 +98,8 @@ public class Carrito {
         return calcularTotal() + calcularIVA();
     }
 
-    public String getFechaFormateada() {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        return formato.format(fechaCreacion.getTime());
-    }
+
+
     public Carrito copiar(){
         Carrito copia = new Carrito();
         copia.setFechaCreacion(this.fechaCreacion);
