@@ -157,7 +157,7 @@ public class Main {
                             principalView.getMenuItemCerrarSesion().addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    boolean confirmado = principalView.mostrarMensajePregunta("¿Desea Cerrar Sesión?");
+                                    boolean confirmado = principalView.mostrarMensajePregunta(mi.get("login.main_cerrarSesion"));
                                     if (confirmado) {
                                         principalView.dispose();
                                         loginView.setVisible(true);

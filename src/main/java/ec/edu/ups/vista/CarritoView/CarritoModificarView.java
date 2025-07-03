@@ -5,9 +5,11 @@ import ec.edu.ups.modelo.ItemCarrito;
 import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 import java.util.Locale;
 
 public class CarritoModificarView extends JInternalFrame {
@@ -46,6 +48,7 @@ public class CarritoModificarView extends JInternalFrame {
         tblProductos.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     public void cambiarIdioma() {
@@ -154,6 +157,29 @@ public class CarritoModificarView extends JInternalFrame {
                     itemCarrito.getCantidad()
             };
             modelo.addRow(fila);
+        }
+    }
+    public void iconos(){
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            btnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonActualizar = LoginView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (botonActualizar != null) {
+            ImageIcon icono = new ImageIcon(botonActualizar);
+            btnActualizar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
+        if (botonLimpiar != null) {
+            ImageIcon icono = new ImageIcon(botonLimpiar);
+            btnLimpiar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
         }
     }
 }

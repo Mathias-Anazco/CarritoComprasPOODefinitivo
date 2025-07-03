@@ -1,9 +1,11 @@
 package ec.edu.ups.vista.UsuarioView;
 
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 
 public class UsuarioListarView extends JInternalFrame {
 
@@ -35,6 +37,7 @@ public class UsuarioListarView extends JInternalFrame {
         };
         tblUsuario.setModel(modelo);
         cambiarIdioma();
+        iconos();
     }
     public void cambiarIdioma() {
         setTitle(mi.get("usuario.listar.titulo"));
@@ -121,5 +124,22 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    public void iconos(){
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            BtnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonListar = LoginView.class.getClassLoader().getResource("imagenes/ListarTodo.svg.png");
+        if (botonListar != null) {
+            ImageIcon icono = new ImageIcon(botonListar);
+            BtnListar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

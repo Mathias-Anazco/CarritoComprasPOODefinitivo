@@ -499,6 +499,20 @@ public class MenuPrincipalView extends JFrame {
         } else {
             System.err.println("Error: No se ha cargado el icono de Actualizar Usuario");
         }
+        URL iconoMenuCerrarSesionURL = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Salir.svg.png");
+        if (iconoMenuCerrarSesionURL != null) {
+            ImageIcon iconoMenuCerrarSesion = new ImageIcon(iconoMenuCerrarSesionURL);
+            menuItemCerrarSesion.setIcon(iconoMenuCerrarSesion);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Cerrar Sesión");
+        }
+        URL iconoMenuItemURl = MenuPrincipalView.class.getClassLoader().getResource("imagenes/Exit.svg.png");
+        if (iconoMenuItemURl != null) {
+            ImageIcon iconoMenuSalir = new ImageIcon(iconoMenuItemURl);
+            menuItemSalir.setIcon(iconoMenuSalir);
+        } else {
+            System.err.println("Error: No se ha cargado el icono de Salir");
+        }
     }
 
 }

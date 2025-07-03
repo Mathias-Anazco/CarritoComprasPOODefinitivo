@@ -10,6 +10,7 @@ public enum Pregunta {
     CANCION_FAVORITA("pregunta.cancion_favorita"),
     NOMBRE_LIBRO_FAVORITO("pregunta.tu_libro_favorito"),;
 
+
     private String enunciado;
     private MensajeInternacionalizacionHandler mi;
 

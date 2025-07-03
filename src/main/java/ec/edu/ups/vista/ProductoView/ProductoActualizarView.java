@@ -3,9 +3,11 @@ package ec.edu.ups.vista.ProductoView;
 import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +39,7 @@ public class ProductoActualizarView extends JInternalFrame {
         table1.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     public void cambiarIdioma() {
@@ -124,5 +127,21 @@ public class ProductoActualizarView extends JInternalFrame {
     public void limpiarCampos() {
         textField1.setText("");
         modelo.setNumRows(0);
+    }
+    public void iconos() {
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            buscarButton.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonActualizar = LoginView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (botonActualizar != null) {
+            ImageIcon icono = new ImageIcon(botonActualizar);
+            actualizarButton.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

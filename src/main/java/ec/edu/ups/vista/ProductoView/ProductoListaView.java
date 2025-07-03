@@ -3,9 +3,11 @@ package ec.edu.ups.vista.ProductoView;
 import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +44,7 @@ public class ProductoListaView extends JInternalFrame {
         tblProductos.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     public void cambiarIdioma() {
@@ -137,6 +140,22 @@ public class ProductoListaView extends JInternalFrame {
                     FormateadorUtils.formatearMoneda(producto.getPrecio(), locale)
             };
             modelo.addRow(fila);
+        }
+    }
+    public void iconos(){
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            btnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonListar = LoginView.class.getClassLoader().getResource("imagenes/ListarTodo.svg.png");
+        if (botonListar != null) {
+            ImageIcon icono = new ImageIcon(botonListar);
+            btnListar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
         }
     }
 }

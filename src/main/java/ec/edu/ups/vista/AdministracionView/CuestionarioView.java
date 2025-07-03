@@ -3,6 +3,7 @@ package ec.edu.ups.vista.AdministracionView;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class CuestionarioView extends JFrame {
     private JComboBox cbxPreguntas;
@@ -22,6 +23,7 @@ public class CuestionarioView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(550, 350);
         setLocationRelativeTo(null);
+        icono();
     }
 
     public JComboBox getCbxPreguntas() {
@@ -82,5 +84,22 @@ public class CuestionarioView extends JFrame {
 
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    private void icono() {
+        URL botonGuardarCuestionario = LoginView.class.getClassLoader().getResource("imagenes/Guardar.svg.png");
+        if (botonGuardarCuestionario != null) {
+            ImageIcon icono = new ImageIcon(botonGuardarCuestionario);
+            btnGuardar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonTerminarCuestionario = LoginView.class.getClassLoader().getResource("imagenes/Terminar.svg.png");
+        if (botonTerminarCuestionario != null) {
+            ImageIcon icono = new ImageIcon(botonTerminarCuestionario);
+            btnTerminar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

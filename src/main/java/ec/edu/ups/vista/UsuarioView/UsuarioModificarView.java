@@ -1,8 +1,10 @@
 package ec.edu.ups.vista.UsuarioView;
 
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class UsuarioModificarView extends JInternalFrame {
     private JPanel panelPrincipal;
@@ -42,6 +44,7 @@ public class UsuarioModificarView extends JInternalFrame {
         for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
 
         cambiarIdioma();
+        iconos();
     }
     public void cambiarIdioma() {
         setTitle(mi.get("usuario.modificar.titulo"));
@@ -252,5 +255,21 @@ public class UsuarioModificarView extends JInternalFrame {
         int respuesta = JOptionPane.showConfirmDialog(this, mensaje, "Confirmación",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return respuesta == JOptionPane.YES_OPTION;
+    }
+    public void iconos() {
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            btnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonEditar = LoginView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
+        if (botonEditar != null) {
+            ImageIcon icono = new ImageIcon(botonEditar);
+            btnEditar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

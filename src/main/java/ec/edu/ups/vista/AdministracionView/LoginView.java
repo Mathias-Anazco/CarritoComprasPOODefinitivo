@@ -3,6 +3,7 @@ package ec.edu.ups.vista.AdministracionView;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.net.URL;
 
 
 public class LoginView extends JFrame {
@@ -27,6 +28,7 @@ public class LoginView extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
         inicializarComponentes();
+        iconos();
     }
 
 
@@ -153,5 +155,35 @@ public class LoginView extends JFrame {
         btnSalir.setText(mi.get("login.salir"));
 
         setTitle(mi.get("login.titulo"));
+    }
+    private void iconos() {
+        URL botonIniciarSesion = LoginView.class.getClassLoader().getResource("imagenes/Login.svg.png");
+        if (botonIniciarSesion != null) {
+            ImageIcon icono = new ImageIcon(botonIniciarSesion);
+            btnIniciarSesion.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonRegistrarse = LoginView.class.getClassLoader().getResource("imagenes/Login.svg.png");
+        if (botonRegistrarse != null) {
+            ImageIcon icono = new ImageIcon(botonRegistrarse);
+            btnRegistrarse.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonOlvidar = LoginView.class.getClassLoader().getResource("imagenes/Olvidarrr.svg.png");
+        if (botonOlvidar != null) {
+            ImageIcon icono = new ImageIcon(botonOlvidar);
+            btnOlvidar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonSalir = LoginView.class.getClassLoader().getResource("imagenes/Salir.svg.png");
+        if (botonSalir != null) {
+            ImageIcon icono = new ImageIcon(botonSalir);
+            btnSalir.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

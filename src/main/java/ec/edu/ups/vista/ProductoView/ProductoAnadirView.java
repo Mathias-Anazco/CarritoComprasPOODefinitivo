@@ -2,10 +2,12 @@ package ec.edu.ups.vista.ProductoView;
 
 import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.List;
 
 public class ProductoAnadirView extends JInternalFrame {
@@ -33,6 +35,7 @@ public class ProductoAnadirView extends JInternalFrame {
         setResizable(true);
 
         cambiarIdioma();
+        iconos();
 
         btnLimpiar.addActionListener(new ActionListener() {
             @Override
@@ -105,6 +108,22 @@ public class ProductoAnadirView extends JInternalFrame {
     public void mostrarProductos(List<Producto> productos) {
         for (Producto producto : productos) {
             System.out.println(producto);
+        }
+    }
+    public void iconos(){
+        URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
+        if (botonLimpiar != null) {
+            ImageIcon icono = new ImageIcon(botonLimpiar);
+            btnLimpiar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonAceptar = LoginView.class.getClassLoader().getResource("imagenes/Añadir.svg.png");
+        if (botonAceptar != null) {
+            ImageIcon icono = new ImageIcon(botonAceptar);
+            btnAceptar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
         }
     }
 }

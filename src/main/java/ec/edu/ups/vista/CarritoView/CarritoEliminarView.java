@@ -5,9 +5,11 @@ import ec.edu.ups.modelo.ItemCarrito;
 import ec.edu.ups.modelo.Producto;
 import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 import java.util.Locale;
 
 public class CarritoEliminarView extends JInternalFrame {
@@ -44,6 +46,7 @@ public class CarritoEliminarView extends JInternalFrame {
         table1.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     public void cambiarIdioma() {
@@ -150,5 +153,21 @@ public class CarritoEliminarView extends JInternalFrame {
 
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+    public void iconos() {
+        URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonBuscar != null) {
+            ImageIcon icono = new ImageIcon(botonBuscar);
+            btnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonEliminarCarrito = LoginView.class.getClassLoader().getResource("imagenes/EliminarTodo.svg.png");
+        if (botonEliminarCarrito != null) {
+            ImageIcon icono = new ImageIcon(botonEliminarCarrito);
+            btnEliminar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

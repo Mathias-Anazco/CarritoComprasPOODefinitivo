@@ -3,6 +3,7 @@ package ec.edu.ups.vista.AdministracionView;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class RegistrarView extends JFrame {
     private JLabel lblRegistrar;
@@ -37,6 +38,7 @@ public class RegistrarView extends JFrame {
         for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
 
         cambiarIdioma();
+        icono();
 
 
     }
@@ -223,5 +225,21 @@ public class RegistrarView extends JFrame {
         cbxMes.setSelectedIndex(0);
         cbxAño.setSelectedIndex(0);
 
+    }
+    private void icono() {
+        URL botonRegistrar = LoginView.class.getClassLoader().getResource("imagenes/Register.svg.png");
+        if (botonRegistrar != null) {
+            ImageIcon icono = new ImageIcon(botonRegistrar);
+            btnRegistrar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
+        if (botonLimpiar != null) {
+            ImageIcon icono = new ImageIcon(botonLimpiar);
+            btnLimpiar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

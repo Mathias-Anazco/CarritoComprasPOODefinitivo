@@ -2,10 +2,12 @@ package ec.edu.ups.vista.UsuarioView;
 
 import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 public class UsuarioCrearView extends JInternalFrame {
     private JPanel panelPrincipal;
@@ -40,6 +42,7 @@ public class UsuarioCrearView extends JInternalFrame {
         setIconifiable(true);
         setResizable(true);
         cargarRoles();
+        iconos();
 
         BtnLimpiar.addActionListener(new ActionListener() {
             @Override
@@ -279,6 +282,22 @@ public class UsuarioCrearView extends JInternalFrame {
             return Rol.USUARIO;
         } else {
             return null;
+        }
+    }
+    public void iconos() {
+        URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
+        if (botonLimpiar != null) {
+            ImageIcon icono = new ImageIcon(botonLimpiar);
+            BtnLimpiar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonRegistrar = LoginView.class.getClassLoader().getResource("imagenes/Register.svg.png");
+        if (botonRegistrar != null) {
+            ImageIcon icono = new ImageIcon(botonRegistrar);
+            BtnRegistrar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
         }
     }
 

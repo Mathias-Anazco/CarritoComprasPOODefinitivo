@@ -3,6 +3,7 @@ package ec.edu.ups.vista.AdministracionView;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class CuestionarioRecuperarView extends JFrame {
     private JTextField txtRespuesta3;
@@ -27,6 +28,7 @@ public class CuestionarioRecuperarView extends JFrame {
         setSize(500, 500);
         setLocationRelativeTo(null);
         cambiarIdioma();
+        icono();
     }
     public void cambiarIdioma() {
         setTitle(mi.get("cuestionario.recuperar.titulo"));
@@ -138,7 +140,25 @@ public class CuestionarioRecuperarView extends JFrame {
     public void setLblTitulo(JLabel lblTitulo) {
         this.lblTitulo = lblTitulo;
     }
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
+    }
+
+    public void icono() {
+        URL botonTerminarCuestionario = LoginView.class.getClassLoader().getResource("imagenes/Terminar.svg.png");
+        if (botonTerminarCuestionario != null) {
+            ImageIcon icono = new ImageIcon(botonTerminarCuestionario);
+            terminarButton.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonEnviarCuestionario = LoginView.class.getClassLoader().getResource("imagenes/Enviar.svg.png");
+        if (botonEnviarCuestionario != null) {
+            ImageIcon icono = new ImageIcon(botonEnviarCuestionario);
+            btnEnviar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

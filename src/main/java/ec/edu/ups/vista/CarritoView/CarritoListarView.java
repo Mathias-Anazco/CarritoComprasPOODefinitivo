@@ -3,9 +3,11 @@ package ec.edu.ups.vista.CarritoView;
 import ec.edu.ups.modelo.Carrito;
 import ec.edu.ups.util.FormateadorUtils;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,6 +45,7 @@ public class CarritoListarView extends JInternalFrame {
         tblProductos.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     public void cambiarIdioma() {
@@ -164,5 +167,29 @@ public class CarritoListarView extends JInternalFrame {
 
     public void setMi(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
+    }
+
+    public void iconos() {
+        URL botonListar = LoginView.class.getClassLoader().getResource("imagenes/ListarTodo.svg.png");
+        if (botonListar != null) {
+            ImageIcon icono = new ImageIcon(botonListar);
+            btnListar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonMostrar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonMostrar != null) {
+            ImageIcon icono = new ImageIcon(botonMostrar);
+            btnMostrar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonMostrarDetalle = LoginView.class.getClassLoader().getResource("imagenes/Terminar.svg.png");
+        if (botonMostrarDetalle != null) {
+            ImageIcon icono = new ImageIcon(botonMostrarDetalle);
+            btnMostrarDetalle.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }

@@ -2,9 +2,11 @@ package ec.edu.ups.vista.CarritoView;
 
 import ec.edu.ups.modelo.Carrito;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.vista.AdministracionView.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.net.URL;
 
 public class CarritoAnadirView extends JInternalFrame {
     private JButton btnBuscar;
@@ -44,6 +46,7 @@ public class CarritoAnadirView extends JInternalFrame {
         tblProductos.setModel(modelo);
 
         cambiarIdioma();
+        iconos();
     }
 
     private void cargarDatos() {
@@ -224,5 +227,35 @@ public class CarritoAnadirView extends JInternalFrame {
                 mi.get("carrito.añadir.tabla.cantidad"),
                 mi.get("carrito.añadir.tabla.subtotal")
         });
+    }
+    private void iconos() {
+        URL botonGuardar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
+        if (botonGuardar != null) {
+            ImageIcon icono = new ImageIcon(botonGuardar);
+            btnBuscar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonAnadir = LoginView.class.getClassLoader().getResource("imagenes/Añadir.svg.png");
+        if (botonAnadir != null) {
+            ImageIcon icono = new ImageIcon(botonAnadir);
+            btnAnadir.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
+        if (botonLimpiar != null) {
+            ImageIcon icono = new ImageIcon(botonLimpiar);
+            btnLimpiar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonGuardarCarrito = LoginView.class.getClassLoader().getResource("imagenes/Guardar.svg.png");
+        if (botonGuardarCarrito != null) {
+            ImageIcon icono = new ImageIcon(botonGuardarCarrito);
+            btnGuardar.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
     }
 }
