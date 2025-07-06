@@ -1,8 +1,11 @@
 package ec.edu.ups.dao;
 
-import ec.edu.ups.modelo.Cuestionario;
+import ec.edu.ups.modelo.Preguntas;
+
+import java.util.List;
 
 public interface CuestionarioDAO {
-    void guardar(Cuestionario cuestionario);
-    Cuestionario buscarPorUsername(String username);
+    void crear(Preguntas preguntas);
+    List<Preguntas> listarPreguntas();
+    List<Preguntas> listarPreguntasEnunciado();
 }

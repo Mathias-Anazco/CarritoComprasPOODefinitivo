@@ -37,13 +37,14 @@ public class RegistrarView extends JFrame {
         for (int i = 1; i <= 31; i++) cbxDia.addItem(i);
         for (int i = 1980; i <= 2025; i++) cbxAño.addItem(i);
 
-        cambiarIdioma();
         icono();
+        cambiarIdioma(mi);
 
 
     }
 
-    private void cambiarIdioma() {
+    public void cambiarIdioma(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
         lblRegistrar.setText(mi.get("registrar.titulo"));
         lblNombreCompleto.setText(mi.get("registrar.nombre"));
         lblUsuario.setText(mi.get("registrar.usuario"));

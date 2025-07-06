@@ -1,5 +1,8 @@
 package ec.edu.ups.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
     private String username;
     private String contrasenia;
@@ -8,6 +11,8 @@ public class Usuario {
     private String fechaNacimiento; // Formato sugerido: dd/mm/yyyy
     private String celular;
     private String correo;
+    private List<PreguntasRespuestas> preguntasRespuestas;
+
 
     public Usuario() {
     }
@@ -27,6 +32,7 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.celular = celular;
         this.correo = correo;
+        this.preguntasRespuestas = new ArrayList<>();
     }
 
 
@@ -84,6 +90,17 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public List<PreguntasRespuestas> getPreguntasRespuestas() {
+        return preguntasRespuestas;
+    }
+
+    public void setPreguntasRespuestas(List<PreguntasRespuestas> preguntasRespuestas) {
+        this.preguntasRespuestas = preguntasRespuestas;
+    }
+    public void agregarPreguntas(List<PreguntasRespuestas> preguntasRes){
+        preguntasRespuestas.addAll(preguntasRes);
     }
 
     @Override

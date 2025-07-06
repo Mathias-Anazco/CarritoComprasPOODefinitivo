@@ -6,18 +6,17 @@ import javax.swing.*;
 import java.net.URL;
 
 public class CuestionarioRecuperarView extends JFrame {
-    private JTextField txtRespuesta3;
     private JButton btnEnviar;
     private JPanel panelPrincipal;
     private JButton terminarButton;
-    private JLabel lblPregunta3;
     private JLabel lblTitulo;
-    private JTextField txtNueva;
-    private JLabel lblNueva;
     private JTextField txtRespuesta1;
-    private JTextField txtRespuesta2;
-    private JLabel lblPregunta2;
     private JLabel lblPregunta1;
+    private JComboBox cbxPreguntas;
+    private JLabel lblRespuesta;
+    private JTextField txtUsuario;
+    private JButton btnBuscar;
+    private JLabel lblUsuario;
     private final MensajeInternacionalizacionHandler mi;
 
     public CuestionarioRecuperarView(MensajeInternacionalizacionHandler mi) {
@@ -27,26 +26,23 @@ public class CuestionarioRecuperarView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
-        cambiarIdioma();
         icono();
     }
-    public void cambiarIdioma() {
-        setTitle(mi.get("cuestionario.recuperar.titulo"));
-        lblTitulo.setText(mi.get("cuestionario.recuperar.titulo"));
-        lblPregunta1.setText(mi.get("cuestionario.recuperar.pregunta1"));
-        lblPregunta2.setText(mi.get("cuestionario.recuperar.pregunta2"));
-        lblPregunta3.setText(mi.get("cuestionario.recuperar.pregunta3"));
-        btnEnviar.setText(mi.get("cuestionario.recuperar.boton.enviar"));
-        terminarButton.setText(mi.get("cuestionario.recuperar.boton.terminar"));
-    }
+    public void actualizarTextos(MensajeInternacionalizacionHandler mi) {
+        // Actualizamos la referencia al manejador de mensajes
+        // (aunque ya es final, por consistencia puedes hacerlo)
+        // this.mi = mi; // no se puede porque es final, pero no es necesario cambiarlo
 
+        setTitle(mi.get("recuperar.titulo"));  // Título ventana
 
-    public JTextField getTxtRespuesta3() {
-        return txtRespuesta3;
-    }
+        lblTitulo.setText(mi.get("recuperar.titulo"));
+        lblUsuario.setText(mi.get("recuperar.usuario"));
+        lblPregunta1.setText(mi.get("recuperar.pregunta"));
+        lblRespuesta.setText(mi.get("recuperar.respuesta"));
 
-    public void setTxtRespuesta3(JTextField txtRespuesta3) {
-        this.txtRespuesta3 = txtRespuesta3;
+        btnBuscar.setText(mi.get("recuperar.boton.buscar"));
+        btnEnviar.setText(mi.get("recuperar.boton.enviar"));
+        terminarButton.setText(mi.get("recuperar.boton.terminar"));
     }
 
     public JButton getBtnEnviar() {
@@ -73,56 +69,12 @@ public class CuestionarioRecuperarView extends JFrame {
         this.terminarButton = terminarButton;
     }
 
-    public JLabel getLblPregunta3() {
-        return lblPregunta3;
-    }
-
-    public void setLblPregunta3(JLabel lblPregunta3) {
-        this.lblPregunta3 = lblPregunta3;
-    }
-
-    public JLabel getLblTitulo() {
-        return lblTitulo;
-    }
-
-    public JTextField getTxtNueva() {
-        return txtNueva;
-    }
-
-    public void setTxtNueva(JTextField txtNueva) {
-        this.txtNueva = txtNueva;
-    }
-
-    public JLabel getLblNueva() {
-        return lblNueva;
-    }
-
-    public void setLblNueva(JLabel lblNueva) {
-        this.lblNueva = lblNueva;
-    }
-
     public JTextField getTxtRespuesta1() {
         return txtRespuesta1;
     }
 
     public void setTxtRespuesta1(JTextField txtRespuesta1) {
         this.txtRespuesta1 = txtRespuesta1;
-    }
-
-    public JTextField getTxtRespuesta2() {
-        return txtRespuesta2;
-    }
-
-    public void setTxtRespuesta2(JTextField txtRespuesta2) {
-        this.txtRespuesta2 = txtRespuesta2;
-    }
-
-    public JLabel getLblPregunta2() {
-        return lblPregunta2;
-    }
-
-    public void setLblPregunta2(JLabel lblPregunta2) {
-        this.lblPregunta2 = lblPregunta2;
     }
 
     public JLabel getLblPregunta1() {
@@ -141,9 +93,54 @@ public class CuestionarioRecuperarView extends JFrame {
         this.lblTitulo = lblTitulo;
     }
 
+    public JLabel getLblTitulo() {
+        return lblTitulo;
+    }
+
+    public JComboBox getCbxPreguntas() {
+        return cbxPreguntas;
+    }
+
+    public void setCbxPreguntas(JComboBox cbxPreguntas) {
+        this.cbxPreguntas = cbxPreguntas;
+    }
+
+    public JLabel getLblRespuesta() {
+        return lblRespuesta;
+    }
+
+    public void setLblRespuesta(JLabel lblRespuesta) {
+        this.lblRespuesta = lblRespuesta;
+    }
+
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
+
 
     public void icono() {
         URL botonTerminarCuestionario = LoginView.class.getClassLoader().getResource("imagenes/Terminar.svg.png");
@@ -161,4 +158,9 @@ public class CuestionarioRecuperarView extends JFrame {
             System.err.println("Icono no encontrado");
         }
     }
+
+    public void limpiarCampos() {
+
+    }
+
 }

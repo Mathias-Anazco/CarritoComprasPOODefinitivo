@@ -25,7 +25,7 @@
             <properties>
               <font size="28"/>
               <foreground color="-394241"/>
-              <text value="Cuestionario Rcuperar"/>
+              <text value="Cuestionario Recuperar"/>
             </properties>
           </component>
         </children>
@@ -38,7 +38,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="43b2e" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="43b2e" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -48,42 +48,48 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="bc763" class="javax.swing.JLabel" binding="lblPregunta3">
+              <component id="fa902" class="javax.swing.JComboBox" binding="cbxPreguntas">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="94770" class="javax.swing.JLabel" binding="lblPregunta1">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <foreground color="-394241"/>
-                  <text value="Pregunta 3"/>
+                  <text value="Pregunta "/>
                 </properties>
               </component>
-              <component id="46772" class="javax.swing.JTextField" binding="txtRespuesta3">
+              <component id="71ccd" class="javax.swing.JLabel" binding="lblRespuesta">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-394241"/>
+                  <text value="Respuesta:"/>
+                </properties>
+              </component>
+              <component id="c8fcc" class="javax.swing.JTextField" binding="txtRespuesta1">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="bcee9" class="javax.swing.JLabel" binding="lblPregunta2">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <foreground color="-394241"/>
-                  <text value="Pregunta 2"/>
-                </properties>
-              </component>
-              <component id="94770" class="javax.swing.JLabel" binding="lblPregunta1">
+              <component id="78cfa" class="javax.swing.JLabel" binding="lblUsuario">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <foreground color="-394241"/>
-                  <text value="Pregunta 1"/>
+                  <text value="Usuario"/>
                 </properties>
               </component>
-              <component id="3bac2" class="javax.swing.JTextField" binding="txtRespuesta1">
+              <component id="440c2" class="javax.swing.JTextField" binding="txtUsuario">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -91,13 +97,15 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="ed6d6" class="javax.swing.JTextField" binding="txtRespuesta2">
+              <component id="b4a1b" class="javax.swing.JButton" binding="btnBuscar">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-16579579"/>
+                  <foreground color="-394241"/>
+                  <text value="Buscar"/>
+                </properties>
               </component>
             </children>
           </grid>

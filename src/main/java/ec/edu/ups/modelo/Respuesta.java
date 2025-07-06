@@ -4,34 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Respuesta {
-    private int id;
-    private String enunciado;
-    private String respuesta;
+    private String texto;
 
-    public Respuesta(int id, String enunciado) {
-        this.id = id;
-        this.enunciado = enunciado;
-        this.respuesta = null;
+    public Respuesta(String texto){
+        this.texto = texto;
     }
 
-    public int getId() {
-        return id;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
-
-    public String getEnunciado() {
-        return enunciado;
+    @Override
+    public String toString(){
+        return texto;
     }
-
-    public String getRespuesta() {
-        return respuesta;
-    }
-
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
-    }
-
 }

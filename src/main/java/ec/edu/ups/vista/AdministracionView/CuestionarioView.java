@@ -1,5 +1,8 @@
 package ec.edu.ups.vista.AdministracionView;
 
+import ec.edu.ups.dao.CuestionarioDAO;
+import ec.edu.ups.dao.impl.CuestionarioDAOMemoria;
+import ec.edu.ups.modelo.Preguntas;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
@@ -14,16 +17,20 @@ public class CuestionarioView extends JFrame {
     private JLabel lblTitulo;
     private JLabel lblPregunta;
     private MensajeInternacionalizacionHandler mi;
+    private CuestionarioDAO cuestionarioDAO;
+    private CuestionarioDAOMemoria cuestionarioDAOMemoria;
 
 
-    public CuestionarioView( MensajeInternacionalizacionHandler mi) {
+    public CuestionarioView( MensajeInternacionalizacionHandler mi, CuestionarioDAO cuestionarioDAO) {
         this.mi = mi;
+        this.cuestionarioDAO = cuestionarioDAO;
         setContentPane(panelPrincipal);
         setTitle("Cuestionario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(550, 350);
         setLocationRelativeTo(null);
         icono();
+        cargarPreguntas();
     }
 
     public JComboBox getCbxPreguntas() {
@@ -102,4 +109,24 @@ public class CuestionarioView extends JFrame {
             System.err.println("Icono no encontrado");
         }
     }
+
+    public void limpiarCampos() {
+        cbxPreguntas.setSelectedIndex(0);
+        txtRespuesta.setText("");
+    }
+    public void cargarPreguntas() {
+        cbxPreguntas.removeAllItems();
+        for (Preguntas pregunta : cuestionarioDAO.listarPreguntas()) {
+            cbxPreguntas.addItem(pregunta);
+        }
+    }
+    public void actualizarTextos(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
+        setTitle(mi.get("cuestionario.titulo"));
+        lblTitulo.setText(mi.get("cuestionario.titulo"));
+        lblPregunta.setText(mi.get("cuestionario.pregunta"));
+        btnGuardar.setText(mi.get("cuestionario.boton.guardar"));
+        btnTerminar.setText(mi.get("cuestionario.boton.terminar"));
+    }
+
 }

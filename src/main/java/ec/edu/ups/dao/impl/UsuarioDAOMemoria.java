@@ -2,16 +2,13 @@ package ec.edu.ups.dao.impl;
 
 import ec.edu.ups.dao.CuestionarioDAO;
 import ec.edu.ups.dao.UsuarioDAO;
-import ec.edu.ups.modelo.Cuestionario;
 import ec.edu.ups.modelo.Respuesta;
 import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
-import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 public class UsuarioDAOMemoria implements UsuarioDAO {
 
@@ -32,18 +29,6 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         crear(admin);
 
 
-        Cuestionario cuestionarioAdmin = new Cuestionario("");
-        List<Respuesta> preguntas = cuestionarioAdmin.preguntasPorDefecto();
-
-        preguntas.get(0).setRespuesta("Negro");
-        preguntas.get(1).setRespuesta("Kobu");
-        preguntas.get(2).setRespuesta("Churrasco");
-
-        cuestionarioAdmin.agregarRespuesta(preguntas.get(0));
-        cuestionarioAdmin.agregarRespuesta(preguntas.get(1));
-        cuestionarioAdmin.agregarRespuesta(preguntas.get(2));
-
-        cuestionarioDAO.guardar(cuestionarioAdmin);
     }
 
     @Override

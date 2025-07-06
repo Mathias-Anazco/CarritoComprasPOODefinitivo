@@ -15,6 +15,8 @@ import ec.edu.ups.modelo.Rol;
 import ec.edu.ups.modelo.Usuario;
 import ec.edu.ups.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.vista.*;
+import ec.edu.ups.vista.AdministracionView.CuestionarioRecuperarView;
+import ec.edu.ups.vista.AdministracionView.CuestionarioView;
 import ec.edu.ups.vista.AdministracionView.LoginView;
 import ec.edu.ups.vista.AdministracionView.RegistrarView;
 import ec.edu.ups.vista.CarritoView.CarritoAnadirView;
@@ -47,13 +49,15 @@ public class Main {
                 ProductoDAO productoDAO = new ProductoDAOMemoria();
                 CarritoDAO carritoDAO = new CarritoDAOMemoria();
 
-                CuestionarioDAO cuestionarioDAO = new CuestionarioDAOMemoria();
+                CuestionarioDAO cuestionarioDAO = new CuestionarioDAOMemoria(mi);
                 UsuarioDAO usuarioDAO = new UsuarioDAOMemoria(cuestionarioDAO);
 
                 LoginView loginView = new LoginView(mi);
                 loginView.setVisible(true);
+                CuestionarioView cuestionarioView = new CuestionarioView(mi, cuestionarioDAO);
+                CuestionarioRecuperarView cuestionarioRecuperarView = new CuestionarioRecuperarView(mi);
 
-                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView,  cuestionarioDAO, mi);
+                UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, mi, cuestionarioDAO, cuestionarioView, cuestionarioRecuperarView);
 
                 loginView.addWindowListener(new WindowAdapter( ) {
                     @Override
