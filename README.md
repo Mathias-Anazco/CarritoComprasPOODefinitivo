@@ -7,7 +7,6 @@
 - **Carrera:** Computación
 - **Estudiante:** Mathias Añazco
 - **Fecha:** 07/07/2025
-- **Profesor:** Ing. Pablo Torres
 
 ---
 
