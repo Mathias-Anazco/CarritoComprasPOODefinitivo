@@ -1,3 +1,23 @@
+# Práctica Carrito De Compras
+
+## 📌 Información General
+
+- **Título:** Práctica Carrito De Compras
+- **Asignatura:** Programación Orientada a Objetos
+- **Carrera:** Computación
+- **Estudiante:** Mathias Añazco
+- **Fecha:** 07/07/2025
+- **Profesor:** Ing. Pablo Torres
+
+---
+
+## 💻 Enlace del video
+https://youtu.be/S2-hOdMTnAU?si=gvt2kMSmR2i5NZak
+
+## 📂 Enlace del Diagrama de Clases
+
+![Image](https://github.com/user-attachments/assets/aeba0a7d-9a46-4448-988b-e1b50b079bf9)
+
 # 🛒 Proyecto de Ejemplo - Carrito de Compras
 
 Este proyecto fue desarrollado como parte del **período 66** de la asignatura **Programación Orientada a Objetos** en la Universidad Politécnica Salesiana.  
