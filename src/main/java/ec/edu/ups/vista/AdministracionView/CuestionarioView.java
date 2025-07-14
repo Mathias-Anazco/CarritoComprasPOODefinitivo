@@ -111,7 +111,10 @@ public class CuestionarioView extends JFrame {
     }
 
     public void limpiarCampos() {
-        cbxPreguntas.setSelectedIndex(0);
+        int selectedIndex = cbxPreguntas.getSelectedIndex();
+        if (selectedIndex != -1){
+            cbxPreguntas.removeItemAt(selectedIndex);
+        }
         txtRespuesta.setText("");
     }
     public void cargarPreguntas() {

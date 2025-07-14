@@ -35,7 +35,7 @@ public class CarritoAnadirView extends JInternalFrame {
     private MensajeInternacionalizacionHandler mi;
 
     public CarritoAnadirView(MensajeInternacionalizacionHandler mi) {
-        super("Carrito de Compras", true, true, false, true);
+        super("Carrito de Compras", false, true, false, true);
         this.mi = mi;
         setContentPane(panelPrincipal);
         setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);

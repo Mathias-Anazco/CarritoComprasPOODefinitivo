@@ -253,10 +253,18 @@ public class UsuarioController {
         registrarView.getBtnRegistrar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Antes de registrar, reinicia el valor anterior
+                userRegistrar = null;
+
+                // Intenta registrar
                 crearUsuario();
-                registrarView.setVisible(false);
-                cuestionarioView.setVisible(true);
-                System.out.println("llego hasta aqui");
+
+                // Solo si el usuario fue creado exitosamente, avanza a la siguiente vista
+                if (userRegistrar != null) {
+                    registrarView.setVisible(false);
+                    cuestionarioView.setVisible(true);
+                    System.out.println("Usuario registrado. Se abre la vista de preguntas.");
+                }
             }
         });
         cuestionarioView.getBtnGuardar().addActionListener(new ActionListener() {
