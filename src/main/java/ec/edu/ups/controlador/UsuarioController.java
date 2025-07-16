@@ -4,7 +4,7 @@ import ec.edu.ups.dao.CuestionarioDAO;
 import ec.edu.ups.dao.UsuarioDAO;
 import ec.edu.ups.dao.impl.CuestionarioDAOMemoria;
 import ec.edu.ups.modelo.*;
-import ec.edu.ups.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.util.*;
 import ec.edu.ups.vista.AdministracionView.*;
 import ec.edu.ups.vista.UsuarioView.*;
 
@@ -106,14 +106,7 @@ public class UsuarioController {
             usuarioCrearView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
-        if (!celular.matches("\\d+")) {
-            usuarioCrearView.mostrarMensaje(mi.get("mensaje.error.celular_numerico"));
-            return;
-        }
-        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
-            registrarView.mostrarMensaje("mensaje.correo.invalido");
-            return;
-        }
+
         if (usuarioDAO.buscarPorUsername(username) != null) {
             usuarioCrearView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
             return;
@@ -121,16 +114,33 @@ public class UsuarioController {
 
         String fechaNacimiento = dia + "/" + mes + "/" + año;
         Rol rol = usuarioCrearView.getRolSeleccionado();
-        Usuario nuevoUsuario = new Usuario(username, contrasenia, rol);
-        nuevoUsuario.setNombreCompleto(nombreCompleto);
-        nuevoUsuario.setCelular(celular);
-        nuevoUsuario.setCorreo(correo);
-        nuevoUsuario.setFechaNacimiento(fechaNacimiento);
 
-        usuarioDAO.crear(nuevoUsuario);
-        usuarioCrearView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
-        usuarioCrearView.limpiarCampos();
+        try {
+            Usuario nuevoUsuario = new Usuario(); // Constructor vacío para usar setters con validación
+
+            nuevoUsuario.setNombreCompleto(nombreCompleto);
+            nuevoUsuario.setUsername(username);           // ← SecondExcepcion
+            nuevoUsuario.setContrasenia(contrasenia);     // ← FirstException
+            nuevoUsuario.setCelular(celular);             // ← CelularException
+            nuevoUsuario.setCorreo(correo);               // ← CorreoException
+            nuevoUsuario.setFechaNacimiento(fechaNacimiento);
+            nuevoUsuario.setRol(rol);
+
+            usuarioDAO.crear(nuevoUsuario);
+            usuarioCrearView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
+            usuarioCrearView.limpiarCampos();
+
+        } catch (SecondExcepcion e) {
+            usuarioCrearView.mostrarMensaje(e.getMessage());
+        } catch (FirstException e) {
+            usuarioCrearView.mostrarMensaje(e.getMessage());
+        } catch (CelularException e) {
+            usuarioCrearView.mostrarMensaje(e.getMessage());
+        } catch (CorreoException e) {
+            usuarioCrearView.mostrarMensaje(e.getMessage());
+        }
     }
+
     private void buscarUsuario() {
         usuarioListarView.getModelo().setRowCount(0);
         String username = usuarioListarView.getTxtUsuario().getText().trim();
@@ -205,6 +215,7 @@ public class UsuarioController {
     private void modificarUsuario() {
         String nombreBusqueda = usuarioModificarView.getTxtName().getText().trim();
         Usuario usuario = usuarioDAO.buscarPorUsername(nombreBusqueda);
+
         if (usuario == null) {
             usuarioModificarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
             return;
@@ -224,27 +235,33 @@ public class UsuarioController {
             usuarioModificarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
             return;
         }
-        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
-            registrarView.mostrarMensaje("mensaje.correo.invalido");
-            return;
-        }
-        if (!celular.matches("\\d{10}")) {
-            usuarioModificarView.mostrarMensaje(mi.get("usuario.celular.invalido"));
-            return;
-        }
 
         String fechaNacimiento = dia + "/" + mes + "/" + año;
-        usuario.setUsername(username);
-        usuario.setContrasenia(contrasenia);
-        usuario.setNombreCompleto(nombreCompleto);
-        usuario.setCorreo(correo);
-        usuario.setCelular(celular);
-        usuario.setFechaNacimiento(fechaNacimiento);
 
-        usuarioDAO.actualizar(usuario);
-        usuarioModificarView.mostrarMensaje(mi.get("usuario.modificado") + ": " + username);
-        usuarioModificarView.limpiarCampos();
+        try {
+            usuario.setMensajeInternacionalizacionHandler(mi);
+            usuario.setUsername(username);               // ← SecondExcepcion
+            usuario.setContrasenia(contrasenia);         // ← FirstException
+            usuario.setNombreCompleto(nombreCompleto);
+            usuario.setCorreo(correo);                   // ← CorreoException
+            usuario.setCelular(celular);                 // ← CelularException
+            usuario.setFechaNacimiento(fechaNacimiento);
+
+            usuarioDAO.actualizar(usuario);
+            usuarioModificarView.mostrarMensaje(mi.get("usuario.modificado") + ": " + username);
+            usuarioModificarView.limpiarCampos();
+
+        } catch (SecondExcepcion e) {
+            usuarioModificarView.mostrarMensaje(e.getMessage());
+        } catch (FirstException e) {
+            usuarioModificarView.mostrarMensaje(e.getMessage());
+        } catch (CorreoException e) {
+            usuarioModificarView.mostrarMensaje(e.getMessage());
+        } catch (CelularException e) {
+            usuarioModificarView.mostrarMensaje(e.getMessage());
+        }
     }
+
 
 
 
@@ -253,20 +270,14 @@ public class UsuarioController {
         registrarView.getBtnRegistrar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Antes de registrar, reinicia el valor anterior
-                userRegistrar = null;
-
-                // Intenta registrar
-                crearUsuario();
-
-                // Solo si el usuario fue creado exitosamente, avanza a la siguiente vista
-                if (userRegistrar != null) {
+                boolean exito = crearUsuario();
+                if (exito) {
                     registrarView.setVisible(false);
                     cuestionarioView.setVisible(true);
-                    System.out.println("Usuario registrado. Se abre la vista de preguntas.");
                 }
             }
         });
+
         cuestionarioView.getBtnGuardar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -372,13 +383,11 @@ public class UsuarioController {
                     return;
                 }
 
-                // Buscar usuario por nombre ingresado (debe haberse hecho antes)
                 if (usuario == null) {
                     cuestionarioRecuperarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
                     return;
                 }
 
-                // Verificar si la respuesta es correcta
                 boolean esCorrecta = false;
                 for (PreguntasRespuestas pr : usuario.getPreguntasRespuestas()) {
                     if (pr.getPreguntas().getEnunciado().equals(preguntaSeleccionada.getEnunciado()) &&
@@ -406,19 +415,22 @@ public class UsuarioController {
                 if (opcion == JOptionPane.OK_OPTION) {
                     String nuevaContrasenia = new String(campoContraseña.getPassword()).trim();
 
-                    if (nuevaContrasenia.isEmpty()) {
-                        cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.contrasena.invalida"));
-                        return;
-                    }
+                    try {
+                        usuario.setMensajeInternacionalizacionHandler(mi);
+                        usuario.setContrasenia(nuevaContrasenia); // ← Valida con reglas de seguridad
+                        usuarioDAO.actualizar(usuario);
+                        cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.contrasena.actualizada"));
+                        cuestionarioRecuperarView.setVisible(false);
+                        loginView.setVisible(true);
 
-                    usuario.setContrasenia(nuevaContrasenia);
-                    usuarioDAO.actualizar(usuario);
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.contrasena.actualizada"));
-                    cuestionarioRecuperarView.setVisible(false);
-                    loginView.setVisible(true);
+                    } catch (FirstException ex) {
+                        //Si la contraseña no cumple, se muestra el mensaje y no se actualiza
+                        cuestionarioRecuperarView.mostrarMensaje(ex.getMessage());
+                    }
                 }
             }
         });
+
 
 
 
@@ -467,7 +479,7 @@ public class UsuarioController {
         }
     }
 
-    private void crearUsuario() {
+    private boolean crearUsuario() {
         String nombreCompleto = registrarView.getTxtNombreCompleto().getText().trim();
         String username = registrarView.getTxtUsuario().getText().trim();
         String contrasenia = registrarView.getTxtContraseña().getText().trim();
@@ -476,33 +488,43 @@ public class UsuarioController {
         Object dia = registrarView.getCbxDia().getSelectedItem();
         Object mes = registrarView.getCbxMes().getSelectedItem();
         Object año = registrarView.getCbxAño().getSelectedItem();
+
         if (nombreCompleto.isEmpty() || username.isEmpty() || contrasenia.isEmpty()
                 || celular.isEmpty() || correo.isEmpty() || dia == null || mes == null || año == null) {
             registrarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
-            return;
-        }
-
-        if (!celular.matches("\\d+")) {
-            registrarView.mostrarMensaje(mi.get("usuario.celular.invalido"));
-            return;
-        }
-        if (!correo.matches("^[\\w.-]+@gmail\\.com$")) {
-            registrarView.mostrarMensaje("mensaje.correo.invalido");
-            return;
+            return false;
         }
 
         if (usuarioDAO.buscarPorUsername(username) != null) {
             registrarView.mostrarMensaje(mi.get("usuario.nombre.en.uso"));
-            return;
+            return false;
         }
 
         String fechaNacimiento = dia + "/" + mes + "/" + año;
-        userRegistrar= new Usuario(username, contrasenia, Rol.USUARIO, nombreCompleto, fechaNacimiento, celular, correo);
-        usuarioDAO.crear(userRegistrar);
 
-        registrarView.mostrarMensaje(mi.get("usuario.creado"));
+        try {
+            userRegistrar = new Usuario();
+            userRegistrar.setMensajeInternacionalizacionHandler(mi);
+            userRegistrar.setNombreCompleto(nombreCompleto);
+            userRegistrar.setUsername(username);
+            userRegistrar.setContrasenia(contrasenia);
+            userRegistrar.setCelular(celular);
+            userRegistrar.setCorreo(correo);
+            userRegistrar.setFechaNacimiento(fechaNacimiento);
+            userRegistrar.setRol(Rol.USUARIO);
 
+            usuarioDAO.crear(userRegistrar);
+            registrarView.mostrarMensaje(mi.get("usuario.creado"));
+            return true;
+
+        } catch (SecondExcepcion | FirstException | CelularException | CorreoException e) {
+            registrarView.mostrarMensaje(e.getMessage());
+            return false;
+        }
     }
+
+
+
     public Usuario getUsuarioAutenticado() {
         return usuario;
     }

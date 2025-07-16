@@ -18,6 +18,9 @@ public class LoginView extends JFrame {
     private JLabel lblUsuario;
     private JLabel lblContraseña;
     private JLabel lblIniciarSesion;
+    private JComboBox cbxArchivo;
+    private JButton BtnSeleccionar;
+    private JLabel lblArchivo;
     private MensajeInternacionalizacionHandler mi;
 
     public LoginView( MensajeInternacionalizacionHandler mi) {
@@ -120,6 +123,38 @@ public class LoginView extends JFrame {
         this.lblIniciarSesion = lblIniciarSesion;
     }
 
+    public JComboBox getCbxArchivo() {
+        return cbxArchivo;
+    }
+
+    public void setCbxArchivo(JComboBox cbxArchivo) {
+        this.cbxArchivo = cbxArchivo;
+    }
+
+    public JButton getBtnSeleccionar() {
+        return BtnSeleccionar;
+    }
+
+    public void setBtnSeleccionar(JButton btnSeleccionar) {
+        BtnSeleccionar = btnSeleccionar;
+    }
+
+    public JLabel getLblArchivo() {
+        return lblArchivo;
+    }
+
+    public void setLblArchivo(JLabel lblArchivo) {
+        this.lblArchivo = lblArchivo;
+    }
+
+    public MensajeInternacionalizacionHandler getMi() {
+        return mi;
+    }
+
+    public void setMi(MensajeInternacionalizacionHandler mi) {
+        this.mi = mi;
+    }
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
@@ -139,20 +174,34 @@ public class LoginView extends JFrame {
         cbxIdiomas.addItem("Español");
         cbxIdiomas.addItem("English");
         cbxIdiomas.addItem("Français");
+
         actualizarTextos(mi);
     }
+
 
     public void actualizarTextos(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
 
         lblIniciarSesion.setText(mi.get("login.titulo"));
         lblUsuario.setText(mi.get("login.usuario"));
+        lblArchivo.setText(mi.get("login.archivo"));
         lblContraseña.setText(mi.get("login.contrasenia"));
 
         btnIniciarSesion.setText(mi.get("login.iniciar"));
         btnRegistrarse.setText(mi.get("login.registrar"));
         btnOlvidar.setText(mi.get("login.olvidar"));
         btnSalir.setText(mi.get("login.salir"));
+        BtnSeleccionar.setText(mi.get("login.seleccionar"));
+
+        int indiceSeleccionado = cbxArchivo.getSelectedIndex();
+
+        cbxArchivo.removeAllItems();
+        cbxArchivo.addItem(mi.get("login.archivo.binario"));
+        cbxArchivo.addItem(mi.get("login.archivo.texto"));
+
+        if (indiceSeleccionado >= 0 && indiceSeleccionado < cbxArchivo.getItemCount()) {
+            cbxArchivo.setSelectedIndex(indiceSeleccionado);
+        }
 
         setTitle(mi.get("login.titulo"));
     }
@@ -182,6 +231,13 @@ public class LoginView extends JFrame {
         if (botonSalir != null) {
             ImageIcon icono = new ImageIcon(botonSalir);
             btnSalir.setIcon(icono);
+        } else {
+            System.err.println("Icono no encontrado");
+        }
+        URL botonSeleccionar = LoginView.class.getClassLoader().getResource("imagenes/Crear.svg.png");
+        if (botonSeleccionar != null) {
+            ImageIcon icono = new ImageIcon(botonSeleccionar);
+            BtnSeleccionar.setIcon(icono);
         } else {
             System.err.println("Icono no encontrado");
         }

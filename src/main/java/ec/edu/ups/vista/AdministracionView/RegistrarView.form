@@ -72,7 +72,7 @@
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Usuario"/>
+              <text value="Cedula"/>
             </properties>
           </component>
           <component id="c5a7e" class="javax.swing.JTextField" binding="txtUsuario">
