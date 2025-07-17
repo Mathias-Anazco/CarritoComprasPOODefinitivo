@@ -79,7 +79,10 @@
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-1052171"/>
+              <foreground color="-16579579"/>
+            </properties>
           </component>
           <component id="f920a" class="javax.swing.JButton" binding="BtnSeleccionar">
             <constraints>

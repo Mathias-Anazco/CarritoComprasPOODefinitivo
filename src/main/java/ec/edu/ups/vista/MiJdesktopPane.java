@@ -3,17 +3,32 @@ package ec.edu.ups.vista;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Un componente JDesktopPane personalizado que dibuja un fondo temático
+ * inspirado en "Kentucky Fried Chicken". Esta clase se utiliza como el panel de
+ * contenido principal para la ventana {@link MenuPrincipalView}, proporcionando un
+ * fondo decorativo para las ventanas internas (JInternalFrame).
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class MiJdesktopPane extends JDesktopPane {
 
+    /**
+     * Sobrescribe el método de pintado para dibujar la escena personalizada.
+     * El método se encarga de renderizar en orden: un fondo negro, un título
+     * principal, y un logo central con papas fritas y texto.
+     *
+     * @param g El contexto gráfico proporcionado por Swing para dibujar.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // === FONDO NEGRO ===
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        // === TÍTULO CENTRAL ===
         String titulo = "KENTUCKY FRIED CHICKEN";
         Font fuenteTitulo = new Font("Serif", Font.BOLD, 28);
         g.setFont(fuenteTitulo);
@@ -26,24 +41,19 @@ public class MiJdesktopPane extends JDesktopPane {
         g.setColor(rojoKFC);
         g.drawString(titulo, textoX, textoY);
 
-        // Línea subrayada blanca
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(5));
         g2.setColor(Color.WHITE);
         g2.drawLine(20, textoY + 10, getWidth() - 20, textoY + 10);
 
-        // === LOGO ESTILO KFC CON PAPAS ===
         int centerX = getWidth() / 2;
         int centerY = getHeight() / 2;
-
         int logoWidth = 180;
         int logoHeight = 200;
 
-        // Fondo rojo redondeado
         g.setColor(rojoKFC);
         g.fillRoundRect(centerX - logoWidth / 2, centerY - logoHeight / 2, logoWidth, logoHeight, 60, 60);
 
-        // === PAPAS FRITAS CENTRADAS ===
         Color[] amarillos = {
                 new Color(255, 230, 0),
                 new Color(255, 215, 0),
@@ -53,8 +63,7 @@ public class MiJdesktopPane extends JDesktopPane {
         int numPapas = 7;
         int anchoPapa = 6;
         int espacio = 10;
-
-        int totalAncho = (numPapas - 1) * espacio + anchoPapa; // espacio entre papas + última
+        int totalAncho = (numPapas - 1) * espacio + anchoPapa;
         int inicioX = centerX - totalAncho / 2;
         int cajaY = centerY - 60;
 
@@ -64,16 +73,14 @@ public class MiJdesktopPane extends JDesktopPane {
             g.fillRect(inicioX + i * espacio, cajaY - altura, anchoPapa, altura);
         }
 
-        // === CAJA DE PAPAS CENTRADA ===
         int cajaAncho = totalAncho + 20;
         int cajaX = centerX - cajaAncho / 2;
 
-        g.setColor(new Color(180, 0, 0)); // rojo oscuro para contraste
+        g.setColor(new Color(180, 0, 0));
         g.fillRoundRect(cajaX, cajaY, cajaAncho, 60, 20, 20);
         g.setColor(Color.WHITE);
         g.drawRoundRect(cajaX, cajaY, cajaAncho, 60, 20, 20);
 
-        // === TEXTO "KFC" CENTRADO CON FONDO SUAVE ===
         String textoKfc = "KFC";
         Font fuenteKfc = new Font("SansSerif", Font.BOLD, 22);
         g.setFont(fuenteKfc);
@@ -82,7 +89,6 @@ public class MiJdesktopPane extends JDesktopPane {
         int kfcX = centerX - (kfcAncho / 2);
         int kfcY = centerY + 90;
 
-        // Fondo redondeado gris claro
         int fondoAncho = kfcAncho + 20;
         int fondoAlto = 30;
         int fondoX = centerX - fondoAncho / 2;

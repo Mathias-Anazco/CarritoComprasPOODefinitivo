@@ -11,6 +11,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Representa la interfaz gráfica (GUI) para actualizar la información de un producto existente.
+ * Como JInternalFrame, está diseñada para ser mostrada dentro de una ventana principal.
+ * Permite buscar un producto por su código, visualizar sus datos y modificarlos.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class ProductoActualizarView extends JInternalFrame {
     private JPanel panelActualizar;
     private JButton buscarButton;
@@ -26,6 +35,11 @@ public class ProductoActualizarView extends JInternalFrame {
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
+    /**
+     * Constructor para la vista de actualización de productos.
+     *
+     * @param mi El manejador de internacionalización para los textos de la UI.
+     */
     public ProductoActualizarView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelActualizar);
@@ -42,6 +56,9 @@ public class ProductoActualizarView extends JInternalFrame {
         iconos();
     }
 
+    /**
+     * Actualiza todos los textos visibles en la ventana al idioma actual.
+     */
     public void cambiarIdioma() {
         setTitle(mi.get("producto.actualizar.titulo"));
         lblActualizar.setText(mi.get("producto.actualizar.encabezado"));
@@ -59,54 +76,39 @@ public class ProductoActualizarView extends JInternalFrame {
         modelo.setColumnIdentifiers(columnas);
     }
 
-    public JPanel getPanelActualizar() {
-        return panelActualizar;
-    }
+    /**
+     * Métodos de acceso a los componentes de la interfaz de usuario.
+     */
+    public JPanel getPanelActualizar() { return panelActualizar; }
+    public JButton getBuscarButton() { return buscarButton; }
+    /**
+     * Obtiene el campo de texto para buscar un producto por su código.
+     * @return El JTextField para el código de búsqueda.
+     */
+    public JTextField getTextField1() { return textField1; }
+    public JTable getTable1() { return table1; }
+    public JButton getActualizarButton() { return actualizarButton; }
+    /**
+     * Obtiene el campo de texto para editar el nombre del producto.
+     * @return El JTextField para el nombre del producto.
+     */
+    public JTextField getTextField2() { return textField2; }
+    /**
+     * Obtiene el campo de texto para editar el precio del producto.
+     * @return El JTextField para el precio del producto.
+     */
+    public JTextField getTextField3() { return textField3; }
+    public DefaultTableModel getModelo() { return modelo; }
+    public JLabel getLblCodigo() { return lblCodigo; }
+    public JLabel getLblNombre() { return lblNombre; }
+    public JLabel getLblPrecio() { return lblPrecio; }
+    public JLabel getLblActualizar() { return lblActualizar; }
 
-    public JButton getBuscarButton() {
-        return buscarButton;
-    }
-
-    public JTextField getTextField1() {
-        return textField1;
-    }
-
-    public JTable getTable1() {
-        return table1;
-    }
-
-    public JButton getActualizarButton() {
-        return actualizarButton;
-    }
-
-    public JTextField getTextField2() {
-        return textField2;
-    }
-
-    public JTextField getTextField3() {
-        return textField3;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public JLabel getLblCodigo() {
-        return lblCodigo;
-    }
-
-    public JLabel getLblNombre() {
-        return lblNombre;
-    }
-
-    public JLabel getLblPrecio() {
-        return lblPrecio;
-    }
-
-    public JLabel getLblActualizar() {
-        return lblActualizar;
-    }
-
+    /**
+     * Carga los datos de una lista de productos en la tabla de la vista.
+     *
+     * @param listaProductos La lista de productos a mostrar.
+     */
     public void cargarDatos(List<Producto> listaProductos) {
         Locale locale = mi.getLocale();
         modelo.setNumRows(0);
@@ -120,26 +122,36 @@ public class ProductoActualizarView extends JInternalFrame {
         }
     }
 
+    /**
+     * Muestra un mensaje emergente en la ventana.
+     *
+     * @param mensaje El texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Limpia el campo de búsqueda y la tabla de resultados.
+     */
     public void limpiarCampos() {
         textField1.setText("");
         modelo.setNumRows(0);
     }
+
+    /**
+     * Carga y establece los íconos para los botones de la interfaz.
+     */
     public void iconos() {
         URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
         if (botonBuscar != null) {
-            ImageIcon icono = new ImageIcon(botonBuscar);
-            buscarButton.setIcon(icono);
+            buscarButton.setIcon(new ImageIcon(botonBuscar));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonActualizar = LoginView.class.getClassLoader().getResource("imagenes/Actualizar.svg.png");
         if (botonActualizar != null) {
-            ImageIcon icono = new ImageIcon(botonActualizar);
-            actualizarButton.setIcon(icono);
+            actualizarButton.setIcon(new ImageIcon(botonActualizar));
         } else {
             System.err.println("Icono no encontrado");
         }

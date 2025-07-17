@@ -11,11 +11,19 @@ import ec.edu.ups.vista.UsuarioView.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controlador principal para todas las operaciones relacionadas con el usuario.
+ * Gestiona la lógica de negocio para el inicio de sesión, registro (tanto por el
+ * usuario como por el administrador), recuperación de contraseñas y las operaciones
+ * CRUD de usuarios por parte del administrador.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class UsuarioController {
 
     private Usuario usuario;
@@ -34,13 +42,22 @@ public class UsuarioController {
     private Usuario userRegistrar;
     private CuestionarioDAO cuestionarioDAO;
 
-
+    /**
+     * Constructor para el flujo de interacción del usuario final (login, registro, recuperación).
+     *
+     * @param usuarioDAO DAO para el acceso a datos de usuario.
+     * @param loginView Vista principal de inicio de sesión.
+     * @param mi Manejador de internacionalización para mensajes.
+     * @param cuestionarioDAO DAO para acceder a las preguntas del cuestionario.
+     * @param cuestionarioView Vista para que el usuario establezca sus preguntas de seguridad.
+     * @param cuestionarioRecuperarView Vista para que el usuario recupere su contraseña.
+     */
     public UsuarioController(UsuarioDAO usuarioDAO, LoginView loginView, MensajeInternacionalizacionHandler mi,
                              CuestionarioDAO cuestionarioDAO, CuestionarioView cuestionarioView, CuestionarioRecuperarView cuestionarioRecuperarView) {
         this.usuarioDAO = usuarioDAO;
         this.loginView = loginView;
         this.mi = mi;
-        this.cuestionarioDAO = cuestionarioDAO; // <--- asigna el DAO aquí
+        this.cuestionarioDAO = cuestionarioDAO;
         this.cuestionarioView = cuestionarioView;
         this.cuestionarioRecuperarView = cuestionarioRecuperarView;
         this.usuario = null;
@@ -51,7 +68,17 @@ public class UsuarioController {
         configurarEventosRespuestas();
     }
 
-
+    /**
+     * Constructor para el flujo de administración de usuarios (CRUD) por parte del administrador.
+     *
+     * @param usuarioDAO DAO para el acceso a datos de usuario.
+     * @param usuarioCrearView Vista para crear usuarios como administrador.
+     * @param usuarioListarView Vista para listar y buscar usuarios.
+     * @param usuarioEliminarView Vista para eliminar usuarios.
+     * @param usuarioModificarView Vista para modificar usuarios.
+     * @param mi Manejador de internacionalización para mensajes.
+     * @param registrarView Vista de registro (referencia necesaria).
+     */
     public UsuarioController(UsuarioDAO usuarioDAO, UsuarioCrearView usuarioCrearView,
                              UsuarioListarView usuarioListarView, UsuarioEliminarView usuarioEliminarView,
                              UsuarioModificarView usuarioModificarView, MensajeInternacionalizacionHandler mi, RegistrarView registrarView) {
@@ -65,23 +92,23 @@ public class UsuarioController {
         configurarEventosUsuarios();
     }
 
-    //login
+    /**
+     * Configura los eventos para la ventana de login, registro y cambio de idioma.
+     */
     private void configurarEventosEnVistas() {
         loginView.getBtnIniciarSesion().addActionListener(e -> autenticar());
-        loginView.getBtnRegistrarse().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginView.setVisible(false);
-                registrarView.setVisible(true);
-            }
+        loginView.getBtnRegistrarse().addActionListener(e -> {
+            loginView.setVisible(false);
+            registrarView.setVisible(true);
         });
         loginView.getBtnSalir().addActionListener(e -> salir());
         loginView.getCbxIdiomas().addActionListener(e -> cambiarIdioma());
     }
 
 
-
-    //Usuario
+    /**
+     * Configura los eventos para las vistas de administración de usuarios (CRUD).
+     */
     private void configurarEventosUsuarios() {
         usuarioCrearView.getBtnRegistrar().addActionListener(e -> registrarUsuario());
         usuarioListarView.getBtnBuscar().addActionListener(e -> buscarUsuario());
@@ -91,6 +118,11 @@ public class UsuarioController {
         usuarioModificarView.getBtnBuscar().addActionListener(e -> buscarUsuarioParaModificar());
         usuarioModificarView.getBtnEditar().addActionListener(e -> modificarUsuario());
     }
+
+    /**
+     * Registra un nuevo usuario desde la vista del administrador.
+     * Valida los datos y gestiona las excepciones de negocio.
+     */
     private void registrarUsuario() {
         String nombreCompleto = usuarioCrearView.getTxtNombreCompleto().getText().trim();
         String username = usuarioCrearView.getTxtUsername().getText().trim();
@@ -116,13 +148,12 @@ public class UsuarioController {
         Rol rol = usuarioCrearView.getRolSeleccionado();
 
         try {
-            Usuario nuevoUsuario = new Usuario(); // Constructor vacío para usar setters con validación
-
+            Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setNombreCompleto(nombreCompleto);
-            nuevoUsuario.setUsername(username);           // ← SecondExcepcion
-            nuevoUsuario.setContrasenia(contrasenia);     // ← FirstException
-            nuevoUsuario.setCelular(celular);             // ← CelularException
-            nuevoUsuario.setCorreo(correo);               // ← CorreoException
+            nuevoUsuario.setUsername(username);
+            nuevoUsuario.setContrasenia(contrasenia);
+            nuevoUsuario.setCelular(celular);
+            nuevoUsuario.setCorreo(correo);
             nuevoUsuario.setFechaNacimiento(fechaNacimiento);
             nuevoUsuario.setRol(rol);
 
@@ -130,17 +161,14 @@ public class UsuarioController {
             usuarioCrearView.mostrarMensaje(mi.get("usuario.creado") + ": " + username);
             usuarioCrearView.limpiarCampos();
 
-        } catch (SecondExcepcion e) {
-            usuarioCrearView.mostrarMensaje(e.getMessage());
-        } catch (FirstException e) {
-            usuarioCrearView.mostrarMensaje(e.getMessage());
-        } catch (CelularException e) {
-            usuarioCrearView.mostrarMensaje(e.getMessage());
-        } catch (CorreoException e) {
+        } catch (SecondExcepcion | FirstException | CelularException | CorreoException e) {
             usuarioCrearView.mostrarMensaje(e.getMessage());
         }
     }
 
+    /**
+     * Busca un usuario por su nombre de usuario y lo muestra en la tabla de la vista de listado.
+     */
     private void buscarUsuario() {
         usuarioListarView.getModelo().setRowCount(0);
         String username = usuarioListarView.getTxtUsuario().getText().trim();
@@ -153,6 +181,10 @@ public class UsuarioController {
             usuarioListarView.getModelo().addRow(fila);
         }
     }
+
+    /**
+     * Lista todos los usuarios existentes en la tabla de la vista de listado.
+     */
     private void listarUsuarios() {
         usuarioListarView.getModelo().setRowCount(0);
         for (Usuario usuario : usuarioDAO.listarTodos()) {
@@ -164,6 +196,10 @@ public class UsuarioController {
         }
         usuarioListarView.mostrarMensaje(mi.get("usuario.listado.exito"));
     }
+
+    /**
+     * Busca un usuario por nombre de usuario para cargarlo en la vista de eliminación.
+     */
     private void buscarUsuarioParaEliminar() {
         usuarioEliminarView.getModelo().setRowCount(0);
         String username = usuarioEliminarView.getTxtUsuario().getText().trim();
@@ -179,6 +215,10 @@ public class UsuarioController {
             usuarioEliminarView.getTxtUsuario().setText("");
         }
     }
+
+    /**
+     * Elimina el usuario que ha sido buscado y cargado en la vista de eliminación.
+     */
     private void eliminarUsuario() {
         String username = usuarioEliminarView.getTxtUsuario().getText();
         Usuario usuario = usuarioDAO.buscarPorUsername(username);
@@ -190,6 +230,10 @@ public class UsuarioController {
         usuarioEliminarView.mostrarMensaje(mi.get("usuario.eliminado") + ": " + username);
         usuarioEliminarView.getTxtUsuario().setText("");
     }
+
+    /**
+     * Busca un usuario por nombre de usuario y carga sus datos en los campos de la vista de modificación.
+     */
     private void buscarUsuarioParaModificar() {
         String usernameBusqueda = usuarioModificarView.getTxtName().getText().trim();
         Usuario usuario = usuarioDAO.buscarPorUsername(usernameBusqueda);
@@ -212,6 +256,10 @@ public class UsuarioController {
             usuarioModificarView.getCbxAño().setSelectedItem(Integer.parseInt(fecha[2]));
         }
     }
+
+    /**
+     * Aplica las modificaciones realizadas a un usuario desde la vista del administrador.
+     */
     private void modificarUsuario() {
         String nombreBusqueda = usuarioModificarView.getTxtName().getText().trim();
         Usuario usuario = usuarioDAO.buscarPorUsername(nombreBusqueda);
@@ -240,81 +288,66 @@ public class UsuarioController {
 
         try {
             usuario.setMensajeInternacionalizacionHandler(mi);
-            usuario.setUsername(username);               // ← SecondExcepcion
-            usuario.setContrasenia(contrasenia);         // ← FirstException
+            usuario.setUsername(username);
+            usuario.setContrasenia(contrasenia);
             usuario.setNombreCompleto(nombreCompleto);
-            usuario.setCorreo(correo);                   // ← CorreoException
-            usuario.setCelular(celular);                 // ← CelularException
+            usuario.setCorreo(correo);
+            usuario.setCelular(celular);
             usuario.setFechaNacimiento(fechaNacimiento);
 
             usuarioDAO.actualizar(usuario);
             usuarioModificarView.mostrarMensaje(mi.get("usuario.modificado") + ": " + username);
             usuarioModificarView.limpiarCampos();
 
-        } catch (SecondExcepcion e) {
-            usuarioModificarView.mostrarMensaje(e.getMessage());
-        } catch (FirstException e) {
-            usuarioModificarView.mostrarMensaje(e.getMessage());
-        } catch (CorreoException e) {
-            usuarioModificarView.mostrarMensaje(e.getMessage());
-        } catch (CelularException e) {
+        } catch (SecondExcepcion | FirstException | CorreoException | CelularException e) {
             usuarioModificarView.mostrarMensaje(e.getMessage());
         }
     }
 
-
-
-
-    //Preguntas
+    /**
+     * Configura los eventos para el proceso de registro y configuración de preguntas de seguridad.
+     */
     private void configurarEventosPreguntas() {
-        registrarView.getBtnRegistrar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean exito = crearUsuario();
-                if (exito) {
-                    registrarView.setVisible(false);
-                    cuestionarioView.setVisible(true);
-                }
+        registrarView.getBtnRegistrar().addActionListener(e -> {
+            boolean exito = crearUsuario();
+            if (exito) {
+                registrarView.setVisible(false);
+                cuestionarioView.setVisible(true);
             }
         });
 
-        cuestionarioView.getBtnGuardar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                obtenerRespuesta();
-                cuestionarioView.limpiarCampos();
-
-                if (preguntasRes.size() == 3){
-                    cuestionarioView.getBtnTerminar().setEnabled(true);
-                }
+        cuestionarioView.getBtnGuardar().addActionListener(e -> {
+            obtenerRespuesta();
+            cuestionarioView.limpiarCampos();
+            if (preguntasRes.size() == 3){
+                cuestionarioView.getBtnTerminar().setEnabled(true);
             }
         });
-        cuestionarioView.getBtnTerminar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cuestionarioView.getBtnTerminar().addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (preguntasRes.size() < 3) {
-                            cuestionarioView.mostrarMensaje(mi.get("mensaje.minimo.tres.preguntas")); // Añade esta clave en tus properties
-                            return;
-                        }
 
-                        obtenerPregunta();
-                        cuestionarioView.setVisible(false);
-                        loginView.setVisible(true);
-                    }
-                });
-
+        cuestionarioView.getBtnTerminar().addActionListener(e -> {
+            if (preguntasRes.size() < 3) {
+                cuestionarioView.mostrarMensaje(mi.get("mensaje.minimo.tres.preguntas"));
+                return;
             }
+            obtenerPregunta();
+            cuestionarioView.setVisible(false);
+            loginView.setVisible(true);
         });
     }
+
+    /**
+     * Asocia las preguntas y respuestas de seguridad al usuario que se está registrando.
+     */
     public void obtenerPregunta(){
         if (userRegistrar != null){
             userRegistrar.agregarPreguntas(preguntasRes);
             usuarioDAO.actualizar(userRegistrar);
         }
     }
+
+    /**
+     * Recoge una pregunta y respuesta de la vista del cuestionario y la añade a la lista temporal.
+     */
     public void obtenerRespuesta(){
         Preguntas preguntas = (Preguntas) cuestionarioView.getCbxPreguntas().getSelectedItem();
         Respuesta respuesta = new Respuesta(cuestionarioView.getTxtRespuesta().getText());
@@ -323,120 +356,95 @@ public class UsuarioController {
         cuestionarioView.mostrarMensaje(mi.get("mensaje.respuesta.guardada") + ": " + preguntasRespuestas.getRespuesta());
     }
 
-
+    /**
+     * Configura los eventos para el flujo de recuperación de contraseña.
+     */
     private void configurarEventosRespuestas(){
-        loginView.getBtnOlvidar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginView.setVisible(false);
-                cuestionarioRecuperarView.setVisible(true);
-            }
+        loginView.getBtnOlvidar().addActionListener(e -> {
+            loginView.setVisible(false);
+            cuestionarioRecuperarView.setVisible(true);
         });
-        cuestionarioRecuperarView.getBtnBuscar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = cuestionarioRecuperarView.getTxtUsuario().getText().trim();
 
-                if (username.isEmpty()) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.usuario.vacio"));
-                    return;
-                }
-
-                Usuario usuarioEncontrado = usuarioDAO.buscarPorUsername(username);
-
-                if (usuarioEncontrado == null) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
-                    return;
-                }
-
-                List<PreguntasRespuestas> preguntasUsuario = usuarioEncontrado.getPreguntasRespuestas();
-
-                if (preguntasUsuario == null || preguntasUsuario.isEmpty()) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.preguntas.no.registradas"));
-                    return;
-                }
-
-                // Limpiar el combo por si tenía algo antes
-                JComboBox<Preguntas> cbx = cuestionarioRecuperarView.getCbxPreguntas();
-                cbx.removeAllItems();
-
-                // Llenar el combo con las preguntas del usuario
-                for (PreguntasRespuestas pr : preguntasUsuario) {
-                    cbx.addItem(pr.getPreguntas());
-                }
-
-                // Guardar temporalmente el usuario para la validación posterior
-                usuario = usuarioEncontrado;
-
-                // Habilitar botón de enviar si es necesario
-                cuestionarioRecuperarView.getBtnEnviar().setEnabled(true);
+        cuestionarioRecuperarView.getBtnBuscar().addActionListener(e -> {
+            String username = cuestionarioRecuperarView.getTxtUsuario().getText().trim();
+            if (username.isEmpty()) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.usuario.vacio"));
+                return;
             }
+            Usuario usuarioEncontrado = usuarioDAO.buscarPorUsername(username);
+            if (usuarioEncontrado == null) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
+                return;
+            }
+            List<PreguntasRespuestas> preguntasUsuario = usuarioEncontrado.getPreguntasRespuestas();
+            if (preguntasUsuario == null || preguntasUsuario.isEmpty()) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.preguntas.no.registradas"));
+                return;
+            }
+            JComboBox<Preguntas> cbx = cuestionarioRecuperarView.getCbxPreguntas();
+            cbx.removeAllItems();
+            for (PreguntasRespuestas pr : preguntasUsuario) {
+                cbx.addItem(pr.getPreguntas());
+            }
+            usuario = usuarioEncontrado;
+            cuestionarioRecuperarView.getBtnEnviar().setEnabled(true);
         });
-        cuestionarioRecuperarView.getBtnEnviar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Preguntas preguntaSeleccionada = (Preguntas) cuestionarioRecuperarView.getCbxPreguntas().getSelectedItem();
-                String respuestaIngresada = cuestionarioRecuperarView.getTxtRespuesta1().getText().trim();
 
-                if (preguntaSeleccionada == null || respuestaIngresada.isEmpty()) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
-                    return;
+        cuestionarioRecuperarView.getBtnEnviar().addActionListener(e -> {
+            Preguntas preguntaSeleccionada = (Preguntas) cuestionarioRecuperarView.getCbxPreguntas().getSelectedItem();
+            String respuestaIngresada = cuestionarioRecuperarView.getTxtRespuesta1().getText().trim();
+
+            if (preguntaSeleccionada == null || respuestaIngresada.isEmpty()) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.campos.obligatorios"));
+                return;
+            }
+            if (usuario == null) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
+                return;
+            }
+
+            boolean esCorrecta = false;
+            for (PreguntasRespuestas pr : usuario.getPreguntasRespuestas()) {
+                if (pr.getPreguntas().getEnunciado().equals(preguntaSeleccionada.getEnunciado()) &&
+                        pr.getRespuesta().getTexto().equalsIgnoreCase(respuestaIngresada)) {
+                    esCorrecta = true;
+                    break;
                 }
+            }
 
-                if (usuario == null) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("usuario.no.encontrado"));
-                    return;
-                }
+            if (!esCorrecta) {
+                cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.respuesta.incorrecta"));
+                return;
+            }
 
-                boolean esCorrecta = false;
-                for (PreguntasRespuestas pr : usuario.getPreguntasRespuestas()) {
-                    if (pr.getPreguntas().getEnunciado().equals(preguntaSeleccionada.getEnunciado()) &&
-                            pr.getRespuesta().getTexto().equalsIgnoreCase(respuestaIngresada)) {
-                        esCorrecta = true;
-                        break;
-                    }
-                }
+            JPasswordField campoContraseña = new JPasswordField();
+            int opcion = JOptionPane.showConfirmDialog(
+                    cuestionarioRecuperarView,
+                    campoContraseña,
+                    mi.get("mensaje.contrasena.ingresar"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
 
-                if (!esCorrecta) {
-                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.respuesta.incorrecta"));
-                    return;
-                }
-
-                // Crear campo de contraseña
-                JPasswordField campoContraseña = new JPasswordField();
-                int opcion = JOptionPane.showConfirmDialog(
-                        cuestionarioRecuperarView,
-                        campoContraseña,
-                        mi.get("mensaje.contrasena.ingresar"),
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE
-                );
-
-                if (opcion == JOptionPane.OK_OPTION) {
-                    String nuevaContrasenia = new String(campoContraseña.getPassword()).trim();
-
-                    try {
-                        usuario.setMensajeInternacionalizacionHandler(mi);
-                        usuario.setContrasenia(nuevaContrasenia); // ← Valida con reglas de seguridad
-                        usuarioDAO.actualizar(usuario);
-                        cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.contrasena.actualizada"));
-                        cuestionarioRecuperarView.setVisible(false);
-                        loginView.setVisible(true);
-
-                    } catch (FirstException ex) {
-                        //Si la contraseña no cumple, se muestra el mensaje y no se actualiza
-                        cuestionarioRecuperarView.mostrarMensaje(ex.getMessage());
-                    }
+            if (opcion == JOptionPane.OK_OPTION) {
+                String nuevaContrasenia = new String(campoContraseña.getPassword()).trim();
+                try {
+                    usuario.setMensajeInternacionalizacionHandler(mi);
+                    usuario.setContrasenia(nuevaContrasenia);
+                    usuarioDAO.actualizar(usuario);
+                    cuestionarioRecuperarView.mostrarMensaje(mi.get("mensaje.contrasena.actualizada"));
+                    cuestionarioRecuperarView.setVisible(false);
+                    loginView.setVisible(true);
+                } catch (FirstException ex) {
+                    cuestionarioRecuperarView.mostrarMensaje(ex.getMessage());
                 }
             }
         });
-
-
-
-
     }
 
-
+    /**
+     * Cambia el idioma de la aplicación y actualiza los textos en todas las vistas relevantes.
+     */
     private void cambiarIdioma() {
         String seleccion = (String) loginView.getCbxIdiomas().getSelectedItem();
         if (seleccion != null) {
@@ -446,13 +454,11 @@ public class UsuarioController {
                 case "Français": mi.setLenguaje("fr", "FR"); break;
             }
 
-            // Actualizar textos de TODAS las vistas
             loginView.actualizarTextos(mi);
             registrarView.cambiarIdioma(mi);
             cuestionarioView.actualizarTextos(mi);
             cuestionarioRecuperarView.actualizarTextos(mi);
 
-            // Actualizar preguntas en DAO y recargar en la vista
             if (cuestionarioDAO instanceof CuestionarioDAOMemoria) {
                 ((CuestionarioDAOMemoria) cuestionarioDAO).actualizarIdioma(mi);
             }
@@ -460,13 +466,17 @@ public class UsuarioController {
         }
     }
 
-
-
+    /**
+     * Cierra la aplicación.
+     */
     private void salir() {
         loginView.dispose();
         System.exit(0);
     }
 
+    /**
+     * Autentica a un usuario.
+     */
     private void autenticar() {
         String username = loginView.getTxtUsername().getText().trim();
         String contrasenia = loginView.getTxtContraseña().getText().trim();
@@ -479,6 +489,10 @@ public class UsuarioController {
         }
     }
 
+    /**
+     * Crea un nuevo usuario desde la vista de registro público.
+     * @return {@code true} si el usuario fue creado exitosamente, {@code false} en caso contrario.
+     */
     private boolean crearUsuario() {
         String nombreCompleto = registrarView.getTxtNombreCompleto().getText().trim();
         String username = registrarView.getTxtUsuario().getText().trim();
@@ -523,10 +537,11 @@ public class UsuarioController {
         }
     }
 
-
-
+    /**
+     * Obtiene el usuario que ha sido autenticado exitosamente.
+     * @return El usuario autenticado, o {@code null} si no hay sesión activa.
+     */
     public Usuario getUsuarioAutenticado() {
         return usuario;
     }
-
 }
