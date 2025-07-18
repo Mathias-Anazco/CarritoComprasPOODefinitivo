@@ -29,8 +29,10 @@ import ec.edu.ups.vista.UsuarioView.UsuarioEliminarView;
 import ec.edu.ups.vista.UsuarioView.UsuarioListarView;
 import ec.edu.ups.vista.UsuarioView.UsuarioModificarView;
 
+import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Locale;
 
 /**
  * Clase principal que sirve como punto de entrada para la aplicación del sistema de compras.
@@ -54,18 +56,34 @@ public class Main {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             MensajeInternacionalizacionHandler mi = new MensajeInternacionalizacionHandler("es", "EC");
-            LoginView loginView = new LoginView(mi);
-            loginView.setVisible(true);
+
+            // Selección del modo de almacenamiento
+            String[] opciones = {mi.get("login.memoria"), mi.get("login.archivo")};
+            String modoSeleccionado = (String) JOptionPane.showInputDialog(
+                    null,
+                    mi.get("login.seleccionar_modo"),
+                    "Modo de almacenamiento",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
+
+            if (modoSeleccionado == null) {
+                System.exit(0);
+            }
 
             InicializarAplicacion inicializador = new InicializarAplicacion();
-            inicializador.inicializarDAOs(loginView, mi);
+            inicializador.inicializarDAOs(mi, modoSeleccionado);
 
             UsuarioDAO usuarioDAO = inicializador.getUsuarioDAO();
             ProductoDAO productoDAO = inicializador.getProductoDAO();
             CarritoDAO carritoDAO = inicializador.getCarritoDAO();
             CuestionarioDAO cuestionarioDAO = inicializador.getCuestionarioDAO();
 
+            LoginView loginView = new LoginView(mi);
             loginView.setVisible(true);
+
             CuestionarioView cuestionarioView = new CuestionarioView(mi, cuestionarioDAO);
             CuestionarioRecuperarView cuestionarioRecuperarView = new CuestionarioRecuperarView(mi);
 
@@ -74,6 +92,7 @@ public class Main {
             loginView.addWindowListener(new WindowAdapter( ) {
                 @Override
                 public void windowClosed(WindowEvent e) {
+
                     Usuario usuarioAuntenticado = usuarioController.getUsuarioAutenticado();
                     if (usuarioAuntenticado != null) {
                         MenuPrincipalView principalView = new MenuPrincipalView(mi);

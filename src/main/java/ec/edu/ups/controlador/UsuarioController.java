@@ -149,6 +149,7 @@ public class UsuarioController {
 
         try {
             Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setMensajeInternacionalizacionHandler(mi);
             nuevoUsuario.setNombreCompleto(nombreCompleto);
             nuevoUsuario.setUsername(username);
             nuevoUsuario.setContrasenia(contrasenia);

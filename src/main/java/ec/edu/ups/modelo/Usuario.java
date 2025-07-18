@@ -27,6 +27,7 @@ public class Usuario {
     private List<PreguntasRespuestas> preguntasRespuestas;
     private MensajeInternacionalizacionHandler mi;
 
+
     /**
      * Constructor por defecto. Inicializa la lista de preguntas y respuestas.
      */
@@ -71,6 +72,7 @@ public class Usuario {
         this.correo = correo;
         this.mi = mi;
         this.preguntasRespuestas = new ArrayList<>();
+
     }
 
     /**
@@ -79,16 +81,27 @@ public class Usuario {
      * @return Una cadena de texto con los atributos del usuario separados por punto y coma.
      */
     public String toArchivoTexto() {
-        return String.join(";",
-                username,
-                contrasenia,
-                rol.name(),
-                nombreCompleto,
-                fechaNacimiento,
-                celular,
-                correo
-        );
+        StringBuilder sb = new StringBuilder();
+        sb.append(username).append("|")
+                .append(contrasenia).append("|")
+                .append(nombreCompleto).append("|")
+                .append(correo).append("|")
+                .append(celular).append("|")
+                .append(fechaNacimiento).append("|")
+                .append(rol.name()).append("|");
+
+        for (int i = 0; i < preguntasRespuestas.size(); i++) {
+            PreguntasRespuestas pr = preguntasRespuestas.get(i);
+            sb.append(pr.getPreguntas().getId()).append(":").append(pr.getRespuesta().getTexto());
+            if (i < preguntasRespuestas.size() - 1) {
+                sb.append(",");
+            }
+        }
+
+        return sb.toString();
     }
+
+
 
     /**
      * Método de fábrica estático que deserializa un Usuario desde una cadena de texto.
@@ -97,20 +110,34 @@ public class Usuario {
      * @return una nueva instancia de {@code Usuario}, o {@code null} si ocurre un error.
      */
     public static Usuario fromArchivoTexto(String linea) {
-        String[] partes = linea.split(";");
-        if (partes.length != 7) return null;
+        String[] partes = linea.split("\\|");
+        if (partes.length < 7) return null;
 
         Usuario u = new Usuario();
         u.username = partes[0];
         u.contrasenia = partes[1];
-        u.rol = Rol.valueOf(partes[2]);
-        u.nombreCompleto = partes[3];
-        u.fechaNacimiento = partes[4];
-        u.celular = partes[5];
-        u.correo = partes[6];
+        u.nombreCompleto = partes[2];
+        u.correo = partes[3];
+        u.celular = partes[4];
+        u.fechaNacimiento = partes[5];
+        u.rol = Rol.valueOf(partes[6]);
+
         u.preguntasRespuestas = new ArrayList<>();
+        if (partes.length == 8) {
+            String[] preguntas = partes[7].split(",");
+            for (String par : preguntas) {
+                String[] codResp = par.split(":");
+                if (codResp.length == 2) {
+                    Preguntas pregunta = new Preguntas(codResp[0], ""); // solo código
+                    Respuesta respuesta = new Respuesta(codResp[0]); // código y texto de respuesta
+                    u.preguntasRespuestas.add(new PreguntasRespuestas(pregunta, respuesta));
+                }
+            }
+        }
+
         return u;
     }
+
 
     /**
      * Obtiene el nombre de usuario.
