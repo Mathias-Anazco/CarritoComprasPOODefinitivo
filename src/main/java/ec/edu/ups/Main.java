@@ -54,10 +54,12 @@ public class Main {
      * @param args Argumentos de línea de comandos (no utilizados).
      */
     public static void main(String[] args) {
+        // Asegura que la GUI se ejecute en el hilo de despacho de eventos de Swing.
         java.awt.EventQueue.invokeLater(() -> {
+            // Inicializa el manejador de internacionalización con el idioma español por defecto.
             MensajeInternacionalizacionHandler mi = new MensajeInternacionalizacionHandler("es", "EC");
 
-            // Selección del modo de almacenamiento
+            // Permite al usuario seleccionar el modo de almacenamiento (Memoria o Archivo).
             String[] opciones = {mi.get("login.memoria"), mi.get("login.archivo")};
             String modoSeleccionado = (String) JOptionPane.showInputDialog(
                     null,
@@ -69,32 +71,40 @@ public class Main {
                     opciones[0]
             );
 
+            // Si el usuario cancela la selección del modo, la aplicación se cierra.
             if (modoSeleccionado == null) {
                 System.exit(0);
             }
 
+            // Inicializa los DAOs (Data Access Objects) según el modo seleccionado.
             InicializarAplicacion inicializador = new InicializarAplicacion();
             inicializador.inicializarDAOs(mi, modoSeleccionado);
 
+            // Obtiene las instancias de los DAOs inicializados.
             UsuarioDAO usuarioDAO = inicializador.getUsuarioDAO();
             ProductoDAO productoDAO = inicializador.getProductoDAO();
             CarritoDAO carritoDAO = inicializador.getCarritoDAO();
             CuestionarioDAO cuestionarioDAO = inicializador.getCuestionarioDAO();
 
+            // Configura e muestra la ventana de inicio de sesión.
             LoginView loginView = new LoginView(mi);
             loginView.setVisible(true);
 
+            // Inicializa las vistas relacionadas con el cuestionario de seguridad.
             CuestionarioView cuestionarioView = new CuestionarioView(mi, cuestionarioDAO);
             CuestionarioRecuperarView cuestionarioRecuperarView = new CuestionarioRecuperarView(mi);
 
+            // Crea el controlador de usuario principal para la autenticación y registro.
             UsuarioController usuarioController = new UsuarioController(usuarioDAO, loginView, mi, cuestionarioDAO, cuestionarioView, cuestionarioRecuperarView);
 
+            // Agrega un listener para manejar el cierre de la ventana de login.
             loginView.addWindowListener(new WindowAdapter( ) {
                 @Override
                 public void windowClosed(WindowEvent e) {
-
+                    // Si un usuario ha sido autenticado, se procede a iniciar la aplicación principal.
                     Usuario usuarioAuntenticado = usuarioController.getUsuarioAutenticado();
                     if (usuarioAuntenticado != null) {
+                        // Inicializa la ventana principal y todas las vistas internas.
                         MenuPrincipalView principalView = new MenuPrincipalView(mi);
                         ProductoAnadirView productoAnadirView = new ProductoAnadirView(mi);
                         ProductoListaView productoListaView = new ProductoListaView(mi);
@@ -110,15 +120,18 @@ public class Main {
                         UsuarioModificarView usuarioModificarView = new UsuarioModificarView(mi);
                         RegistrarView registrarView = new RegistrarView(mi);
 
+                        // Crea los controladores para gestionar las operaciones de productos, carritos y usuarios.
                         ProductoController productoController = new ProductoController(productoDAO, productoAnadirView, productoListaView, carritoAnadirView, productoEliminarView, productoActualizarView, mi );
                         CarritoController carritoController = new CarritoController(carritoDAO, carritoAnadirView, productoDAO, carritoListarView, usuarioAuntenticado, carritoModificarView, carritoEliminarView, mi);
                         UsuarioController adminUsuarioController = new UsuarioController(usuarioDAO, usuarioCrearView, usuarioListarView, usuarioEliminarView, usuarioModificarView, mi, registrarView);
 
+                        // Muestra un mensaje de bienvenida y ajusta la visibilidad de los menús según el rol del usuario.
                         principalView.mostrarMensaje("Bienvenido: " + usuarioAuntenticado.getUsername());
                         if (usuarioAuntenticado.getRol().equals(Rol.USUARIO)) {
                             principalView.deshabilitarMenusAdministrador();
                         }
 
+                        // Configura los ActionListeners para los elementos del menú de la ventana principal.
                         principalView.getMenuItemCrearProducto().addActionListener(e1 -> {
                             if (!productoAnadirView.isVisible()) {
                                 productoAnadirView.setVisible(true);
@@ -163,9 +176,9 @@ public class Main {
 
                         principalView.getMenuItemCerrarSesion().addActionListener(e1 -> {
                             if (principalView.mostrarMensajePregunta(mi.get("login.main_cerrarSesion"))) {
-                                principalView.dispose();
-                                loginView.setVisible(true);
-                                loginView.limpiarCampos();
+                                principalView.dispose(); // Cierra la ventana principal
+                                loginView.setVisible(true); // Vuelve a mostrar la ventana de login
+                                loginView.limpiarCampos(); // Limpia los campos de login
                             }
                         });
 
@@ -206,7 +219,7 @@ public class Main {
 
                         principalView.getMenuItemSalir().addActionListener(e1 -> {
                             if(principalView.mostrarMensajePregunta(mi.get("login.main_salir"))) {
-                                System.exit(0);
+                                System.exit(0); // Cierra la aplicación completamente
                             }
                         });
 
@@ -217,6 +230,7 @@ public class Main {
                             }
                         });
 
+                        // Listeners para cambiar el idioma de la aplicación.
                         principalView.getMenuItemEspanol().addActionListener(e1 -> {
                             mi.setLenguaje( "es", "EC");
                             principalView.cambiarIdioma();

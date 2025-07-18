@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * Implementación de UsuarioDAO que utiliza archivo de texto plano para persistencia.
  * Cada línea del archivo representa un usuario serializado mediante toArchivoTexto().
+ * Soporta operaciones CRUD y asegura que siempre exista un administrador por defecto.
  *
- * Autor: Mathias Añazco
- * Fecha: 18/07/2025
+ * @author Mathias Añazco
+ * @since 18/07/2025
  */
 public class UsuarioDAOArchivo implements UsuarioDAO {
 
@@ -21,7 +22,8 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
 
     /**
      * Constructor que recibe un archivo de texto donde se almacenan los usuarios.
-     * Si el archivo no existe, se crea automáticamente.
+     * Si el archivo no existe, se crea automáticamente. Además, verifica que exista
+     * al menos un usuario administrador, y si no existe, crea uno por defecto.
      *
      * @param archivo Archivo de texto para almacenamiento de usuarios.
      */
@@ -37,7 +39,6 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
                 archivo.createNewFile();
             }
 
-            // Verifica si ya existe un usuario admin
             boolean existeAdmin = false;
             for (Usuario u : listarTodos()) {
                 if (u.getRol() == Rol.ADMINISTRADOR) {
@@ -56,6 +57,9 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         }
     }
 
+    /**
+     * Crea un usuario administrador por defecto y lo guarda en el archivo.
+     */
     private void crearUsuarioAdminPorDefecto() {
         Usuario admin = new Usuario("0107533689", "Admin123@", Rol.ADMINISTRADOR);
         admin.setNombreCompleto("Administrador General");
@@ -64,11 +68,17 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         admin.setFechaNacimiento("1/Enero/1990");
 
         System.out.println("→ Escribiendo admin por defecto...");
-        crear(admin); // escribe en archivo
+        crear(admin);
         System.out.println("→ Admin por defecto escrito exitosamente.");
     }
 
-
+    /**
+     * Autentica un usuario comparando su username y contraseña.
+     *
+     * @param username     Nombre de usuario.
+     * @param contrasenia  Contraseña.
+     * @return Usuario autenticado o null si no coincide.
+     */
     @Override
     public Usuario autenticar(String username, String contrasenia) {
         for (Usuario u : listarTodos()) {
@@ -79,16 +89,27 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Guarda un nuevo usuario en el archivo.
+     *
+     * @param usuario Usuario a crear.
+     */
     @Override
     public void crear(Usuario usuario) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(archivo, true))) {
             pw.println(usuario.toArchivoTexto());
-            pw.flush(); // Asegura que se escriba inmediatamente
+            pw.flush();
         } catch (IOException e) {
             System.err.println("Error al escribir usuario: " + e.getMessage());
         }
     }
 
+    /**
+     * Busca un usuario por su nombre de usuario.
+     *
+     * @param username Nombre de usuario a buscar.
+     * @return Usuario encontrado o null si no existe.
+     */
     @Override
     public Usuario buscarPorUsername(String username) {
         for (Usuario u : listarTodos()) {
@@ -99,6 +120,11 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Elimina un usuario por su nombre de usuario.
+     *
+     * @param username Nombre de usuario a eliminar.
+     */
     @Override
     public void eliminar(String username) {
         List<Usuario> usuarios = listarTodos();
@@ -106,6 +132,11 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         guardarTodos(usuarios);
     }
 
+    /**
+     * Actualiza los datos de un usuario.
+     *
+     * @param usuario Usuario con datos actualizados.
+     */
     @Override
     public void actualizar(Usuario usuario) {
         List<Usuario> usuarios = listarTodos();
@@ -118,6 +149,11 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         guardarTodos(usuarios);
     }
 
+    /**
+     * Devuelve una lista con todos los usuarios almacenados en el archivo.
+     *
+     * @return Lista de usuarios.
+     */
     @Override
     public List<Usuario> listarTodos() {
         List<Usuario> lista = new ArrayList<>();
@@ -135,6 +171,11 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         return lista;
     }
 
+    /**
+     * Guarda toda la lista de usuarios en el archivo (sobrescribe el archivo).
+     *
+     * @param lista Lista de usuarios a guardar.
+     */
     private void guardarTodos(List<Usuario> lista) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) {
             for (Usuario u : lista) {
@@ -145,6 +186,12 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         }
     }
 
+    /**
+     * Busca usuarios cuyo nombre de usuario contenga el texto proporcionado.
+     *
+     * @param username Substring del username a buscar.
+     * @return Lista de usuarios que contienen ese username.
+     */
     @Override
     public List<Usuario> listarPorUsername(String username) {
         List<Usuario> resultado = new ArrayList<>();

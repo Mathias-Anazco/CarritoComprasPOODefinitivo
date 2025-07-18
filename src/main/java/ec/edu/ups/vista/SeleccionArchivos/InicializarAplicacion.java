@@ -24,6 +24,14 @@ public class InicializarAplicacion {
     private CarritoDAO carritoDAO;
     private CuestionarioDAO cuestionarioDAO;
 
+    /**
+     * Inicializa los DAOs de la aplicación según el modo de almacenamiento especificado.
+     * Si el modo es "memoria", los datos se gestionan en RAM. Si es "archivo",
+     * se solicita al usuario una carpeta para almacenar archivos binarios y de texto.
+     *
+     * @param mi El manejador de internacionalización para mensajes al usuario.
+     * @param modoSeleccionado La cadena que indica el modo de almacenamiento ("memoria" o "archivo").
+     */
     public void inicializarDAOs(MensajeInternacionalizacionHandler mi, String modoSeleccionado) {
         modoSeleccionado = modoSeleccionado.toLowerCase().trim();
         System.out.println("Modo seleccionado: " + modoSeleccionado); // DEBUG
@@ -48,7 +56,7 @@ public class InicializarAplicacion {
 
             File carpeta = chooser.getSelectedFile();
             if (!carpeta.exists()) {
-                carpeta.mkdirs();
+                carpeta.mkdirs(); // Crea la carpeta si no existe
             }
 
             File archivoUsuarios = new File(carpeta, "usuarios.txt");
@@ -92,10 +100,17 @@ public class InicializarAplicacion {
 
         } else {
             JOptionPane.showMessageDialog(null, "Modo de almacenamiento no reconocido: " + modoSeleccionado);
-            System.exit(0);
+            System.exit(0); // Sale de la aplicación si el modo no es válido
         }
     }
 
+    /**
+     * Carga un conjunto predefinido de preguntas de seguridad en el DAO de cuestionario.
+     * Este método se llama para inicializar las preguntas si el almacenamiento está vacío.
+     *
+     * @param mi  El manejador de internacionalización para obtener los textos de las preguntas.
+     * @param dao El DAO del cuestionario donde se crearán las preguntas.
+     */
     private void cargarPreguntasIniciales(MensajeInternacionalizacionHandler mi, CuestionarioDAO dao) {
         dao.crear(new Preguntas("1", mi.get("pregunta.color_favorito")));
         dao.crear(new Preguntas("2", mi.get("pregunta.instrumento_musical_favorito")));
@@ -106,18 +121,34 @@ public class InicializarAplicacion {
         dao.crear(new Preguntas("7", mi.get("pregunta.tu_libro_favorito")));
     }
 
+    /**
+     * Obtiene la instancia del DAO de usuario inicializado.
+     * @return El {@link UsuarioDAO} configurado.
+     */
     public UsuarioDAO getUsuarioDAO() {
         return usuarioDAO;
     }
 
+    /**
+     * Obtiene la instancia del DAO de producto inicializado.
+     * @return El {@link ProductoDAO} configurado.
+     */
     public ProductoDAO getProductoDAO() {
         return productoDAO;
     }
 
+    /**
+     * Obtiene la instancia del DAO de carrito inicializado.
+     * @return El {@link CarritoDAO} configurado.
+     */
     public CarritoDAO getCarritoDAO() {
         return carritoDAO;
     }
 
+    /**
+     * Obtiene la instancia del DAO de cuestionario inicializado.
+     * @return El {@link CuestionarioDAO} configurado.
+     */
     public CuestionarioDAO getCuestionarioDAO() {
         return cuestionarioDAO;
     }
