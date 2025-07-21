@@ -7,6 +7,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.net.URL;
 
+/**
+ * Representa la interfaz gráfica (GUI) para que un administrador liste y busque usuarios.
+ * Como JInternalFrame, está diseñada para ser mostrada dentro de una ventana principal.
+ * Permite listar todos los usuarios del sistema o buscar un usuario específico por su cédula.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class UsuarioListarView extends JInternalFrame {
 
     private JPanel panelPrincipal;
@@ -19,6 +28,11 @@ public class UsuarioListarView extends JInternalFrame {
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
+    /**
+     * Constructor para la vista de listado de usuarios.
+     *
+     * @param mi El manejador de internacionalización para los textos de la UI.
+     */
     public UsuarioListarView( MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelPrincipal);
@@ -29,7 +43,7 @@ public class UsuarioListarView extends JInternalFrame {
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Nombre", "Usuario", "Contraseña", "Correo", "Celular", "Fcha de Nacimiento", "Rol"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -39,6 +53,10 @@ public class UsuarioListarView extends JInternalFrame {
         cambiarIdioma();
         iconos();
     }
+
+    /**
+     * Actualiza todos los textos visibles en la ventana al idioma actual.
+     */
     public void cambiarIdioma() {
         setTitle(mi.get("usuario.listar.titulo"));
         lblListar.setText(mi.get("usuario.listar.tituloTabla"));
@@ -57,87 +75,48 @@ public class UsuarioListarView extends JInternalFrame {
         });
     }
 
+    /**
+     * Métodos de acceso a los componentes de la interfaz de usuario.
+     */
+    public JPanel getPanelPrincipal() { return panelPrincipal; }
+    public void setPanelPrincipal(JPanel panelPrincipal) { this.panelPrincipal = panelPrincipal; }
+    public JTextField getTxtUsuario() { return TxtUsuario; }
+    public void setTxtUsuario(JTextField txtUsuario) { TxtUsuario = txtUsuario; }
+    public JButton getBtnBuscar() { return BtnBuscar; }
+    public void setBtnBuscar(JButton btnBuscar) { this.BtnBuscar = btnBuscar; }
+    public JButton getBtnListar() { return BtnListar; }
+    public void setBtnListar(JButton btnListar) { this.BtnListar = btnListar; }
+    public JTable getTblUsuario() { return tblUsuario; }
+    public void setTblUsuario(JTable tblUsuario) { this.tblUsuario = tblUsuario; }
+    public DefaultTableModel getModelo() { return modelo; }
+    public void setModelo(DefaultTableModel modelo) { this.modelo = modelo; }
+    public JLabel getLblListar() { return lblListar; }
+    public void setLblListar(JLabel lblListar) { this.lblListar = lblListar; }
+    public JLabel getLblUser() { return lblUser; }
+    public void setLblUser(JLabel lblUser) { this.lblUser = lblUser; }
 
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
-    }
-
-    public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal = panelPrincipal;
-    }
-
-    public JTextField getTxtUsuario() {
-        return TxtUsuario;
-    }
-
-    public void setTxtUsuario(JTextField txtUsuario) {
-        TxtUsuario = txtUsuario;
-    }
-
-    public JButton getBtnBuscar() {
-        return BtnBuscar;
-    }
-
-    public void setBtnBuscar(JButton btnBuscar) {
-        BtnBuscar = btnBuscar;
-    }
-
-    public JButton getBtnListar() {
-        return BtnListar;
-    }
-
-    public void setBtnListar(JButton btnListar) {
-        BtnListar = btnListar;
-    }
-
-    public JTable getTblUsuario() {
-        return tblUsuario;
-    }
-
-    public void setTblUsuario(JTable tblUsuario) {
-        this.tblUsuario = tblUsuario;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-    public JLabel getLblListar() {
-        return lblListar;
-    }
-
-    public void setLblListar(JLabel lblListar) {
-        this.lblListar = lblListar;
-    }
-
-    public JLabel getLblUser() {
-        return lblUser;
-    }
-
-    public void setLblUser(JLabel lblUser) {
-        this.lblUser = lblUser;
-    }
-
+    /**
+     * Muestra un mensaje emergente en la ventana.
+     *
+     * @param mensaje El texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Carga y establece los íconos para los botones de la interfaz.
+     */
     public void iconos(){
         URL botonBuscar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
         if (botonBuscar != null) {
-            ImageIcon icono = new ImageIcon(botonBuscar);
-            BtnBuscar.setIcon(icono);
+            BtnBuscar.setIcon(new ImageIcon(botonBuscar));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonListar = LoginView.class.getClassLoader().getResource("imagenes/ListarTodo.svg.png");
         if (botonListar != null) {
-            ImageIcon icono = new ImageIcon(botonListar);
-            BtnListar.setIcon(icono);
+            BtnListar.setIcon(new ImageIcon(botonListar));
         } else {
             System.err.println("Icono no encontrado");
         }

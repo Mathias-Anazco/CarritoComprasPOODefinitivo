@@ -8,6 +8,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.net.URL;
 
+/**
+ * Representa la interfaz gráfica de usuario (GUI) para crear un carrito de compras.
+ * Como JInternalFrame, está diseñada para ser mostrada dentro de una ventana principal.
+ * Permite buscar productos, añadirlos a una tabla, ver los totales y guardar el carrito.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class CarritoAnadirView extends JInternalFrame {
     private JButton btnBuscar;
     private JTextField txtCodigo;
@@ -20,7 +29,7 @@ public class CarritoAnadirView extends JInternalFrame {
     private JTextField txtTotal;
     private JButton btnGuardar;
     private JButton btnLimpiar;
-    private JComboBox cbxCantidad;
+    private JComboBox<String> cbxCantidad;
     private JPanel panelPrincipal;
     private JLabel lblCodigo;
     private JLabel lblNombre;
@@ -34,6 +43,11 @@ public class CarritoAnadirView extends JInternalFrame {
     private Carrito carrito;
     private MensajeInternacionalizacionHandler mi;
 
+    /**
+     * Constructor para la vista de añadir al carrito.
+     *
+     * @param mi El manejador de internacionalización para los textos de la UI.
+     */
     public CarritoAnadirView(MensajeInternacionalizacionHandler mi) {
         super("Carrito de Compras", false, true, false, true);
         this.mi = mi;
@@ -49,6 +63,9 @@ public class CarritoAnadirView extends JInternalFrame {
         iconos();
     }
 
+    /**
+     * Carga los datos iniciales en los componentes, como las opciones del JComboBox de cantidad.
+     */
     private void cargarDatos() {
         cbxCantidad.removeAllItems();
         for (int i = 0; i < 20; i++) {
@@ -56,142 +73,56 @@ public class CarritoAnadirView extends JInternalFrame {
         }
     }
 
-    public JButton getBtnBuscar() {
-        return btnBuscar;
-    }
+    /**
+     * Métodos de acceso a los componentes de la interfaz de usuario y al modelo de datos.
+     */
+    public JButton getBtnBuscar() { return btnBuscar; }
+    public JTextField getTxtCodigo() { return txtCodigo; }
+    public JTextField getTxtNombre() { return txtNombre; }
+    public JTextField getTxtPrecio() { return txtPrecio; }
+    public JButton getBtnAnadir() { return btnAnadir; }
+    public JTable getTblProductos() { return tblProductos; }
+    public JTextField getTxtSubtotal() { return txtSubtotal; }
+    public JTextField getTxtIva() { return txtIva; }
+    public JTextField getTxtTotal() { return txtTotal; }
+    public JButton getBtnGuardar() { return btnGuardar; }
+    public JButton getBtnLimpiar() { return btnLimpiar; }
+    public JComboBox<String> getCbxCantidad() { return cbxCantidad; }
+    public JPanel getPanelPrincipal() { return panelPrincipal; }
+    public Carrito getCarrito() { return carrito; }
+    public void setCarrito(Carrito carrito) { this.carrito = carrito; }
+    public JLabel getLblCodigo() { return lblCodigo; }
+    public void setLblCodigo(JLabel lblCodigo) { this.lblCodigo = lblCodigo; }
+    public JLabel getLblNombre() { return lblNombre; }
+    public void setLblNombre(JLabel lblNombre) { this.lblNombre = lblNombre; }
+    public JLabel getLblPrecio() { return lblPrecio; }
+    public void setLblPrecio(JLabel lblPrecio) { this.lblPrecio = lblPrecio; }
+    public JLabel getLblCantidad() { return lblCantidad; }
+    public void setLblCantidad(JLabel lblCantidad) { this.lblCantidad = lblCantidad; }
+    public JLabel getLblSubtotal() { return lblSubtotal; }
+    public void setLblSubtotal(JLabel lblSubtotal) { this.lblSubtotal = lblSubtotal; }
+    public JLabel getLblIVA() { return lblIVA; }
+    public void setLblIVA(JLabel lblIVA) { this.lblIVA = lblIVA; }
+    public JLabel getLblTotal() { return lblTotal; }
+    public void setLblTotal(JLabel lblTotal) { this.lblTotal = lblTotal; }
+    public DefaultTableModel getModelo() { return modelo; }
+    public void setModelo(DefaultTableModel modelo) { this.modelo = modelo; }
+    public JLabel getLblCarritoAñadir() { return lblCarritoAñadir; }
+    public void setLblCarritoAñadir(JLabel lblCarritoAñadir) { this.lblCarritoAñadir = lblCarritoAñadir; }
 
-    public JTextField getTxtCodigo() {
-        return txtCodigo;
-    }
 
-    public JTextField getTxtNombre() {
-        return txtNombre;
-    }
-
-    public JTextField getTxtPrecio() {
-        return txtPrecio;
-    }
-
-    public JButton getBtnAnadir() {
-        return btnAnadir;
-    }
-
-    public JTable getTblProductos() {
-        return tblProductos;
-    }
-
-    public JTextField getTxtSubtotal() {
-        return txtSubtotal;
-    }
-
-    public JTextField getTxtIva() {
-        return txtIva;
-    }
-
-    public JTextField getTxtTotal() {
-        return txtTotal;
-    }
-
-    public JButton getBtnGuardar() {
-        return btnGuardar;
-    }
-
-    public JButton getBtnLimpiar() {
-        return btnLimpiar;
-    }
-
-    public JComboBox getCbxCantidad() {
-        return cbxCantidad;
-    }
-
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
-    }
-
-    public Carrito getCarrito() {
-        return carrito;
-    }
-
-    public void setCarrito(Carrito carrito) {
-        this.carrito = carrito;
-    }
-
-    public JLabel getLblCodigo() {
-        return lblCodigo;
-    }
-
-    public void setLblCodigo(JLabel lblCodigo) {
-        this.lblCodigo = lblCodigo;
-    }
-
-    public JLabel getLblNombre() {
-        return lblNombre;
-    }
-
-    public void setLblNombre(JLabel lblNombre) {
-        this.lblNombre = lblNombre;
-    }
-
-    public JLabel getLblPrecio() {
-        return lblPrecio;
-    }
-
-    public void setLblPrecio(JLabel lblPrecio) {
-        this.lblPrecio = lblPrecio;
-    }
-
-    public JLabel getLblCantidad() {
-        return lblCantidad;
-    }
-
-    public void setLblCantidad(JLabel lblCantidad) {
-        this.lblCantidad = lblCantidad;
-    }
-
-    public JLabel getLblSubtotal() {
-        return lblSubtotal;
-    }
-
-    public void setLblSubtotal(JLabel lblSubtotal) {
-        this.lblSubtotal = lblSubtotal;
-    }
-
-    public JLabel getLblIVA() {
-        return lblIVA;
-    }
-
-    public void setLblIVA(JLabel lblIVA) {
-        this.lblIVA = lblIVA;
-    }
-
-    public JLabel getLblTotal() {
-        return lblTotal;
-    }
-
-    public void setLblTotal(JLabel lblTotal) {
-        this.lblTotal = lblTotal;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-    public JLabel getLblCarritoAñadir() {
-        return lblCarritoAñadir;
-    }
-
-    public void setLblCarritoAñadir(JLabel lblCarritoAñadir) {
-        this.lblCarritoAñadir = lblCarritoAñadir;
-    }
-
+    /**
+     * Muestra un mensaje emergente en la ventana.
+     *
+     * @param mensaje El texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Limpia todos los campos de entrada y la tabla, reiniciando la vista a su estado inicial.
+     */
     public void limpiarCampos() {
         txtCodigo.setText("");
         txtNombre.setText("");
@@ -203,6 +134,10 @@ public class CarritoAnadirView extends JInternalFrame {
         txtTotal.setText("");
     }
 
+    /**
+     * Actualiza todos los textos visibles en la ventana (etiquetas, botones, encabezados de tabla)
+     * al idioma actualmente configurado.
+     */
     public void cambiarIdioma() {
         mi.setLenguaje(mi.getLocale().getLanguage(), mi.getLocale().getCountry());
 
@@ -219,7 +154,6 @@ public class CarritoAnadirView extends JInternalFrame {
         btnGuardar.setText(mi.get("carrito.añadir.boton.guardar"));
         btnLimpiar.setText(mi.get("carrito.añadir.boton.limpiar"));
 
-        // Actualizar encabezados de la tabla
         modelo.setColumnIdentifiers(new Object[]{
                 mi.get("carrito.añadir.tabla.codigo"),
                 mi.get("carrito.añadir.tabla.nombre"),
@@ -228,32 +162,33 @@ public class CarritoAnadirView extends JInternalFrame {
                 mi.get("carrito.añadir.tabla.subtotal")
         });
     }
+
+    /**
+     * Carga y establece los íconos para los botones de la interfaz
+     * desde los recursos del proyecto.
+     */
     private void iconos() {
         URL botonGuardar = LoginView.class.getClassLoader().getResource("imagenes/BuscarTodo.svg.png");
         if (botonGuardar != null) {
-            ImageIcon icono = new ImageIcon(botonGuardar);
-            btnBuscar.setIcon(icono);
+            btnBuscar.setIcon(new ImageIcon(botonGuardar));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonAnadir = LoginView.class.getClassLoader().getResource("imagenes/Añadir.svg.png");
         if (botonAnadir != null) {
-            ImageIcon icono = new ImageIcon(botonAnadir);
-            btnAnadir.setIcon(icono);
+            btnAnadir.setIcon(new ImageIcon(botonAnadir));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
         if (botonLimpiar != null) {
-            ImageIcon icono = new ImageIcon(botonLimpiar);
-            btnLimpiar.setIcon(icono);
+            btnLimpiar.setIcon(new ImageIcon(botonLimpiar));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonGuardarCarrito = LoginView.class.getClassLoader().getResource("imagenes/Guardar.svg.png");
         if (botonGuardarCarrito != null) {
-            ImageIcon icono = new ImageIcon(botonGuardarCarrito);
-            btnGuardar.setIcon(icono);
+            btnGuardar.setIcon(new ImageIcon(botonGuardarCarrito));
         } else {
             System.err.println("Icono no encontrado");
         }

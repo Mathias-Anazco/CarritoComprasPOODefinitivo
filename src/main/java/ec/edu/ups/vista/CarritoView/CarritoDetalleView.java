@@ -10,6 +10,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Locale;
 
+/**
+ * Representa la interfaz gráfica (GUI) para mostrar los detalles de un carrito de compras existente.
+ * Como JInternalFrame, está diseñada para ser mostrada dentro de una ventana principal.
+ * Esta vista es de solo lectura y presenta los productos, cantidades y totales del carrito.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class CarritoDetalleView extends JInternalFrame {
     private JPanel panelPrincipal;
     private JTable tblProductos;
@@ -23,6 +32,11 @@ public class CarritoDetalleView extends JInternalFrame {
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler mi;
 
+    /**
+     * Constructor para la vista de detalles del carrito.
+     *
+     * @param mi El manejador de internacionalización para los textos de la UI.
+     */
     public CarritoDetalleView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelPrincipal);
@@ -39,86 +53,33 @@ public class CarritoDetalleView extends JInternalFrame {
         cambiarIdioma();
     }
 
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
-    }
+    /**
+     * Métodos de acceso a los componentes de la interfaz de usuario.
+     */
+    public JPanel getPanelPrincipal() { return panelPrincipal; }
+    public void setPanelPrincipal(JPanel panelPrincipal) { this.panelPrincipal = panelPrincipal; }
+    public JTable getTblProductos() { return tblProductos; }
+    public void setTblProductos(JTable tblProductos) { this.tblProductos = tblProductos; }
+    public JTextField getTxtSubtotal() { return txtSubtotal; }
+    public void setTxtSubtotal(JTextField txtSubtotal) { this.txtSubtotal = txtSubtotal; }
+    public JTextField getTxtIVA() { return txtIVA; }
+    public void setTxtIVA(JTextField txtIVA) { this.txtIVA = txtIVA; }
+    public JTextField getTxtTotal() { return txtTotal; }
+    public void setTxtTotal(JTextField txtTotal) { this.txtTotal = txtTotal; }
+    public DefaultTableModel getModelo() { return modelo; }
+    public void setModelo(DefaultTableModel modelo) { this.modelo = modelo; }
+    public JLabel getLblSubtotal() { return lblSubtotal; }
+    public void setLblSubtotal(JLabel lblSubtotal) { this.lblSubtotal = lblSubtotal; }
+    public JLabel getLblIVA() { return lblIVA; }
+    public void setLblIVA(JLabel lblIVA) { this.lblIVA = lblIVA; }
+    public JLabel getLblTotal() { return lblTotal; }
+    public void setLblTotal(JLabel lblTotal) { this.lblTotal = lblTotal; }
+    public JLabel getLblDetalle() { return lblDetalle; }
+    public void setLblDetalle(JLabel lblDetalle) { this.lblDetalle = lblDetalle; }
 
-    public void setPanelPrincipal(JPanel panelPrincipal) {
-        this.panelPrincipal = panelPrincipal;
-    }
-
-    public JTable getTblProductos() {
-        return tblProductos;
-    }
-
-    public void setTblProductos(JTable tblProductos) {
-        this.tblProductos = tblProductos;
-    }
-
-    public JTextField getTxtSubtotal() {
-        return txtSubtotal;
-    }
-
-    public void setTxtSubtotal(JTextField txtSubtotal) {
-        this.txtSubtotal = txtSubtotal;
-    }
-
-    public JTextField getTxtIVA() {
-        return txtIVA;
-    }
-
-    public void setTxtIVA(JTextField txtIVA) {
-        this.txtIVA = txtIVA;
-    }
-
-    public JTextField getTxtTotal() {
-        return txtTotal;
-    }
-
-    public void setTxtTotal(JTextField txtTotal) {
-        this.txtTotal = txtTotal;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-    public JLabel getLblSubtotal() {
-        return lblSubtotal;
-    }
-
-    public void setLblSubtotal(JLabel lblSubtotal) {
-        this.lblSubtotal = lblSubtotal;
-    }
-
-    public JLabel getLblIVA() {
-        return lblIVA;
-    }
-
-    public void setLblIVA(JLabel lblIVA) {
-        this.lblIVA = lblIVA;
-    }
-
-    public JLabel getLblTotal() {
-        return lblTotal;
-    }
-
-    public void setLblTotal(JLabel lblTotal) {
-        this.lblTotal = lblTotal;
-    }
-
-    public JLabel getLblDetalle() {
-        return lblDetalle;
-    }
-
-    public void setLblDetalle(JLabel lblDetalle) {
-        this.lblDetalle = lblDetalle;
-    }
-
+    /**
+     * Limpia la tabla y los campos de totales, reiniciando la vista.
+     */
     public void limpiarTabla() {
         modelo.setRowCount(0);
         txtSubtotal.setText("");
@@ -126,10 +87,20 @@ public class CarritoDetalleView extends JInternalFrame {
         txtTotal.setText("");
     }
 
+    /**
+     * Muestra un mensaje emergente en la ventana.
+     *
+     * @param mensaje El texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Carga y muestra los datos de un objeto Carrito en la tabla de la vista.
+     *
+     * @param carrito El carrito cuyos detalles se van a mostrar.
+     */
     public void cargarDatos(Carrito carrito) {
         modelo.setRowCount(0);
 
@@ -146,6 +117,10 @@ public class CarritoDetalleView extends JInternalFrame {
         }
     }
 
+    /**
+     * Actualiza todos los textos visibles en la ventana (título, etiquetas, encabezados de tabla)
+     * al idioma actualmente configurado.
+     */
     public void cambiarIdioma() {
         setTitle(mi.get("carrito.detalle.titulo"));
         lblDetalle.setText(mi.get("carrito.detalle.etiqueta"));

@@ -1,0 +1,13 @@
+ec.edu.ups
+ec.edu.ups.controlador
+ec.edu.ups.dao
+ec.edu.ups.dao.DAOArchivos
+ec.edu.ups.dao.impl
+ec.edu.ups.modelo
+ec.edu.ups.util
+ec.edu.ups.vista
+ec.edu.ups.vista.AdministracionView
+ec.edu.ups.vista.CarritoView
+ec.edu.ups.vista.ProductoView
+ec.edu.ups.vista.SeleccionArchivos
+ec.edu.ups.vista.UsuarioView

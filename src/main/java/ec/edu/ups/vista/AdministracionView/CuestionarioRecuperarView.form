@@ -52,7 +52,9 @@
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <foreground color="-16579579"/>
+                </properties>
               </component>
               <component id="94770" class="javax.swing.JLabel" binding="lblPregunta1">
                 <constraints>
@@ -86,7 +88,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-394241"/>
-                  <text value="Usuario"/>
+                  <text value="Cedula"/>
                 </properties>
               </component>
               <component id="440c2" class="javax.swing.JTextField" binding="txtUsuario">

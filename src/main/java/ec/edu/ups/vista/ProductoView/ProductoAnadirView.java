@@ -10,6 +10,15 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Representa la interfaz gráfica (GUI) para añadir un nuevo producto al sistema.
+ * Como JInternalFrame, está diseñada para ser mostrada dentro de una ventana principal.
+ * Proporciona campos para ingresar el código, nombre y precio de un nuevo producto.
+ *
+ * @author Mathias Añazco
+ * @version 1.0
+ * @since 18/07/2025
+ */
 public class ProductoAnadirView extends JInternalFrame {
 
     private JPanel panelPrincipal;
@@ -24,6 +33,11 @@ public class ProductoAnadirView extends JInternalFrame {
     private JLabel lblNuevoP;
     private MensajeInternacionalizacionHandler mi;
 
+    /**
+     * Constructor para la vista de añadir producto.
+     *
+     * @param mi El manejador de internacionalización para los textos de la UI.
+     */
     public ProductoAnadirView(MensajeInternacionalizacionHandler mi) {
         this.mi = mi;
         setContentPane(panelPrincipal);
@@ -37,14 +51,12 @@ public class ProductoAnadirView extends JInternalFrame {
         cambiarIdioma();
         iconos();
 
-        btnLimpiar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limpiarCampos();
-            }
-        });
+        btnLimpiar.addActionListener(e -> limpiarCampos());
     }
 
+    /**
+     * Actualiza todos los textos visibles en la ventana al idioma actual.
+     */
     public void cambiarIdioma() {
         setTitle(mi.get("producto.anadir.titulo"));
         lblNuevoP.setText(mi.get("producto.anadir.encabezado"));
@@ -55,73 +67,63 @@ public class ProductoAnadirView extends JInternalFrame {
         btnLimpiar.setText(mi.get("producto.anadir.boton.limpiar"));
     }
 
-    public JPanel getPanelPrincipal() {
-        return panelPrincipal;
-    }
+    /**
+     * Métodos de acceso a los componentes de la interfaz de usuario.
+     */
+    public JPanel getPanelPrincipal() { return panelPrincipal; }
+    public JTextField getTxtPrecio() { return txtPrecio; }
+    public JTextField getTxtNombre() { return txtNombre; }
+    public JTextField getTxtCodigo() { return txtCodigo; }
+    public JButton getBtnAceptar() { return btnAceptar; }
+    public JButton getBtnLimpiar() { return btnLimpiar; }
+    public JLabel getLblCodigo() { return lblCodigo; }
+    public JLabel getLblNombre() { return lblNombre; }
+    public JLabel getLblPrecio() { return lblPrecio; }
+    public JLabel getLblNuevoP() { return lblNuevoP; }
 
-    public JTextField getTxtPrecio() {
-        return txtPrecio;
-    }
-
-    public JTextField getTxtNombre() {
-        return txtNombre;
-    }
-
-    public JTextField getTxtCodigo() {
-        return txtCodigo;
-    }
-
-    public JButton getBtnAceptar() {
-        return btnAceptar;
-    }
-
-    public JButton getBtnLimpiar() {
-        return btnLimpiar;
-    }
-
-    public JLabel getLblCodigo() {
-        return lblCodigo;
-    }
-
-    public JLabel getLblNombre() {
-        return lblNombre;
-    }
-
-    public JLabel getLblPrecio() {
-        return lblPrecio;
-    }
-
-    public JLabel getLblNuevoP() {
-        return lblNuevoP;
-    }
-
+    /**
+     * Muestra un mensaje emergente en la ventana.
+     *
+     * @param mensaje El texto del mensaje a mostrar.
+     */
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
+    /**
+     * Limpia todos los campos de texto del formulario.
+     */
     public void limpiarCampos() {
         txtCodigo.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
     }
 
+    /**
+     * Imprime en la consola una lista de productos.
+     * Este método es principalmente para propósitos de depuración.
+     *
+     * @param productos La lista de productos a mostrar en la consola.
+     */
     public void mostrarProductos(List<Producto> productos) {
         for (Producto producto : productos) {
             System.out.println(producto);
         }
     }
+
+    /**
+     * Carga y establece los íconos para los botones de la interfaz.
+     */
     public void iconos(){
         URL botonLimpiar = LoginView.class.getClassLoader().getResource("imagenes/LimpiarTodo.svg.png");
         if (botonLimpiar != null) {
-            ImageIcon icono = new ImageIcon(botonLimpiar);
-            btnLimpiar.setIcon(icono);
+            btnLimpiar.setIcon(new ImageIcon(botonLimpiar));
         } else {
             System.err.println("Icono no encontrado");
         }
         URL botonAceptar = LoginView.class.getClassLoader().getResource("imagenes/Añadir.svg.png");
         if (botonAceptar != null) {
-            ImageIcon icono = new ImageIcon(botonAceptar);
-            btnAceptar.setIcon(icono);
+            btnAceptar.setIcon(new ImageIcon(botonAceptar));
         } else {
             System.err.println("Icono no encontrado");
         }
