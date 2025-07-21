@@ -40,7 +40,7 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         admin1.setFechaNacimiento("1/Enero/1990");
         crear(admin1);
 
-        Usuario admin = new Usuario("0706338340", "12345", Rol.ADMINISTRADOR);
+        Usuario admin = new Usuario("0706338340", "Maty2006@", Rol.ADMINISTRADOR);
         admin.setNombreCompleto("Administrador Principal");
         admin.setCorreo("admin@gmail.com");
         admin.setCelular("0999999999");

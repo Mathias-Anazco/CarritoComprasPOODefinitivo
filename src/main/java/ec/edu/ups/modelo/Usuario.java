@@ -128,8 +128,8 @@ public class Usuario {
             for (String par : preguntas) {
                 String[] codResp = par.split(":");
                 if (codResp.length == 2) {
-                    Preguntas pregunta = new Preguntas(codResp[0], ""); // solo código
-                    Respuesta respuesta = new Respuesta(codResp[0]); // código y texto de respuesta
+                    Preguntas pregunta = new Preguntas(codResp[0], " a "); // solo código
+                    Respuesta respuesta = new Respuesta(codResp[1]); // código y texto de respuesta
                     u.preguntasRespuestas.add(new PreguntasRespuestas(pregunta, respuesta));
                 }
             }

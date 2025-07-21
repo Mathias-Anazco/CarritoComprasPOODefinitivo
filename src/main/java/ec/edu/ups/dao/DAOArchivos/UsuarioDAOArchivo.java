@@ -1,8 +1,11 @@
 package ec.edu.ups.dao.DAOArchivos;
 
 import ec.edu.ups.dao.UsuarioDAO;
+import ec.edu.ups.modelo.Preguntas;
+import ec.edu.ups.modelo.PreguntasRespuestas;
 import ec.edu.ups.modelo.Usuario;
 import ec.edu.ups.modelo.Rol;
+import ec.edu.ups.dao.CuestionarioDAO;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.List;
 public class UsuarioDAOArchivo implements UsuarioDAO {
 
     private final File archivo;
+    private final CuestionarioDAO cuestionarioDAO;
 
     /**
      * Constructor que recibe un archivo de texto donde se almacenan los usuarios.
@@ -27,7 +31,8 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
      *
      * @param archivo Archivo de texto para almacenamiento de usuarios.
      */
-    public UsuarioDAOArchivo(File archivo) {
+    public UsuarioDAOArchivo(File archivo, CuestionarioDAO cuestionarioDAO) {
+        this.cuestionarioDAO = cuestionarioDAO;
         this.archivo = archivo;
         try {
             File carpeta = archivo.getParentFile();
@@ -162,6 +167,16 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
             while ((linea = br.readLine()) != null) {
                 Usuario u = Usuario.fromArchivoTexto(linea);
                 if (u != null) {
+                    // Asignar el enunciado a cada pregunta del usuario (basado en CuestionarioDAO)
+                    for (PreguntasRespuestas pr : u.getPreguntasRespuestas()) {
+                        for (Preguntas pBase : cuestionarioDAO.listarPreguntas()) {
+                            if (pBase.getId().equals(pr.getPreguntas().getId())) {
+                                pr.getPreguntas().setEnunciado(pBase.getEnunciado());
+                                break;
+                            }
+                        }
+                    }
+
                     lista.add(u);
                 }
             }
@@ -170,6 +185,9 @@ public class UsuarioDAOArchivo implements UsuarioDAO {
         }
         return lista;
     }
+
+
+
 
     /**
      * Guarda toda la lista de usuarios en el archivo (sobrescribe el archivo).

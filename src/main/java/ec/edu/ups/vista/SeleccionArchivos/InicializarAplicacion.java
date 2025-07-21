@@ -63,9 +63,11 @@ public class InicializarAplicacion {
             File archivoProductos = new File(carpeta, "productos.dat");
             File archivoCarritos = new File(carpeta, "carritos.txt");
             File archivoCuestionario = new File(carpeta, "cuestionario.dat");
+            CuestionarioDAO cuestionarioDAO = new CuestionarioDAOArchivo(archivoCuestionario, mi);
+
 
             // Crear DAOs
-            this.usuarioDAO = new UsuarioDAOArchivo(archivoUsuarios);
+            this.usuarioDAO = new UsuarioDAOArchivo(archivoUsuarios, cuestionarioDAO);
             this.productoDAO = new ProductoDAOArchivo(archivoProductos);
             this.cuestionarioDAO = new CuestionarioDAOArchivo(archivoCuestionario, mi);
 

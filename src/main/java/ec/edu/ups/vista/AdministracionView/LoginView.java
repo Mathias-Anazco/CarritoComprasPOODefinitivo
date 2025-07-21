@@ -195,16 +195,16 @@ public class LoginView extends JFrame {
      * Carga y establece los íconos para los botones de la interfaz.
      */
     private void iconos() {
-        URL botonIniciarSesion = LoginView.class.getClassLoader().getResource("imagenes/Login.svg.png");
+        URL botonIniciarSesion = getClass().getResource("/imagenes/Login.svg.png");
         if (botonIniciarSesion != null) btnIniciarSesion.setIcon(new ImageIcon(botonIniciarSesion));
 
-        URL botonRegistrarse = LoginView.class.getClassLoader().getResource("imagenes/Login.svg.png");
+        URL botonRegistrarse = getClass().getResource("/imagenes/Login.svg.png");
         if (botonRegistrarse != null) btnRegistrarse.setIcon(new ImageIcon(botonRegistrarse));
 
-        URL botonOlvidar = LoginView.class.getClassLoader().getResource("imagenes/Olvidarrr.svg.png");
+        URL botonOlvidar = getClass().getResource("/imagenes/Olvidarrr.svg.png");
         if (botonOlvidar != null) btnOlvidar.setIcon(new ImageIcon(botonOlvidar));
 
-        URL botonSalir = LoginView.class.getClassLoader().getResource("imagenes/Salir.svg.png");
+        URL botonSalir = getClass().getResource("/imagenes/Salir.svg.png");
         if (botonSalir != null) btnSalir.setIcon(new ImageIcon(botonSalir));
     }
 }
